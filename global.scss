@@ -5,6 +5,28 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+
+  background: rgb(235, 88, 47);
+  color: black;
+
+  font-family: NeueHaasGroteskText, sans-serif;
 }
 
 /* font face declarations */
+@font-face {
+  font-family: "NeueHaasGroteskText";
+  src: url("/static/fonts/NHaasGroteskTXPro-55Rg.woff2") format("woff2"),
+      url("/static/fonts/NHaasGroteskTXPro-55Rg.woff") format("woff"),
+      url("/static/fonts/NHaasGroteskTXPro-55Rg.svg#NHaasGroteskTXPro-55Rg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NeueHaasGroteskText Bold";
+  src: url("/static/fonts/NHaasGroteskTXPro-75Bd.woff2") format("woff2"),
+      url("/static/fonts/NHaasGroteskTXPro-75Bd.woff") format("woff"),
+      url("/static/fonts/NHaasGroteskTXPro-75Bd.svg#NHaasGroteskTXPro-75Bd") format("svg");
+  font-weight: bold;
+  font-style: normal;
+}

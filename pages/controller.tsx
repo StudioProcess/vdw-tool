@@ -78,7 +78,7 @@ export default class Controller extends Component<any, any> {
           .button {
             background: black;
             color: white;
-            padding: 5px;
+            padding: 5px 10px;
 
             user-select: none;
             cursor: pointer;

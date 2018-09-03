@@ -4,6 +4,9 @@ import {
 import Head from "next/head";
 import Global from "./global";
 
+import Logo from "../components/logo";
+import DividerLines from "../components/dividerLines";
+
 import {
   MessageTypes,
   IMessagePackage,
@@ -47,51 +50,24 @@ export default class Index extends Component<any, any> {
     return (
       <Global>
         <Head>
-          <title>Title</title>
-          {/* <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" sizes="192x192" href="/static/touch-icon.png" />
-          <link rel="apple-touch-icon" href="/static/touch-icon.png" />
-          <link rel="mask-icon" href="/static/favicon-mask.svg" color="#49B882" />
-          <link rel="icon" href="/static/favicon.ico" />
-          <meta property="og:url" content={props.url || defaultOGURL} />
-          <meta property="og:title" content={props.title || ''} />
-          <meta property="og:description" content={props.description || defaultDescription} />
-          <meta name="twitter:site" content={props.url || defaultOGURL} />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:image" content={props.ogImage || defaultOGImage} />
-          <meta property="og:image" content={props.ogImage || defaultOGImage} />
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" /> */}
+          <title>Vienna Design Week 2018</title>
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
         </Head>
-
-        <div className="hero">
-          <h1 className="title">Welcome to Next!</h1>
-          <p className="description">To get started, edit <code>pages/index.js</code> and save to reload.</p>
-        </div>
 
         <div className="webGLContainer">
           <WebGLViewer />
         </div>
 
-        <style jsx>{`
-          .hero {
-            width: 100%;
-            color: #333;
-          }
-          .title {
-            margin: 0;
-            width: 100%;
-            padding-top: 80px;
-            line-height: 1.15;
-            font-size: 48px;
-          }
-          .title, .description {
-            text-align: center;
-          }
+        <DividerLines
+          dividerScale={3}
+        />
 
+        <Logo />
+
+        <style jsx>{`
           .webGLContainer {
             width: 100vw;
-            height: 50vh;
+            height: 100vh;
           }
         `}</style>
       </Global>
