@@ -4,13 +4,12 @@ import {
 import {
   Clock,
   Scene,
-  PerspectiveCamera,
+  OrthographicCamera,
   WebGLRenderer,
 } from "three";
 
 import SceneHandler from "./sceneHandler";
 
-// import GLTFLoader from "../../services/GLTFLoader.js";
 import CheckWebGLSupport from "../../utilities/checkWebGLSupport/CheckWebGLSupport";
 
 // import {lerp, clamp, inverseLerpUnclamped} from "../../utilities/mathUtils";
@@ -33,7 +32,7 @@ export default class StatueViewer extends Component<any, any> {
 
     private renderer: WebGLRenderer;
     private scene: Scene;
-    private camera: PerspectiveCamera;
+    private camera: OrthographicCamera;
 
     private uniforms: Uniforms;
 
@@ -53,7 +52,6 @@ export default class StatueViewer extends Component<any, any> {
   constructor(props: any) {
     super(props);
 
-    // this.statueHandler = new StatueHandler();
     this.windowWidth = 2;
     this.windowHeight = 2;
   }
@@ -81,9 +79,8 @@ export default class StatueViewer extends Component<any, any> {
       screenParams: {type: "4fv", value: [1.0, 1.0, 0.0, 0.0]},
     };
 
-    this.camera = new PerspectiveCamera(
-      50,
-      1.0,
+    this.camera = new OrthographicCamera(
+      - 2, 2, 1, -1,
       1.0,
       100.0,
     );
@@ -101,9 +98,6 @@ export default class StatueViewer extends Component<any, any> {
     this.onResize();
 
     this.animate();
-
-    // const gltfLoader = new GLTFLoader();
-    // gltfLoader.load("../../static/meshes/uv_gen.gltf", (object: any) => {});
   }
 
   public componentWillUnmount() {
@@ -120,7 +114,10 @@ export default class StatueViewer extends Component<any, any> {
 
     this.renderer.setSize(this.windowWidth, this.windowHeight);
 
-    this.camera.aspect = this.windowWidth / this.windowHeight;
+    const aspectRatio = this.windowWidth / this.windowHeight;
+
+    this.camera.left = -aspectRatio;
+    this.camera.right = aspectRatio;
     this.camera.updateProjectionMatrix();
 
     this.uniforms.screenParams.value[0] = this.windowWidth;
@@ -132,22 +129,25 @@ export default class StatueViewer extends Component<any, any> {
   private animate = () => {
     const delta = Math.min(1.0 / 20.0, this.clock.getDelta());
 
-    if (this.deltaCounter > fixedFrameRate) {
-      this.uniforms.time.value += fixedFrameRate;
-      this.uniforms.time.value %= 100.0;
+    // if (this.deltaCounter > fixedFrameRate) {
+    this.uniforms.time.value += delta;
+    this.uniforms.time.value %= 1000.0;
 
-      this.sceneHandler.update(delta);
+    this.sceneHandler.update(
+      this.uniforms.time.value,
+      delta,
+    );
 
-      this.renderLoop();
+    this.draw();
 
-      this.deltaCounter %= fixedFrameRate;
-    }
+    this.deltaCounter %= fixedFrameRate;
+    // }
 
     this.deltaCounter += delta;
     this.frameId = requestAnimationFrame(this.animate);
   }
 
-  private renderLoop = () => {
+  private draw = () => {
     this.renderer.render(this.scene, this.camera);
   }
 

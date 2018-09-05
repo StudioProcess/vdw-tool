@@ -4,8 +4,10 @@ import {
   Mesh,
 
   Object3D,
-  ShaderMaterial,
+  RawShaderMaterial,
 } from "three";
+
+import GetCircleGeometry from "./getCircleGeometry";
 
 import vertexShader from "./shaders/quadVS.glsl";
 import fragmentShader from "./shaders/quadFS.glsl";
@@ -13,13 +15,13 @@ import fragmentShader from "./shaders/quadFS.glsl";
 export default class StatueHandler {
   private container: Group;
   private mesh: Object3D;
-  private material: ShaderMaterial;
+  private material: RawShaderMaterial;
 
   public setup(
     parent: Object3D,
     uniforms: Uniforms) {
 
-    this.material = new ShaderMaterial({
+    this.material = new RawShaderMaterial({
       vertexShader,
       fragmentShader,
       // wireframe: true,
@@ -31,19 +33,27 @@ export default class StatueHandler {
     parent.add(this.container);
 
     this.mesh = new Mesh(
-      new PlaneBufferGeometry(1.0, 1.0, 1, 1),
+      GetCircleGeometry(
+        60,
+        1.0,
+        256,
+      ),
       this.material,
     );
+    this.mesh.frustumCulled = false;
     this.container.add(this.mesh);
+
+    this.mesh.geometry.attributes.data.dynamic = true;
   }
 
-  public onDrag(dragDelta: MousePosition): void {
-    this.mesh.rotation.x += dragDelta.y;
-    this.mesh.rotation.y += dragDelta.x;
-  }
-
-  public update(delta: number): void {
-    this.mesh.rotation.x -= delta * 0.2;
-    this.mesh.rotation.y += delta * 0.2;
+  public update(
+    time: number,
+    delta: number,
+  ) {
+    for (let i = 0, l = this.mesh.geometry.attributes.data.array.length; i < l; i += 3) {
+      this.mesh.geometry.attributes.data.array[i + 1] = Math.sin(i * 0.2 + time * 0.5);
+      this.mesh.geometry.attributes.data.array[i + 2] = 0.1 + 0.1 * Math.abs(Math.sin(i * 0.2 + time * 0.5));
+    }
+    this.mesh.geometry.attributes.data.needsUpdate = true;
   }
 }

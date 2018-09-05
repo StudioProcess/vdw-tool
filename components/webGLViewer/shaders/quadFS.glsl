@@ -1,3 +1,4 @@
+precision highp float;
 // https://www.shadertoy.com/view/4sjGRD
 
 const vec3 colorBg = vec3(
