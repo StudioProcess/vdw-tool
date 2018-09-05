@@ -1,6 +1,6 @@
 import {
   Group,
-  BoxBufferGeometry,
+  PlaneBufferGeometry,
   Mesh,
 
   Object3D,
@@ -24,15 +24,15 @@ export default class StatueHandler {
       fragmentShader,
       // wireframe: true,
       uniforms,
-      defines: {}
+      defines: {},
     });
 
     this.container = new Group();
     parent.add(this.container);
 
     this.mesh = new Mesh(
-      new BoxBufferGeometry(1.0, 1.0, 1.0),
-      this.material
+      new PlaneBufferGeometry(1.0, 1.0, 1, 1),
+      this.material,
     );
     this.container.add(this.mesh);
   }
