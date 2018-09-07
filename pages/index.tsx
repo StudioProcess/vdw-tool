@@ -12,7 +12,7 @@ import {
   IMessagePackage,
 } from "../components/types";
 
-import WebGLViewer from "../components/webGLViewer/webGLViewer";
+import WebGLViewer from "../components/circleViewer/circleViewer";
 
 export default class Index extends Component<any, any> {
 

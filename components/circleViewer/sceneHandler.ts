@@ -1,10 +1,10 @@
 import {
   Group,
-  PlaneBufferGeometry,
   Mesh,
 
   Object3D,
   RawShaderMaterial,
+  BufferAttribute,
 } from "three";
 
 import GetCircleGeometry from "./getCircleGeometry";
@@ -36,7 +36,7 @@ export default class StatueHandler {
       GetCircleGeometry(
         60,
         1.0,
-        256,
+        80,
       ),
       this.material,
     );
@@ -44,6 +44,10 @@ export default class StatueHandler {
     this.container.add(this.mesh);
 
     this.mesh.geometry.attributes.data.dynamic = true;
+  }
+
+  public getDataBuffer = (): BufferAttribute => {
+    return this.mesh.geometry.attributes.data;
   }
 
   public update(

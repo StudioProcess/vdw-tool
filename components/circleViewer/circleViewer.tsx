@@ -6,9 +6,11 @@ import {
   Scene,
   OrthographicCamera,
   WebGLRenderer,
+  BufferAttribute,
 } from "three";
 
 import SceneHandler from "./sceneHandler";
+import CirclePhysics from "./circlePhysics";
 
 import CheckWebGLSupport from "../../utilities/checkWebGLSupport/CheckWebGLSupport";
 
@@ -18,6 +20,9 @@ const fixedFrameRate: number = 1.0 / 30.0;
 
 export default class StatueViewer extends Component<any, any> {
   private sceneHandler: SceneHandler;
+  private circlePhysics: CirclePhysics;
+
+  private circlesDataBuffer: BufferAttribute;
 
   // #region mouse data
     private rect: ClientRect;
@@ -93,6 +98,10 @@ export default class StatueViewer extends Component<any, any> {
       this.scene,
       this.uniforms,
     );
+    this.circlesDataBuffer = this.sceneHandler.getDataBuffer();
+
+    this.circlePhysics = new CirclePhysics();
+    this.circlePhysics.setup(10);
 
     window.addEventListener("resize", this.onResize);
     this.onResize();
@@ -133,9 +142,13 @@ export default class StatueViewer extends Component<any, any> {
     this.uniforms.time.value += delta;
     this.uniforms.time.value %= 1000.0;
 
-    this.sceneHandler.update(
-      this.uniforms.time.value,
-      delta,
+    // this.sceneHandler.update(
+    //   this.uniforms.time.value,
+    //   delta,
+    // );
+
+    this.circlePhysics.update(
+      this.circlesDataBuffer,
     );
 
     this.draw();
