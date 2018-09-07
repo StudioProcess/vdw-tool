@@ -7,23 +7,32 @@ import {
   Common,
   Composites,
   Composite,
+  Body,
 } from "matter-js";
 
 import {
   BufferAttribute,
 } from "three";
 
+const borderWidth = 100;
+const heightBorderDistance = 1000 + borderWidth * 0.5;
+
 export default class CirclePhysics {
 
   private engine: Engine;
   private world: World;
   private render: Render;
-  private runner: Runner;
 
   private stack: Composite;
 
+  private topBorder: Body;
+  private leftBorder: Body;
+  private rightBorder: Body;
+  private bottomBorder: Body;
+
   public setup(
     numCircles: number,
+    aspectRatio: number,
   ) {
     this.engine = Engine.create();
     this.world = this.engine.world;
@@ -32,29 +41,64 @@ export default class CirclePhysics {
       element: document.body,
       engine: this.engine,
       options: {
-        width: 800,
-        height: 600,
-        showAngleIndicator: true,
+        width: 2000,
+        height: 1200,
+        // showAngleIndicator: true,
       },
     });
 
     Render.run(this.render);
 
+    this.topBorder = Bodies.rectangle(
+      0,
+      -heightBorderDistance,
+      10000,
+      borderWidth,
+      {
+        isStatic: true,
+      },
+    );
+    this.leftBorder = Bodies.rectangle(
+      -heightBorderDistance,
+      0,
+      borderWidth,
+      10000,
+      {
+        isStatic: true,
+      },
+    );
+    this.rightBorder = Bodies.rectangle(
+      heightBorderDistance,
+      0,
+      borderWidth,
+      10000,
+      {
+        isStatic: true,
+      },
+    );
+    this.bottomBorder = Bodies.rectangle(
+      0,
+      heightBorderDistance,
+      10000,
+      borderWidth,
+      {
+        isStatic: true,
+      },
+    );
+
+    this.onResize(aspectRatio);
+
     World.add(
       this.world,
       [
-        Bodies.rectangle(
-          400,
-          600,
-          1200,
-          50.5,
-          {
-            isStatic: true,
-          }),
+        this.topBorder,
+        this.leftBorder,
+        this.rightBorder,
+        this.bottomBorder,
       ],
     );
 
-    this.stack = Composites.stack(100, 0, 10, 8, 10, 10,
+    this.stack = Composites.stack(0, 0, 10, 10, 10, 10,
       (x, y) => {
       return Bodies.circle(x, y, Common.random(15, 30), { restitution: 0.6, friction: 0.1 });
     });
@@ -67,8 +111,8 @@ export default class CirclePhysics {
     Render.lookAt(
       this.render,
       {
-        min: { x: -100, y: -100 },
-        max: { x: 900, y: 700 },
+        min: { x: -1500, y: -1300 },
+        max: { x: 1500, y: 1300 },
       },
     );
 
@@ -76,12 +120,27 @@ export default class CirclePhysics {
     this.render.canvas.style.top = "10px";
     this.render.canvas.style.left = "10px";
     this.render.canvas.style.opacity = "0.5";
+    this.render.canvas.style.transformOrigin = "left top";
+    this.render.canvas.style.transform = "scale(0.5)";
     document.body.appendChild(this.render.canvas);
+  }
 
-    // console.log(this.stack);
-    console.log(this.stack.bodies[0]);
-    console.log("radius", this.stack.bodies[0].circleRadius);
-    console.log("position", this.stack.bodies[0].position.x, this.stack.bodies[0].position.y);
+  public onResize(aspectRatio) {
+    Body.setPosition(
+      this.leftBorder,
+      {
+        x: heightBorderDistance * -aspectRatio,
+        y: 0,
+      },
+    );
+
+    Body.setPosition(
+      this.rightBorder,
+      {
+        x: heightBorderDistance * aspectRatio,
+        y: 0,
+      },
+    );
   }
 
   public update(

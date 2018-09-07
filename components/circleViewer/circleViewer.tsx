@@ -101,7 +101,10 @@ export default class StatueViewer extends Component<any, any> {
     this.circlesDataBuffer = this.sceneHandler.getDataBuffer();
 
     this.circlePhysics = new CirclePhysics();
-    this.circlePhysics.setup(10);
+    this.circlePhysics.setup(
+      10,
+      window.innerWidth / window.innerHeight,
+    );
 
     window.addEventListener("resize", this.onResize);
     this.onResize();
@@ -133,6 +136,10 @@ export default class StatueViewer extends Component<any, any> {
     this.uniforms.screenParams.value[1] = this.windowHeight;
     this.uniforms.screenParams.value[2] = 1.0 / this.windowWidth;
     this.uniforms.screenParams.value[3] = 1.0 / this.windowHeight;
+
+    this.circlePhysics.onResize(
+      window.innerWidth / window.innerHeight,
+    );
   }
 
   private animate = () => {
