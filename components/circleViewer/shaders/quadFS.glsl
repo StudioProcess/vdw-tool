@@ -1,5 +1,5 @@
 precision highp float;
-// https://www.shadertoy.com/view/4sjGRD
+#extension GL_OES_standard_derivatives : enable
 
 const vec3 colorBg = vec3(
   0.92156862745,
@@ -29,7 +29,17 @@ varying vec2 vUV;
 void main() {
   float value = vUV.y;
 
-  value = step(snoise(vUV * 90.0), value - 0.6);
+  #ifdef GL_OES_standard_derivatives
+    float aawidth = (1.0 / length(vec2(dFdx(value), dFdy(value)))) * 0.3;
+  #else
+    float aawidth = 90.0;
+  #endif 
+
+  value = smoothstep(
+    value,
+    value - 0.8,
+    snoise(vUV * aawidth)
+  );
 
   gl_FragColor.rgb = mix(
     colorBg,
