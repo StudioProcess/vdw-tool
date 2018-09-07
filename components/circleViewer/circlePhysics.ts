@@ -116,13 +116,15 @@ export default class CirclePhysics {
       },
     );
 
-    this.render.canvas.style.position = "absolute";
-    this.render.canvas.style.top = "10px";
-    this.render.canvas.style.left = "10px";
-    this.render.canvas.style.opacity = "0.5";
-    this.render.canvas.style.transformOrigin = "left top";
-    this.render.canvas.style.transform = "scale(0.5)";
-    document.body.appendChild(this.render.canvas);
+    if (true) {
+      this.render.canvas.style.position = "absolute";
+      this.render.canvas.style.top = "10px";
+      this.render.canvas.style.left = "10px";
+      this.render.canvas.style.opacity = "0.5";
+      this.render.canvas.style.transformOrigin = "left top";
+      this.render.canvas.style.transform = "scale(0.5)";
+      document.body.appendChild(this.render.canvas);
+    }
   }
 
   public onResize(aspectRatio) {
