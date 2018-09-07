@@ -3,10 +3,7 @@ import {
   Render,
   World,
   Bodies,
-  Runner,
   Common,
-  Composites,
-  Composite,
   Body,
 } from "matter-js";
 
@@ -14,8 +11,15 @@ import {
   BufferAttribute,
 } from "three";
 
+import {ILayoutItem} from "../types";
+
 const borderWidth = 100;
 const heightBorderDistance = 1000 + borderWidth * 0.5;
+
+const worldBounds = {
+  width: 100,
+  height: heightBorderDistance * 2 - borderWidth,
+};
 
 export default class CirclePhysics {
 
@@ -23,12 +27,12 @@ export default class CirclePhysics {
   private world: World;
   private render: Render;
 
-  private stack: Composite;
-
   private topBorder: Body;
   private leftBorder: Body;
   private rightBorder: Body;
   private bottomBorder: Body;
+
+  private bodies: Body[];
 
   public setup(
     numCircles: number,
@@ -36,18 +40,6 @@ export default class CirclePhysics {
   ) {
     this.engine = Engine.create();
     this.world = this.engine.world;
-
-    this.render = Render.create({
-      element: document.body,
-      engine: this.engine,
-      options: {
-        width: 2000,
-        height: 1200,
-        // showAngleIndicator: true,
-      },
-    });
-
-    Render.run(this.render);
 
     this.topBorder = Bodies.rectangle(
       0,
@@ -98,36 +90,54 @@ export default class CirclePhysics {
       ],
     );
 
-    this.stack = Composites.stack(0, 0, 10, 10, 10, 10,
-      (x, y) => {
-      return Bodies.circle(x, y, Common.random(15, 30), { restitution: 0.6, friction: 0.1 });
-    });
+    this.bodies = [];
+    this.bodies.push(
+      Bodies.circle(0, 0, 500, { restitution: 0.6, friction: 0.1 }),
+    );
 
     World.add(
       this.world,
-      this.stack,
+      this.bodies,
     );
 
-    Render.lookAt(
-      this.render,
-      {
-        min: { x: -1500, y: -1300 },
-        max: { x: 1500, y: 1300 },
-      },
-    );
+    if (false) {
+      this.render = Render.create({
+        element: document.body,
+        engine: this.engine,
+        options: {
+          width: 2000,
+          height: 1200,
+          // showAngleIndicator: true,
+        },
+      });
 
-    if (true) {
+      Render.run(this.render);
+
+      Render.lookAt(
+        this.render,
+        {
+          min: { x: -1500, y: -1300 },
+          max: { x: 1500, y: 1300 },
+        },
+      );
+
       this.render.canvas.style.position = "absolute";
       this.render.canvas.style.top = "10px";
       this.render.canvas.style.left = "10px";
-      this.render.canvas.style.opacity = "0.5";
+      this.render.canvas.style.opacity = "0.8";
       this.render.canvas.style.transformOrigin = "left top";
       this.render.canvas.style.transform = "scale(0.5)";
       document.body.appendChild(this.render.canvas);
     }
   }
 
+  public getWorldBounds = () => {
+    return worldBounds;
+  }
+
   public onResize(aspectRatio) {
+    worldBounds.width = Math.round(heightBorderDistance * aspectRatio * 2 - borderWidth);
+
     Body.setPosition(
       this.leftBorder,
       {
@@ -145,20 +155,58 @@ export default class CirclePhysics {
     );
   }
 
+  public setFromLayout(layout: ILayoutItem[]) {
+    for (let i = 0, l = this.bodies.length; i < l; i++) {
+      World.remove(
+        this.world,
+        this.bodies[i],
+      );
+    }
+
+    this.bodies.length = 0;
+
+    const aspectRatio = window.innerWidth / window.innerHeight;
+
+    for (let i = 0, l = layout.length; i < l; i++) {
+      this.bodies.push(
+        Bodies.circle(
+          layout[i].x,
+          layout[i].y,
+          layout[i].radius,
+          { restitution: 0.6, friction: 0.1, isStatic: true },
+        ),
+      );
+    }
+
+    World.add(
+      this.world,
+      this.bodies,
+    );
+  }
+
+  public makeNonStatic() {
+    for (let i = 0, l = this.bodies.length; i < l; i++) {
+      Body.setStatic(
+        this.bodies[i],
+        false,
+      );
+    }
+  }
+
   public update(
     circlesDataBuffer: BufferAttribute,
   ) {
     Engine.update(this.engine);
 
     let baseIndex = 0;
-    for (let i = 0, l = this.stack.bodies.length; i < l; i++) {
+    for (let i = 0, l = this.bodies.length; i < l; i++) {
       baseIndex = i * 3;
-      circlesDataBuffer.array[baseIndex] = this.stack.bodies[i].position.x * 0.001;
-      circlesDataBuffer.array[baseIndex + 1] = this.stack.bodies[i].position.y * -0.001;
-      circlesDataBuffer.array[baseIndex + 2] = this.stack.bodies[i].circleRadius * 0.001;
+      circlesDataBuffer.array[baseIndex] = this.bodies[i].position.x * 0.001;
+      circlesDataBuffer.array[baseIndex + 1] = this.bodies[i].position.y * -0.001;
+      circlesDataBuffer.array[baseIndex + 2] = this.bodies[i].circleRadius * 0.001;
     }
 
-    for (let i = this.stack.bodies.length, l = circlesDataBuffer.count; i < l; i++) {
+    for (let i = this.bodies.length, l = circlesDataBuffer.count; i < l; i++) {
       baseIndex = i * 3;
       circlesDataBuffer.array[baseIndex + 2] = 0.0;
     }

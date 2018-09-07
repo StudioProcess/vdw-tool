@@ -11,6 +11,7 @@ import {
 
 import SceneHandler from "./sceneHandler";
 import CirclePhysics from "./circlePhysics";
+import GenerateLayout from "./layoutGenerator";
 
 import CheckWebGLSupport from "../../utilities/checkWebGLSupport/CheckWebGLSupport";
 
@@ -85,6 +86,8 @@ export default class StatueViewer extends Component<any, any> {
       screenParams: {type: "4fv", value: [1.0, 1.0, 0.0, 0.0]},
     };
 
+    // console.log(GenerateLayout(window.innerWidth, window.innerHeight, 0));
+
     this.camera = new OrthographicCamera(
       - 2, 2, 1, -1,
       1.0,
@@ -106,6 +109,10 @@ export default class StatueViewer extends Component<any, any> {
     this.circlePhysics.setup(
       10,
       window.innerWidth / window.innerHeight,
+    );
+
+    this.circlePhysics.setFromLayout(
+      GenerateLayout(this.circlePhysics.getWorldBounds(), 20),
     );
 
     window.addEventListener("resize", this.onResize);
@@ -142,6 +149,16 @@ export default class StatueViewer extends Component<any, any> {
     this.circlePhysics.onResize(
       window.innerWidth / window.innerHeight,
     );
+  }
+
+  public newRandomLayout = () => {
+    this.circlePhysics.setFromLayout(
+      GenerateLayout(this.circlePhysics.getWorldBounds(), Math.random() * 9999.9),
+    );
+  }
+
+  public makeCirclesNonStatic = () => {
+    this.circlePhysics.makeNonStatic();
   }
 
   private animate = () => {

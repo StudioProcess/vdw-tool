@@ -25,8 +25,14 @@ export default class Controller extends Component<any, any> {
     window.removeEventListener("message", this.onReceiveMessage);
   }
 
-  private onSendMessage = (message: IMessagePackage) => {
-    this.mainWindow.postMessage(message, "*");
+  private onSendMessage = (type: MessageTypes, data?: any) => {
+    this.mainWindow.postMessage(
+      {
+        type,
+        data,
+      },
+      "*",
+    );
   }
 
   private onReceiveMessage = (event) => {
@@ -39,14 +45,6 @@ export default class Controller extends Component<any, any> {
     //   console.log("data", messagePackage.data);
     // }
   }
-
-  private onTest = () => {
-    this.onSendMessage({
-      type: MessageTypes.data,
-      data: "test",
-    });
-  }
-
   public render() {
     return (
       <Global>
@@ -57,8 +55,18 @@ export default class Controller extends Component<any, any> {
         <div className="container">
           <div
             className="button"
-            onClick={this.onTest}
-          >test</div>
+            onClick={() => {this.onSendMessage(MessageTypes.newLayout); }}
+          >new Layout</div>
+
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
+          >make non static</div>
+
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
+          >fullscreen</div>
 
           <div ref={(ref) => {this.debugContainerRef = ref; }}/>
         </div>
@@ -79,6 +87,8 @@ export default class Controller extends Component<any, any> {
             background: black;
             color: white;
             padding: 5px 10px;
+
+            margin-bottom: 10px;
 
             user-select: none;
             cursor: pointer;

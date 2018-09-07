@@ -2,6 +2,9 @@ import {
   Component,
 } from "react";
 import Head from "next/head";
+
+import * as screenfull from "screenfull";
+
 import Global from "./global";
 
 import Logo from "../components/logo";
@@ -12,11 +15,14 @@ import {
   IMessagePackage,
 } from "../components/types";
 
-import WebGLViewer from "../components/circleViewer/circleViewer";
+import CirclesViewer from "../components/circleViewer/circleViewer";
 
 export default class Index extends Component<any, any> {
 
   private controllerWindow: Window;
+  private circlesViewerRef: CirclesViewer;
+
+  private fullscreenButtonRef: HTMLDivElement;
 
   public componentDidMount() {
     this.controllerWindow = window.open(
@@ -44,6 +50,20 @@ export default class Index extends Component<any, any> {
     if (messagePackage.type === MessageTypes.data) {
       console.log("data", messagePackage.data);
     }
+
+    switch (messagePackage.type) {
+      case MessageTypes.newLayout:
+        this.circlesViewerRef.newRandomLayout();
+        break;
+
+      case MessageTypes.makeNonStatic:
+        this.circlesViewerRef.makeCirclesNonStatic();
+        break;
+
+      case MessageTypes.makeFullscreen:
+        this.fullscreenButtonRef.style.display = "flex";
+        break;
+    }
   }
 
   public render() {
@@ -55,7 +75,9 @@ export default class Index extends Component<any, any> {
         </Head>
 
         <div className="webGLContainer">
-          <WebGLViewer />
+          <CirclesViewer
+            ref={(ref) => {this.circlesViewerRef = ref; }}
+          />
         </div>
 
         <DividerLines
@@ -64,10 +86,38 @@ export default class Index extends Component<any, any> {
 
         <Logo />
 
+        <div
+          className="fullscreenButton"
+          onClick={() => {
+            if (screenfull.enabled) {
+              screenfull.request(document.body);
+              this.fullscreenButtonRef.style.display = "none";
+            }
+          }}
+          ref={(ref) => {this.fullscreenButtonRef = ref; }}
+        >click to fullscreen</div>
+
         <style jsx>{`
           .webGLContainer {
             width: 100vw;
             height: 100vh;
+          }
+
+          .fullscreenButton {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+
+            justify-content: center;
+            align-items: center;
+            font-size: 10vmin;
+
+            display: none;
           }
         `}</style>
       </Global>
