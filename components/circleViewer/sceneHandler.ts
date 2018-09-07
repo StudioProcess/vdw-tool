@@ -19,7 +19,9 @@ export default class StatueHandler {
 
   public setup(
     parent: Object3D,
-    uniforms: Uniforms) {
+    uniforms: Uniforms,
+    maxNumCircles: number,
+  ) {
 
     this.material = new RawShaderMaterial({
       vertexShader,
@@ -36,7 +38,7 @@ export default class StatueHandler {
       GetCircleGeometry(
         60,
         1.0,
-        100,
+        maxNumCircles,
       ),
       this.material,
     );
@@ -48,16 +50,5 @@ export default class StatueHandler {
 
   public getDataBuffer = (): BufferAttribute => {
     return this.mesh.geometry.attributes.data;
-  }
-
-  public update(
-    time: number,
-    delta: number,
-  ) {
-    for (let i = 0, l = this.mesh.geometry.attributes.data.array.length; i < l; i += 3) {
-      this.mesh.geometry.attributes.data.array[i + 1] = Math.sin(i * 0.2 + time * 0.5);
-      this.mesh.geometry.attributes.data.array[i + 2] = 0.1 + 0.1 * Math.abs(Math.sin(i * 0.2 + time * 0.5));
-    }
-    this.mesh.geometry.attributes.data.needsUpdate = true;
   }
 }

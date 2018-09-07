@@ -158,6 +158,11 @@ export default class CirclePhysics {
       circlesDataBuffer.array[baseIndex + 2] = this.stack.bodies[i].circleRadius * 0.001;
     }
 
+    for (let i = this.stack.bodies.length, l = circlesDataBuffer.count; i < l; i++) {
+      baseIndex = i * 3;
+      circlesDataBuffer.array[baseIndex + 2] = 0.0;
+    }
+
     circlesDataBuffer.needsUpdate = true;
   }
 }
