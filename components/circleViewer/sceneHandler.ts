@@ -36,7 +36,7 @@ export default class StatueHandler {
       GetCircleGeometry(
         60,
         1.0,
-        80,
+        100,
       ),
       this.material,
     );
