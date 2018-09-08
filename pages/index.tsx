@@ -7,15 +7,16 @@ import * as screenfull from "screenfull";
 
 import Global from "./global";
 
-import Logo from "../components/logo";
-import DividerLines from "../components/dividerLines";
-
 import {
   MessageTypes,
   IMessagePackage,
 } from "../components/types";
 
 import CirclesViewer from "../components/circleViewer/circleViewer";
+import TextViewer from "../components/textViewer/textViewer";
+
+import Logo from "../components/logo";
+import DividerLines from "../components/dividerLines";
 
 export default class Index extends Component<any, any> {
 
@@ -80,11 +81,13 @@ export default class Index extends Component<any, any> {
           />
         </div>
 
+        <TextViewer />
+
         <DividerLines
           dividerScale={3}
         />
 
-        <Logo />
+        {/* <Logo /> */}
 
         <div
           className="fullscreenButton"
