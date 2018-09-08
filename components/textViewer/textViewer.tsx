@@ -83,11 +83,10 @@ export default class StatueViewer extends Component<any, any> {
         leftDistance -= font.getAdvanceWidth(text[i]);
       }
 
-      const charPath = this.font.getPath(text[i]);
+      const charPath = this.font.getPath(text[i], leftDistance, 60);
 
       svg.setAttribute("viewBox", viewBox);
       svg.innerHTML = `<path
-        transform="translate(${leftDistance}, 60)"
         fill="none"
         stroke-width="1"
         stroke="black"
