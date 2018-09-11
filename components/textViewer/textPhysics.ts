@@ -8,6 +8,9 @@ import {
   Body,
   Svg,
   Vertices,
+  Composites,
+  Composite,
+  Constraint,
 } from "matter-js";
 
 let pathseg = null;
@@ -132,7 +135,7 @@ export default class CirclePhysics {
       this.render.canvas.style.position = "absolute";
       this.render.canvas.style.top = "10px";
       this.render.canvas.style.left = "10px";
-      this.render.canvas.style.opacity = "0.8";
+      this.render.canvas.style.opacity = "0.5";
       this.render.canvas.style.transformOrigin = "left top";
       this.render.canvas.style.transform = "scale(0.5)";
       document.body.appendChild(this.render.canvas);
@@ -178,10 +181,7 @@ export default class CirclePhysics {
   }
 
   public setFromSVGs(svgs: SVGElement[]) {
-    const tmpSvg = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "svg",
-    );
+    const composite = Composite.create();
 
     for (let i = 0, l = svgs.length; i < l; i++) {
       const path = (svgs[i].childNodes[0] as SVGGElement).cloneNode(true).childNodes[0] as SVGPathElement;
@@ -246,11 +246,14 @@ export default class CirclePhysics {
           true,
         );
       }
+
       this.bodies.push(body);
 
       const xOffset = this.bodies[this.bodies.length - 1].bounds.min.x - minX;
       const yOffset = this.bodies[this.bodies.length - 1].bounds.min.y - minY;
       Body.setPosition(this.bodies[this.bodies.length - 1], {x: -xOffset, y: -yOffset});
+
+      Composite.add(composite, body);
 
       svgs[i].childNodes[0].childNodes[0].setAttribute(
         "transform",
@@ -258,9 +261,29 @@ export default class CirclePhysics {
       );
     }
 
+    Composite.add(composite, Constraint.create({
+      pointA: { x: -heightBorderDistance, y: 0.0 },
+      bodyB: this.bodies[0],
+      stiffness: 0.999,
+    }));
+
+    for (let i = 0, l = this.bodies.length - 1; i < l; i++) {
+      Composite.add(composite, Constraint.create({
+        bodyA: this.bodies[i],
+        bodyB: this.bodies[i + 1],
+        stiffness: 0.999,
+      }));
+    }
+
+    Composite.add(composite, Constraint.create({
+      bodyA: this.bodies[this.bodies.length - 1],
+      pointB: { x: heightBorderDistance, y: 0.0 },
+      stiffness: 0.999,
+    }));
+
     World.add(
       this.world,
-      this.bodies,
+      composite,
     );
   }
 
