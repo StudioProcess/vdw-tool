@@ -87,7 +87,7 @@ export default class Index extends Component<any, any> {
           dividerScale={3}
         />
 
-        {/* <Logo /> */}
+        <Logo />
 
         <div
           className="fullscreenButton"
