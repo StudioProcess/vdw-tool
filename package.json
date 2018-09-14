@@ -5,7 +5,7 @@
     "build": "next build",
     "export": "next build && next export -o dist",
     "exportStaging": "next build && next export -o dist && gulp gzipDist && aws s3 sync ./dist s3://vdw-tool.thisotherthing.co --delete --acl public-read --content-encoding gzip --cache-control max-age=2592000",
-    "start": "next start"
+    "start": "next"
   },
   "dependencies": {
     "array-shuffle": "^1.0.1",
