@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "array-shuffle": "^1.0.1",
     "gsap": "^2.0.2",
     "matter-js": "^0.14.2",
     "next": "^5.1.0",

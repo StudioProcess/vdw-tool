@@ -61,7 +61,7 @@ export default class Controller extends Component<any, any> {
           <div
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
-          >make non static</div>
+          >circles fall out</div>
 
           <div
             className="button"

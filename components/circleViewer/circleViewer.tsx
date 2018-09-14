@@ -152,12 +152,14 @@ export default class StatueViewer extends Component<any, any> {
   }
 
   public newRandomLayout = () => {
+    this.circlePhysics.closeBottom();
     this.circlePhysics.setFromLayout(
       GenerateLayout(this.circlePhysics.getWorldBounds(), Math.random() * 9999.9),
     );
   }
 
   public makeCirclesNonStatic = () => {
+    this.circlePhysics.openBottom();
     this.circlePhysics.makeNonStatic();
   }
 

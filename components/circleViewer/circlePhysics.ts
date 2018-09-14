@@ -13,6 +13,8 @@ import {
 
 import {ILayoutItem} from "../types";
 
+const shuffle = require("array-shuffle");
+
 const borderWidth = 100;
 const heightBorderDistance = 1000 + borderWidth * 0.5;
 
@@ -184,13 +186,87 @@ export default class CirclePhysics {
     );
   }
 
-  public makeNonStatic() {
-    for (let i = 0, l = this.bodies.length; i < l; i++) {
-      Body.setStatic(
-        this.bodies[i],
-        false,
-      );
+  private chunkArray = (myArray, chunkSize) => {
+    const results = [];
+
+    while (myArray.length > 0) {
+        results.push(myArray.splice(0, Math.min(chunkSize, myArray.length)));
     }
+
+    return results;
+  }
+
+  private setChunkNonStatic = (indices, delay) => {
+    window.setTimeout(
+      () => {
+        for (let i = 0, l = indices.length; i < l; i++) {
+          Body.setStatic(
+            this.bodies[indices[i]],
+            false,
+          );
+        }
+      },
+      delay,
+    );
+  }
+
+  public makeNonStatic() {
+    const indexArray = [];
+    for (let i = 0, l = this.bodies.length; i < l; i++) {
+      indexArray.push(i);
+    }
+
+    shuffle(indexArray);
+
+    const numChunks = Math.round(
+      this.bodies.length / Math.ceil(10 + Math.random() * 10),
+    );
+    const chunkSize = Math.max(this.bodies.length / numChunks, 1);
+
+    const chunks = this.chunkArray(indexArray, chunkSize);
+
+    const delays = [];
+    let baseDelay = 0.0;
+    for (let i = 0; i <= numChunks; i++) {
+      delays.push(baseDelay);
+      baseDelay += Math.ceil(200 + Math.random() * 800);
+    }
+
+    for (let i = 0, l = chunks.length; i < l; i++) {
+      this.setChunkNonStatic(chunks[i], delays[i]);
+    }
+  }
+
+  public openTop = () => {
+    Body.set(
+      this.topBorder,
+      "isSensor",
+      true,
+    );
+  }
+
+  public closeTop = () => {
+    Body.set(
+      this.topBorder,
+      "isSensor",
+      false,
+    );
+  }
+
+  public openBottom = () => {
+    Body.set(
+      this.bottomBorder,
+      "isSensor",
+      true,
+    );
+  }
+
+  public closeBottom = () => {
+    Body.set(
+      this.bottomBorder,
+      "isSensor",
+      false,
+    );
   }
 
   public update(
