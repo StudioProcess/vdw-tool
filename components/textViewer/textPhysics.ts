@@ -108,7 +108,7 @@ export default class CirclePhysics {
     this.xOffsets = [];
     this.yOffsets = [];
 
-    if (true) {
+    if (false) {
       this.render = Render.create({
         element: document.body,
         engine: this.engine,
