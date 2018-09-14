@@ -6,6 +6,8 @@ export enum MessageTypes {
   newLayout,
   makeNonStatic,
 
+  newText,
+
   makeFullscreen,
 
   changeBGColor,

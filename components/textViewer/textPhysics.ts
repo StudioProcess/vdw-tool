@@ -108,7 +108,7 @@ export default class CirclePhysics {
     this.xOffsets = [];
     this.yOffsets = [];
 
-    if (false) {
+    if (true) {
       this.render = Render.create({
         element: document.body,
         engine: this.engine,
@@ -211,33 +211,44 @@ export default class CirclePhysics {
 
     Composite.add(composite, body);
 
+    Body.setPosition(
+      body,
+      {
+        x: (Math.random() - 0.2) * worldBounds.width,
+        y: worldBounds.height * -0.6,
+      },
+    );
+
     const leftConstraint = Constraint.create({
-      pointA: { x: -heightBorderDistance, y: heightBorderDistance * -(Math.random() * 0.25 + 0.5) },
+      pointA: { x: -heightBorderDistance, y: heightBorderDistance * -(Math.random() * 0.25 + 1.0) },
       bodyB: body,
-      stiffness: 0.2,
+      stiffness: 0.01,
+      damping: 0.01,
     });
-    Composite.add(composite, leftConstraint);
+    // leftConstraint.
+    // leftConstraint.length *= 2.0;
 
     const rightConstraint = Constraint.create({
       bodyA: body,
-      pointB: { x: heightBorderDistance, y: heightBorderDistance * -(Math.random() * 0.25 + 0.5) },
-      stiffness: 0.2,
+      pointB: { x: heightBorderDistance, y: heightBorderDistance * -(Math.random() * 0.25 + 1.0) },
+      stiffness: 0.01,
+      damping: 0.01,
     });
+    // rightConstraint.length *= 2.0;
+
+    // window.setTimeout(
+    //   () => {
+    Composite.add(composite, leftConstraint);
     Composite.add(composite, rightConstraint);
+    //   },
+    //   2000,
+    // );
 
     this.ropeConstraints.push(
       [
         leftConstraint,
         rightConstraint,
       ],
-    );
-
-    Body.setPosition(
-      body,
-      {
-        x: (Math.random() - 0.5) * worldBounds.width,
-        y: 1.1 * -worldBounds.height,
-      },
     );
 
     World.add(
@@ -247,12 +258,12 @@ export default class CirclePhysics {
 
     this.composites.push(composite);
 
-    window.setTimeout(
-      () => {
-        Composite.remove(composite, leftConstraint);
-      },
-      3000,
-    );
+    // window.setTimeout(
+    //   () => {
+    //     Composite.remove(composite, leftConstraint);
+    //   },
+    //   3000,
+    // );
   }
 
   public makeNonStatic() {

@@ -46,22 +46,7 @@ export default class StatueViewer extends Component<any, any> {
 
           this.svgs = [];
 
-          this.generateSVGs(
-            "TestxHije8\ntest",
-            this.font,
-            this.containerRef,
-            this.svgs,
-          );
-
-          this.textPhysics.openTop();
-
-          for (let i = 0, l = this.svgs.length; i < l; i++) {
-            this.textPhysics.setFromSVG(
-              this.svgs[i],
-              0.6,
-              0.5 + i * 0.2,
-            );
-          }
+          this.newText("TestxHije8\ntest");
         }
       },
     );
@@ -80,6 +65,34 @@ export default class StatueViewer extends Component<any, any> {
     cancelAnimationFrame(this.frameId);
 
     window.removeEventListener("resize", this.onResize);
+  }
+
+  public newText = (text) => {
+    console.log(text);
+
+    for (let i = 0, l = this.svgs.length; i < l; i++) {
+      this.containerRef.removeChild(this.svgs[i]);
+    }
+
+    this.svgs = [];
+
+    this.generateSVGs(
+      text,
+      this.font,
+      this.containerRef,
+      this.svgs,
+    );
+
+    this.textPhysics.openTop();
+    this.textPhysics.clearBodies();
+
+    for (let i = 0, l = this.svgs.length; i < l; i++) {
+      this.textPhysics.setFromSVG(
+        this.svgs[i],
+        0.6,
+        0.5 - i * 0.1,
+      );
+    }
   }
 
   private generateSVGs(
@@ -103,11 +116,11 @@ export default class StatueViewer extends Component<any, any> {
       svg.style.width = "100vw";
       svg.style.height = "100vh";
 
-      const charPath = this.font.getPath(lines[i], 0, 60);
+      const charPath = font.getPath(lines[i], 0, 60);
       const pathBounds = charPath.getBoundingBox();
 
-      console.log(pathBounds);
-      console.log(pathBounds.x2 - pathBounds.x1, pathBounds.y2 - pathBounds.y1);
+      // console.log(pathBounds);
+      // console.log(pathBounds.x2 - pathBounds.x1, pathBounds.y2 - pathBounds.y1);
 
       svg.setAttribute(
         "boxsize",

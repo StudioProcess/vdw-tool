@@ -16,6 +16,8 @@ export default class Controller extends Component<any, any> {
 
   private debugContainerRef: HTMLDivElement;
 
+  private textInputRef: HTMLTextAreaElement;
+
   // private resizeWidthRef: HTMLInputElement;
   // private resizeHeightRef: HTMLInputElement;
 
@@ -81,22 +83,21 @@ export default class Controller extends Component<any, any> {
             />
           </div>
 
-          <div className="buttonContainer">
-            <div
-              className="button"
-              onClick={() => {this.onSendMessage(MessageTypes.changeBGColor, this.bgColorInputRef.value); }}
-            >change bg color</div>
-            <input
-              type="color"
-              defaultValue="#eb582f"
-              ref={(ref) => {this.bgColorInputRef = ref; }}
-            />
-          </div>
-
           <div
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
           >circles fall out</div>
+
+          <textarea
+            contentEditable
+            cols="120"
+            rows="4"
+            ref={(ref) => {this.textInputRef = ref; }}
+          />
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.newText, this.textInputRef.value); }}
+          >new text</div>
 
           <div
             className="button"
@@ -249,7 +250,7 @@ export default class Controller extends Component<any, any> {
               margin: 0;
               padding: 0;
               width: 30px;
-              height: 100%;
+              height: 28px;
               background: 0;
               flex-shrink: 0;
             }

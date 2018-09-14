@@ -22,6 +22,7 @@ export default class Index extends Component<any, any> {
 
   private controllerWindow: Window;
   private circlesViewerRef: CirclesViewer;
+  private textViewer: TextViewer;
 
   private fullscreenButtonRef: HTMLDivElement;
 
@@ -61,6 +62,10 @@ export default class Index extends Component<any, any> {
         this.circlesViewerRef.makeCirclesNonStatic();
         break;
 
+      case MessageTypes.newText:
+        this.textViewer.newText(messagePackage.data);
+        break;
+
       case MessageTypes.makeFullscreen:
         this.fullscreenButtonRef.style.display = "flex";
         break;
@@ -94,7 +99,9 @@ export default class Index extends Component<any, any> {
           />
         </div>
 
-        <TextViewer />
+        <TextViewer
+          ref={(ref) => {this.textViewer = ref; }}
+        />
 
         <DividerLines
           dividerScale={3}

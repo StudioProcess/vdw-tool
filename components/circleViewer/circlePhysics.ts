@@ -218,16 +218,13 @@ export default class CirclePhysics {
 
     shuffle(indexArray);
 
-    const numChunks = Math.round(
-      this.bodies.length / Math.ceil(10 + Math.random() * 10),
-    );
-    const chunkSize = Math.max(this.bodies.length / numChunks, 1);
+    const chunkSize = 3;
 
     const chunks = this.chunkArray(indexArray, chunkSize);
 
     const delays = [];
     let baseDelay = 0.0;
-    for (let i = 0; i <= numChunks; i++) {
+    for (let i = 0, l = chunks.length; i < l; i++) {
       delays.push(baseDelay);
       baseDelay += Math.ceil(200 + Math.random() * 800);
     }
