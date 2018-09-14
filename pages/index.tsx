@@ -64,6 +64,15 @@ export default class Index extends Component<any, any> {
       case MessageTypes.makeFullscreen:
         this.fullscreenButtonRef.style.display = "flex";
         break;
+
+      case MessageTypes.changeBGColor:
+        document.body.style.backgroundColor = messagePackage.data;
+        this.circlesViewerRef.changeBgColor(messagePackage.data);
+        break;
+
+      case MessageTypes.changeFGColor:
+        this.circlesViewerRef.changeFrontColor(messagePackage.data);
+        break;
     }
   }
 

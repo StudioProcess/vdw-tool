@@ -15,6 +15,9 @@ export default class Controller extends Component<any, any> {
 
   private debugContainerRef: HTMLDivElement;
 
+  private bgColorInputRef: HTMLInputElement;
+  private fgColorInputRef: HTMLInputElement;
+
   public componentDidMount() {
     window.addEventListener("message", this.onReceiveMessage);
 
@@ -47,7 +50,7 @@ export default class Controller extends Component<any, any> {
   }
   public render() {
     return (
-      <Global>
+      <div>
         <Head>
           <title>Controller</title>
         </Head>
@@ -68,12 +71,42 @@ export default class Controller extends Component<any, any> {
             onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
           >fullscreen</div>
 
+          <div className="buttonContainer">
+            <div
+              className="button"
+              onClick={() => {this.onSendMessage(MessageTypes.changeBGColor, this.bgColorInputRef.value); }}
+            >change bg color</div>
+            <input
+              type="color"
+              defaultValue="#eb582f"
+              ref={(ref) => {this.bgColorInputRef = ref; }}
+            />
+          </div>
+
+          <div className="buttonContainer">
+            <div
+              className="button"
+              onClick={() => {this.onSendMessage(MessageTypes.changeFGColor, this.fgColorInputRef.value); }}
+            >change fg color</div>
+            <input
+              type="color"
+              defaultValue="#f5ac97"
+              ref={(ref) => {this.fgColorInputRef = ref; }}
+            />
+          </div>
+
           <div ref={(ref) => {this.debugContainerRef = ref; }}/>
         </div>
 
+        <style global jsx>{`
+          body {
+            background: white;
+            font-family: monospace, sans-serif;
+          }
+        `}</style>
+
         <style jsx>{`
           .container {
-            width: 200px;
             margin: 0 auto;
             margin-top: 10px;
 
@@ -83,6 +116,38 @@ export default class Controller extends Component<any, any> {
             color: #333;
           }
 
+          .buttonContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+
+             margin-bottom: 10px;
+
+            input {
+              border: 0;
+              border-radius: 20px;
+              margin: 0;
+              padding: 0;
+              width: 30px;
+              height: 100%;
+              background: 0;
+              flex-shrink: 0;
+            }
+
+            input:last-child {
+              margin-left: 10px;
+            }
+
+            input:focus, input:focus{
+              outline: none;
+            }
+
+            .button {
+              flex-grow: 1.0;
+              margin-bottom: 0;
+            }
+          }
+
           .button {
             background: black;
             color: white;
@@ -90,11 +155,13 @@ export default class Controller extends Component<any, any> {
 
             margin-bottom: 10px;
 
+            white-space: nowrap;
+
             user-select: none;
             cursor: pointer;
           }
         `}</style>
-      </Global>
+      </div>
     );
   }
 }

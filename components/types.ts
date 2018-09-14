@@ -7,6 +7,9 @@ export enum MessageTypes {
   makeNonStatic,
 
   makeFullscreen,
+
+  changeBGColor,
+  changeFGColor,
 }
 
 export interface IMessagePackage {

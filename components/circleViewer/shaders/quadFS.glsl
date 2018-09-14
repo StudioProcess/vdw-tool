@@ -1,20 +1,19 @@
 precision highp float;
 #extension GL_OES_standard_derivatives : enable
 
-const vec3 colorBg = vec3(
-  0.92156862745,
-  0.34509803921,
-  0.18431372549
-);
+uniform vec3 colorBg;
+// const vec3 colorBg = vec3(
+//   0.92156862745,
+//   0.34509803921,
+//   0.18431372549
+// );
 
-const vec3 colorFront = vec3(
-  0.96078431372,
-  0.67450980392,
-  0.59215686274
-);
-
-const int lookupSize = 64;
-const float errorCarry = 0.3;
+uniform vec3 colorFront;
+// const vec3 colorFront = vec3(
+//   0.96078431372,
+//   0.67450980392,
+//   0.59215686274
+// );
 
 uniform float time;
 uniform vec4 screenParams;

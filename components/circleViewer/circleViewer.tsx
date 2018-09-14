@@ -7,6 +7,7 @@ import {
   OrthographicCamera,
   WebGLRenderer,
   BufferAttribute,
+  Color,
 } from "three";
 
 import {TweenLite} from "gsap";
@@ -87,6 +88,18 @@ export default class StatueViewer extends Component<any, any> {
       time: {type: "f", value: 0.0},
       screenParams: {type: "4fv", value: [1.0, 1.0, 0.0, 0.0]},
 
+      colorBg: {type: "3fv", value: [
+        0.92156862745,
+        0.34509803921,
+        0.18431372549,
+      ]},
+
+      colorFront: {type: "3fv", value: [
+        0.96078431372,
+        0.67450980392,
+        0.59215686274,
+      ]},
+
       fadeIn: {type: "f", value: 1.0},
     };
 
@@ -129,6 +142,23 @@ export default class StatueViewer extends Component<any, any> {
     cancelAnimationFrame(this.frameId);
 
     window.removeEventListener("resize", this.onResize);
+  }
+
+  public changeBgColor = (color) => {
+    const threeColor = new Color(color);
+
+    this.renderer.setClearColor(threeColor);
+    this.uniforms.colorBg.value[0] = threeColor.r;
+    this.uniforms.colorBg.value[1] = threeColor.g;
+    this.uniforms.colorBg.value[2] = threeColor.b;
+  }
+
+  public changeFrontColor = (color) => {
+    const threeColor = new Color(color);
+
+    this.uniforms.colorFront.value[0] = threeColor.r;
+    this.uniforms.colorFront.value[1] = threeColor.g;
+    this.uniforms.colorFront.value[2] = threeColor.b;
   }
 
   private onResize = () => {
