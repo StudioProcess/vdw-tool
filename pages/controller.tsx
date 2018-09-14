@@ -246,13 +246,14 @@ export default class Controller extends Component<any, any> {
 
             input {
               border: 0;
-              border-radius: 20px;
               margin: 0;
               padding: 0;
               width: 30px;
-              height: 28px;
+              height: 26px;
               background: 0;
               flex-shrink: 0;
+
+              border: black 1px solid;
             }
 
             input:last-child {
@@ -260,7 +261,6 @@ export default class Controller extends Component<any, any> {
             }
 
             input:focus, input:focus{
-              outline: none;
             }
 
             .button {
