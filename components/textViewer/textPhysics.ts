@@ -214,7 +214,7 @@ export default class CirclePhysics {
     Body.setPosition(
       body,
       {
-        x: (Math.random() - 0.2) * worldBounds.width,
+        x: ((Math.random() - 0.5) * 0.4) * worldBounds.width,
         y: worldBounds.height * -0.6,
       },
     );
@@ -238,8 +238,8 @@ export default class CirclePhysics {
 
     // window.setTimeout(
     //   () => {
-    Composite.add(composite, leftConstraint);
-    Composite.add(composite, rightConstraint);
+    // Composite.add(composite, leftConstraint);
+    // Composite.add(composite, rightConstraint);
     //   },
     //   2000,
     // );
