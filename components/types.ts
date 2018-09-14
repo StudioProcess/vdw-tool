@@ -10,6 +10,8 @@ export enum MessageTypes {
 
   changeBGColor,
   changeFGColor,
+
+  updateLayoutConfig,
 }
 
 export interface IMessagePackage {

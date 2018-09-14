@@ -73,6 +73,10 @@ export default class Index extends Component<any, any> {
       case MessageTypes.changeFGColor:
         this.circlesViewerRef.changeFrontColor(messagePackage.data);
         break;
+
+      case MessageTypes.updateLayoutConfig:
+        this.circlesViewerRef.updateLayoutConfig(messagePackage.data);
+        break;
     }
   }
 

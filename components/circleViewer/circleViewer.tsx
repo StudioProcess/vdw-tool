@@ -12,9 +12,11 @@ import {
 
 import {TweenLite} from "gsap";
 
+import {ILayoutGeneratorCongfig} from "../types";
+
 import SceneHandler from "./sceneHandler";
 import CirclePhysics from "./circlePhysics";
-import GenerateLayout from "./layoutGenerator";
+import {generateLayout, updateConfig} from "./layoutGenerator";
 
 import CheckWebGLSupport from "../../utilities/checkWebGLSupport/CheckWebGLSupport";
 
@@ -129,7 +131,7 @@ export default class StatueViewer extends Component<any, any> {
     );
 
     this.circlePhysics.setFromLayout(
-      GenerateLayout(this.circlePhysics.getWorldBounds(), 20),
+      generateLayout(this.circlePhysics.getWorldBounds(), 20),
     );
 
     window.addEventListener("resize", this.onResize);
@@ -185,10 +187,14 @@ export default class StatueViewer extends Component<any, any> {
     );
   }
 
+  public updateLayoutConfig = (config: ILayoutGeneratorCongfig) => {
+    updateConfig(config);
+  }
+
   public newRandomLayout = (seed?: string) => {
     this.circlePhysics.closeBottom();
     this.circlePhysics.setFromLayout(
-      GenerateLayout(
+      generateLayout(
         this.circlePhysics.getWorldBounds(),
         seed !== undefined && seed.length > 0 ? parseInt(seed, 10) : Math.random() * 9999.9,
       ),

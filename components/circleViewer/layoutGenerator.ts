@@ -34,7 +34,7 @@ let baseH = 100;
 let halfBaseW = baseW * 0.5;
 let halfBaseH = baseH * 0.5;
 
-export default function generateLayout(
+export function generateLayout(
   bounds: {width: number, height: number},
   seed = 0,
 ): ILayoutItem[] {
