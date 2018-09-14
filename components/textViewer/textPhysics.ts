@@ -11,12 +11,15 @@ import {
   Composites,
   Composite,
   Constraint,
+  Vector,
 } from "matter-js";
+
+const getPathBounds = require("svg-path-bounds");
 
 let pathseg = null;
 
 const borderWidth = 100;
-const heightBorderDistance = 1000 + borderWidth * 0.5;
+const heightBorderDistance = 500 + borderWidth * 0.5;
 
 const worldBounds = {
   width: 100,
@@ -127,15 +130,15 @@ export default class CirclePhysics {
       Render.lookAt(
         this.render,
         {
-          min: { x: -1500, y: -1300 },
-          max: { x: 1500, y: 1300 },
+          min: { x: -900, y: -900 },
+          max: { x: 900, y: 900 },
         },
       );
 
       this.render.canvas.style.position = "absolute";
       this.render.canvas.style.top = "10px";
       this.render.canvas.style.left = "10px";
-      this.render.canvas.style.opacity = "0.5";
+      this.render.canvas.style.opacity = "0.6";
       this.render.canvas.style.transformOrigin = "left top";
       this.render.canvas.style.transform = "scale(0.5)";
       document.body.appendChild(this.render.canvas);
@@ -188,45 +191,43 @@ export default class CirclePhysics {
 
       const leftOffset = parseFloat(path.getAttribute("leftoffset"));
 
-      let vertices = Svg.pathToVertices(path, 5);
+      const vertexSets = [];
+
+      let matches = path.getAttribute("d").match(/M[0-9A-Z.\s-]*?[ZM]/gm);
+
+      if (matches.length > 1) {
+        const sizes = [];
+        matches.forEach(
+          (pathString: string, index) => {
+
+            const [left, top, right, bottom] = getPathBounds(pathString);
+            const area = (right - left) * (bottom - top);
+            sizes.push([area, index]);
+          },
+        );
+
+        sizes.sort(
+          (a, b) => {
+            return b[0] - a[0];
+          },
+        );
+        matches = [matches[sizes[0][1]]];
+      }
+
+      matches.forEach(
+        (pathString: string) => {
+          path.setAttribute("d", pathString);
+
+          vertexSets.push(Svg.pathToVertices(path, 5));
+        },
+      );
 
       let minX = Number.POSITIVE_INFINITY;
       let minY = Number.POSITIVE_INFINITY;
 
-      for (let j = 0, l2 = vertices.length; j < l2; j++) {
-          if (vertices[j].x < minX) {
-            minX = vertices[j].x;
-          }
-          if (vertices[j].y < minY) {
-            minY = vertices[j].y;
-          }
-      }
-      minX += leftOffset;
-
-      let body = Bodies.fromVertices(
-        0,
-        0,
-        vertices,
-        {
-          // isStatic: true,
-        },
-        true,
-      );
-
-      if (body === undefined) {
-        // remove all but first vertex line, so there aren't holes
-        const matches = path.getAttribute("d").match(/M[0-9A-Z.\s]*?[ZM]/);
-        matches.sort((a, b) => {
-          return b.length - a.length;
-        });
-        const pathD = matches[0];
-        path.setAttribute("d", pathD);
-        vertices = Svg.pathToVertices(path, 5);
-
-        minX = Number.POSITIVE_INFINITY;
-        minY = Number.POSITIVE_INFINITY;
-
-        for (let j = 0, l2 = vertices.length; j < l2; j++) {
+      vertexSets.forEach(
+        (vertices: Vector[]) => {
+          for (let j = 0, l2 = vertices.length; j < l2; j++) {
             if (vertices[j].x < minX) {
               minX = vertices[j].x;
             }
@@ -234,18 +235,19 @@ export default class CirclePhysics {
               minY = vertices[j].y;
             }
         }
-        minX += leftOffset;
+        },
+      );
+      minX += leftOffset;
 
-        body = Bodies.fromVertices(
-          0,
-          0,
-          vertices,
-          {
-            // isStatic: true,
-          },
-          true,
-        );
-      }
+      const body = Bodies.fromVertices(
+        0,
+        0,
+        vertexSets,
+        {
+          isStatic: true,
+        },
+        true,
+      );
 
       this.bodies.push(body);
 

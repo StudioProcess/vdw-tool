@@ -47,7 +47,7 @@ export default class StatueViewer extends Component<any, any> {
           this.svgs.push([]);
 
           this.generateSVGs(
-            "TestXHg890ijxe",
+            "TestxHije8",
             this.font,
             this.containerRef,
             this.svgs[0],
