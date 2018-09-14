@@ -9,6 +9,8 @@ import {
   BufferAttribute,
 } from "three";
 
+import {TweenLite} from "gsap";
+
 import SceneHandler from "./sceneHandler";
 import CirclePhysics from "./circlePhysics";
 import GenerateLayout from "./layoutGenerator";
@@ -41,7 +43,7 @@ export default class StatueViewer extends Component<any, any> {
     private scene: Scene;
     private camera: OrthographicCamera;
 
-    private uniforms: Uniforms;
+    private uniforms;
 
     private webGLSupport: IWebGLData;
   // #endregion
@@ -84,6 +86,8 @@ export default class StatueViewer extends Component<any, any> {
     this.uniforms = {
       time: {type: "f", value: 0.0},
       screenParams: {type: "4fv", value: [1.0, 1.0, 0.0, 0.0]},
+
+      fadeIn: {type: "f", value: 1.0},
     };
 
     // console.log(GenerateLayout(window.innerWidth, window.innerHeight, 0));
@@ -155,6 +159,17 @@ export default class StatueViewer extends Component<any, any> {
     this.circlePhysics.closeBottom();
     this.circlePhysics.setFromLayout(
       GenerateLayout(this.circlePhysics.getWorldBounds(), Math.random() * 9999.9),
+    );
+
+    TweenLite.fromTo(
+      this.uniforms.fadeIn,
+      2.0,
+      {
+        value: 0.0,
+      },
+      {
+        value: 1.2,
+      },
     );
   }
 

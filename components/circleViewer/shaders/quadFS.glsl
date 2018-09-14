@@ -37,7 +37,7 @@ void main() {
 
   value = smoothstep(
     value,
-    value - 0.8,
+    value - 0.85,
     snoise(vUV * aawidth)
   );
 
