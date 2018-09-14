@@ -19,7 +19,7 @@ export default class StatueViewer extends Component<any, any> {
 
     private containerRef: HTMLDivElement;
 
-    private svgs: SVGElement[][];
+    private svgs: SVGElement[];
 
   constructor(props: any) {
     super(props);
@@ -44,20 +44,24 @@ export default class StatueViewer extends Component<any, any> {
         } else {
           this.font = font;
 
-          this.svgs.push([]);
+          this.svgs = [];
 
           this.generateSVGs(
-            "TestxHije8",
+            "TestxHije8\ntest",
             this.font,
             this.containerRef,
-            this.svgs[0],
+            this.svgs,
           );
 
-          this.textPhysics.setFromSVGs(this.svgs[0]);
+          this.textPhysics.openTop();
 
-          this.textPhysics.update(
-            this.svgs[0],
-          );
+          for (let i = 0, l = this.svgs.length; i < l; i++) {
+            this.textPhysics.setFromSVG(
+              this.svgs[i],
+              0.6,
+              0.5 + i * 0.2,
+            );
+          }
         }
       },
     );
@@ -84,15 +88,11 @@ export default class StatueViewer extends Component<any, any> {
     container: HTMLDivElement,
     svgs: SVGElement[],
   ) {
-    const fontPath = this.font.getPath(text);
-    const pathBounds = fontPath.getBoundingBox();
-    // const viewBox = `${0} ${0} ${pathBounds.x2 - pathBounds.x1 + 6} ${pathBounds.y2 - pathBounds.y1 + 12}`;
-
-    let leftDistance = 0.0;
-
     const physicsBounds = this.textPhysics.getWorldBounds();
 
-    for (let i = 0, l = text.length; i < l; i++) {
+    const lines = text.split("\n");
+
+    for (let i = 0, l = lines.length; i < l; i++) {
       const svg = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "svg",
@@ -103,14 +103,16 @@ export default class StatueViewer extends Component<any, any> {
       svg.style.width = "100vw";
       svg.style.height = "100vh";
 
-      if (i > 0) {
-        leftDistance = font.getAdvanceWidth(text.substring(0, i + 1));
-        leftDistance -= font.getAdvanceWidth(text[i]);
-      }
+      const charPath = this.font.getPath(lines[i], 0, 60);
+      const pathBounds = charPath.getBoundingBox();
 
-      const charPath = this.font.getPath(text[i], 0, 60);
+      console.log(pathBounds);
+      console.log(pathBounds.x2 - pathBounds.x1, pathBounds.y2 - pathBounds.y1);
 
-      // svg.setAttribute("viewBox", viewBox);
+      svg.setAttribute(
+        "boxsize",
+        `${0} ${0} ${pathBounds.x2 - pathBounds.x1} ${pathBounds.y2 - pathBounds.y1 + 12}`,
+      );
       svg.setAttribute("viewBox", `${
         physicsBounds.width * -0.5
       } ${
@@ -125,10 +127,10 @@ export default class StatueViewer extends Component<any, any> {
           fill="none"
           stroke-width="1"
           stroke="black"
-          leftoffset="${leftDistance}"
-          d="${charPath.toPathData(2)}"
+          d="${charPath.toPathData(3)}"
         /></g>`;
       svgs.push(svg);
+
       container.appendChild(svg);
     }
   }
@@ -146,7 +148,7 @@ export default class StatueViewer extends Component<any, any> {
     const delta = Math.min(1.0 / 20.0, this.clock.getDelta());
 
     this.textPhysics.update(
-      this.svgs[0],
+      this.svgs,
     );
 
     this.draw();

@@ -37,7 +37,9 @@ export default class CirclePhysics {
   private rightBorder: Body;
   private bottomBorder: Body;
 
-  private bodies: Body[];
+  private composites: Composite[] = [];
+  private textBodies: Body[];
+  private ropeConstraints: Constraint[][] = [];
   private xOffsets: number[];
   private yOffsets: number[];
 
@@ -101,18 +103,10 @@ export default class CirclePhysics {
       ],
     );
 
-    this.bodies = [];
-    this.bodies.push(
-      Bodies.circle(0, 0, 500, { restitution: 0.6, friction: 0.1 }),
-    );
+    this.textBodies = [];
 
     this.xOffsets = [];
     this.yOffsets = [];
-
-    World.add(
-      this.world,
-      this.bodies,
-    );
 
     if (true) {
       this.render = Render.create({
@@ -170,132 +164,136 @@ export default class CirclePhysics {
   }
 
   public clearBodies = () => {
-    for (let i = 0, l = this.bodies.length; i < l; i++) {
+    for (let i = 0, l = this.composites.length; i < l; i++) {
       World.remove(
         this.world,
-        this.bodies[i],
+        this.composites[i],
       );
     }
 
-    this.bodies.length = 0;
+    this.composites.length = 0;
+    this.textBodies.length = 0;
 
     this.xOffsets.length = 0;
     this.yOffsets.length = 0;
   }
 
-  public setFromSVGs(svgs: SVGElement[]) {
+  public setFromSVG(
+    svg: SVGElement,
+    relX: number,
+    relY: number,
+  ) {
     const composite = Composite.create();
 
-    for (let i = 0, l = svgs.length; i < l; i++) {
-      const path = (svgs[i].childNodes[0] as SVGGElement).cloneNode(true).childNodes[0] as SVGPathElement;
+    const bounds = svg.getAttribute("boxsize").split(" ").map((value) => parseInt(value, 10));
 
-      const leftOffset = parseFloat(path.getAttribute("leftoffset"));
+    const body = Bodies.rectangle(
+      worldBounds.width * (relX - 0.5),
+      worldBounds.height * (relY - 0.5),
+      bounds[2],
+      bounds[3],
+      {
+        // isStatic: true,
+      },
+    );
 
-      const vertexSets = [];
+    svg.childNodes[0].childNodes[0].setAttribute(
+      "transform",
+      `translate(${bounds[2] * -0.5} ${bounds[3] * -0.5})`,
+    );
 
-      let matches = path.getAttribute("d").match(/M[0-9A-Z.\s-]*?[ZM]/gm);
+    Body.setAngle(
+      body,
+      Math.random() - 0.5,
+    );
 
-      if (matches.length > 1) {
-        const sizes = [];
-        matches.forEach(
-          (pathString: string, index) => {
+    this.textBodies.push(body);
 
-            const [left, top, right, bottom] = getPathBounds(pathString);
-            const area = (right - left) * (bottom - top);
-            sizes.push([area, index]);
-          },
-        );
+    Composite.add(composite, body);
 
-        sizes.sort(
-          (a, b) => {
-            return b[0] - a[0];
-          },
-        );
-        matches = [matches[sizes[0][1]]];
-      }
+    const leftConstraint = Constraint.create({
+      pointA: { x: -heightBorderDistance, y: heightBorderDistance * -(Math.random() * 0.25 + 0.5) },
+      bodyB: body,
+      stiffness: 0.2,
+    });
+    Composite.add(composite, leftConstraint);
 
-      matches.forEach(
-        (pathString: string) => {
-          path.setAttribute("d", pathString);
+    const rightConstraint = Constraint.create({
+      bodyA: body,
+      pointB: { x: heightBorderDistance, y: heightBorderDistance * -(Math.random() * 0.25 + 0.5) },
+      stiffness: 0.2,
+    });
+    Composite.add(composite, rightConstraint);
 
-          vertexSets.push(Svg.pathToVertices(path, 5));
-        },
-      );
+    this.ropeConstraints.push(
+      [
+        leftConstraint,
+        rightConstraint,
+      ],
+    );
 
-      let minX = Number.POSITIVE_INFINITY;
-      let minY = Number.POSITIVE_INFINITY;
-
-      vertexSets.forEach(
-        (vertices: Vector[]) => {
-          for (let j = 0, l2 = vertices.length; j < l2; j++) {
-            if (vertices[j].x < minX) {
-              minX = vertices[j].x;
-            }
-            if (vertices[j].y < minY) {
-              minY = vertices[j].y;
-            }
-        }
-        },
-      );
-      minX += leftOffset;
-
-      const body = Bodies.fromVertices(
-        0,
-        0,
-        vertexSets,
-        {
-          isStatic: true,
-        },
-        true,
-      );
-
-      this.bodies.push(body);
-
-      const xOffset = this.bodies[this.bodies.length - 1].bounds.min.x - minX;
-      const yOffset = this.bodies[this.bodies.length - 1].bounds.min.y - minY;
-      Body.setPosition(this.bodies[this.bodies.length - 1], {x: -xOffset, y: -yOffset});
-
-      Composite.add(composite, body);
-
-      svgs[i].childNodes[0].childNodes[0].setAttribute(
-        "transform",
-        `translate(${leftOffset + xOffset} ${yOffset})`,
-      );
-    }
-
-    Composite.add(composite, Constraint.create({
-      pointA: { x: -heightBorderDistance, y: 0.0 },
-      bodyB: this.bodies[0],
-      stiffness: 0.999,
-    }));
-
-    for (let i = 0, l = this.bodies.length - 1; i < l; i++) {
-      Composite.add(composite, Constraint.create({
-        bodyA: this.bodies[i],
-        bodyB: this.bodies[i + 1],
-        stiffness: 0.999,
-      }));
-    }
-
-    Composite.add(composite, Constraint.create({
-      bodyA: this.bodies[this.bodies.length - 1],
-      pointB: { x: heightBorderDistance, y: 0.0 },
-      stiffness: 0.999,
-    }));
+    Body.setPosition(
+      body,
+      {
+        x: (Math.random() - 0.5) * worldBounds.width,
+        y: 1.1 * -worldBounds.height,
+      },
+    );
 
     World.add(
       this.world,
       composite,
     );
+
+    this.composites.push(composite);
+
+    window.setTimeout(
+      () => {
+        Composite.remove(composite, leftConstraint);
+      },
+      3000,
+    );
   }
 
   public makeNonStatic() {
-    for (let i = 0, l = this.bodies.length; i < l; i++) {
+    for (let i = 0, l = this.textBodies.length; i < l; i++) {
       Body.setStatic(
-        this.bodies[i],
+        this.textBodies[i],
         false,
       );
     }
+  }
+
+  public openTop = () => {
+    Body.set(
+      this.topBorder,
+      "isSensor",
+      true,
+    );
+  }
+
+  public closeTop = () => {
+    Body.set(
+      this.topBorder,
+      "isSensor",
+      false,
+    );
+  }
+
+  public openBottom = () => {
+    Body.set(
+      this.bottomBorder,
+      "isSensor",
+      true,
+    );
+  }
+
+  public closeBottom = () => {
+    Body.set(
+      this.bottomBorder,
+      "isSensor",
+      false,
+    );
   }
 
   public update(svgs: SVGElement[]) {
@@ -309,7 +307,7 @@ export default class CirclePhysics {
     //   circlesDataBuffer.array[baseIndex + 2] = this.bodies[i].circleRadius * 0.001;
     // }
 
-    for (let i = 0, l = this.bodies.length; i < l; i++) {
+    for (let i = 0, l = this.textBodies.length; i < l; i++) {
       // (svgs[i].childNodes[0] as SVGPathElement).style.transform = `translateX(${
       //   ((this.bodies[i].position.x + this.xOffsets[i]) / worldBounds.width + 0.5) * 100
       // }vw) translateY(${
@@ -320,11 +318,11 @@ export default class CirclePhysics {
       (svgs[i].childNodes[0] as SVGPathElement).setAttribute(
         "transform",
         `translate(${
-          this.bodies[i].position.x
+          this.textBodies[i].position.x
         } ${
-          this.bodies[i].position.y
+          this.textBodies[i].position.y
         }) rotate(${
-          this.bodies[i].angle * 57.2958
+          this.textBodies[i].angle * 57.2958
         })`,
       );
     }
