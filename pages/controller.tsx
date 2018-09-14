@@ -15,6 +15,11 @@ export default class Controller extends Component<any, any> {
 
   private debugContainerRef: HTMLDivElement;
 
+  // private resizeWidthRef: HTMLInputElement;
+  // private resizeHeightRef: HTMLInputElement;
+
+  private seedInputRef: HTMLInputElement;
+
   private bgColorInputRef: HTMLInputElement;
   private fgColorInputRef: HTMLInputElement;
 
@@ -56,10 +61,29 @@ export default class Controller extends Component<any, any> {
         </Head>
 
         <div className="container">
-          <div
-            className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.newLayout); }}
-          >new Layout</div>
+          <div className="buttonContainer">
+            <div
+              className="button"
+              onClick={() => {this.onSendMessage(MessageTypes.newLayout, this.seedInputRef.value); }}
+            >new Layout</div>
+            <input
+              type="number"
+              style={{width: "30%"}}
+              ref={(ref) => {this.seedInputRef = ref; }}
+            />
+          </div>
+
+          <div className="buttonContainer">
+            <div
+              className="button"
+              onClick={() => {this.onSendMessage(MessageTypes.changeBGColor, this.bgColorInputRef.value); }}
+            >change bg color</div>
+            <input
+              type="color"
+              defaultValue="#eb582f"
+              ref={(ref) => {this.bgColorInputRef = ref; }}
+            />
+          </div>
 
           <div
             className="button"
@@ -70,6 +94,31 @@ export default class Controller extends Component<any, any> {
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
           >fullscreen</div>
+
+          {/* <div className="buttonContainer">
+            <div
+              className="button"
+              onClick={() => {
+                this.onSendMessage(
+                  MessageTypes.resizeTo,
+                  {
+                    width: this.resizeWidthRef.value,
+                    height: this.resizeHeightRef.value,
+                  },
+                );
+              }}
+            >resize</div>
+            <input
+              type="number"
+              defaultValue="1920"
+              ref={(ref) => {this.resizeWidthRef = ref; }}
+            />
+            <input
+              type="number"
+              defaultValue="1080"
+              ref={(ref) => {this.resizeHeightRef = ref; }}
+            />
+          </div> */}
 
           <div className="buttonContainer">
             <div

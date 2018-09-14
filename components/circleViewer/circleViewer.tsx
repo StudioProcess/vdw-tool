@@ -185,10 +185,13 @@ export default class StatueViewer extends Component<any, any> {
     );
   }
 
-  public newRandomLayout = () => {
+  public newRandomLayout = (seed?: string) => {
     this.circlePhysics.closeBottom();
     this.circlePhysics.setFromLayout(
-      GenerateLayout(this.circlePhysics.getWorldBounds(), Math.random() * 9999.9),
+      GenerateLayout(
+        this.circlePhysics.getWorldBounds(),
+        seed !== undefined && seed.length > 0 ? parseInt(seed, 10) : Math.random() * 9999.9,
+      ),
     );
 
     TweenLite.fromTo(

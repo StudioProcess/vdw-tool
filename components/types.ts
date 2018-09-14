@@ -22,3 +22,10 @@ export interface ILayoutItem {
   y: number;
   radius: number;
 }
+
+export interface ILayoutGeneratorCongfig {
+  divisionStep: number;
+  cellDivide: number;
+  cellFill: number;
+  cellTwoDivisions: number;
+}

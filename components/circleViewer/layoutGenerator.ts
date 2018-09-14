@@ -1,3 +1,4 @@
+import {ILayoutGeneratorCongfig} from "../types";
 const seedRandom = require("seed-random");
 
 import {ILayoutItem} from "../types";
@@ -17,9 +18,9 @@ function setDivisionStep(s) {
 }
 
 // chances
-const cellDivide = 0.5; // divide a cell further?
-const cellFill = 0.66; // fill a cell? (vs. leaving it empty)
-const cellTwoDivisions = 0.5; // use two divisions? (vs. three)
+let cellDivide = 0.5; // divide a cell further?
+let cellFill = 0.66; // fill a cell? (vs. leaving it empty)
+let cellTwoDivisions = 0.5; // use two divisions? (vs. three)
 
 const skipPartial = true;
 
@@ -54,6 +55,13 @@ export default function generateLayout(
 
   seedRandom.resetGlobal();
   return result;
+}
+
+export function updateConfig(config: ILayoutGeneratorCongfig) {
+  divisionStep = config.divisionStep;
+  cellDivide = config.cellDivide;
+  cellFill = config.cellFill;
+  cellTwoDivisions = config.cellTwoDivisions;
 }
 
 export function runOnCell(
