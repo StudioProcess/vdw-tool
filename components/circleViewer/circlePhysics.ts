@@ -159,7 +159,10 @@ export default class CirclePhysics {
     );
   }
 
-  public setFromLayout(layout: ILayoutItem[]) {
+  public setFromLayout(
+    layout: ILayoutItem[],
+    circlesSizesBuffer: BufferAttribute,
+  ) {
     for (let i = 0, l = this.bodies.length; i < l; i++) {
       World.remove(
         this.world,
@@ -180,7 +183,15 @@ export default class CirclePhysics {
           { restitution: 0.6, friction: 0.1, isStatic: true },
         ),
       );
+
+      circlesSizesBuffer.array[i] = layout[i].radius * 0.001;
     }
+
+    for (let i = layout.length, l = circlesSizesBuffer.length; i < l; i++) {
+      circlesSizesBuffer.array[i] = 0.0;
+    }
+
+    circlesSizesBuffer.needsUpdate = true;
 
     World.add(
       this.world,
@@ -253,23 +264,17 @@ export default class CirclePhysics {
   }
 
   public update(
-    circlesDataBuffer: BufferAttribute,
+    circlesPositionsBuffer: BufferAttribute,
   ) {
     Engine.update(this.engine);
 
     let baseIndex = 0;
     for (let i = 0, l = this.bodies.length; i < l; i++) {
-      baseIndex = i * 3;
-      circlesDataBuffer.array[baseIndex] = this.bodies[i].position.x * 0.001;
-      circlesDataBuffer.array[baseIndex + 1] = this.bodies[i].position.y * -0.001;
-      circlesDataBuffer.array[baseIndex + 2] = this.bodies[i].circleRadius * 0.001;
+      baseIndex = i * 2;
+      circlesPositionsBuffer.array[baseIndex] = this.bodies[i].position.x * 0.001;
+      circlesPositionsBuffer.array[baseIndex + 1] = this.bodies[i].position.y * -0.001;
     }
 
-    for (let i = this.bodies.length, l = circlesDataBuffer.count; i < l; i++) {
-      baseIndex = i * 3;
-      circlesDataBuffer.array[baseIndex + 2] = 0.0;
-    }
-
-    circlesDataBuffer.needsUpdate = true;
+    circlesPositionsBuffer.needsUpdate = true;
   }
 }

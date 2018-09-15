@@ -29,7 +29,8 @@ export default class StatueViewer extends Component<any, any> {
   private sceneHandler: SceneHandler;
   private circlePhysics: CirclePhysics;
 
-  private circlesDataBuffer: BufferAttribute;
+  private circlesPositionsBuffer: BufferAttribute;
+  private circlesSizesBuffer: BufferAttribute;
 
   // #region mouse data
     private rect: ClientRect;
@@ -122,7 +123,8 @@ export default class StatueViewer extends Component<any, any> {
       this.uniforms,
       maxNumCircles,
     );
-    this.circlesDataBuffer = this.sceneHandler.getDataBuffer();
+    this.circlesPositionsBuffer = this.sceneHandler.getPositionBuffer();
+    this.circlesSizesBuffer = this.sceneHandler.getSizesBuffer();
 
     this.circlePhysics = new CirclePhysics();
     this.circlePhysics.setup(
@@ -132,6 +134,7 @@ export default class StatueViewer extends Component<any, any> {
 
     this.circlePhysics.setFromLayout(
       generateLayout(this.circlePhysics.getWorldBounds(), 20),
+      this.circlesSizesBuffer,
     );
 
     window.addEventListener("resize", this.onResize);
@@ -198,6 +201,7 @@ export default class StatueViewer extends Component<any, any> {
         this.circlePhysics.getWorldBounds(),
         seed !== undefined && seed.length > 0 ? parseInt(seed, 10) : Math.random() * 9999.9,
       ),
+      this.circlesSizesBuffer,
     );
 
     TweenLite.fromTo(
@@ -230,7 +234,7 @@ export default class StatueViewer extends Component<any, any> {
     // );
 
     this.circlePhysics.update(
-      this.circlesDataBuffer,
+      this.circlesPositionsBuffer,
     );
 
     this.draw();

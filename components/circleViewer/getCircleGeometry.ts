@@ -10,7 +10,9 @@ export default function getInstancedCircleGeometry(
   count: number,
 ) {
   const vertices = [];
-  const data = [];
+  const circlePositions = [];
+  const circleSizes = [];
+  const circleRandoms = [];
   const indices = [];
 
   vertices.push(0.0, 0.0);
@@ -34,16 +36,21 @@ export default function getInstancedCircleGeometry(
   indices.push(0, 1, resolution);
 
   for (let i = 0; i < count; i++) {
-    data.push(
+    circlePositions.push(
       (i / (count - 1)) * 2.0 - 1.0,
       0.0,
-      0.3,
+    );
+    circleSizes.push(0.3);
+    circleRandoms.push(
+      (Math.random() - 0.5) * 2.0 * 1000.0,
     );
   }
 
   const geometry = new InstancedBufferGeometry();
   geometry.addAttribute("extrude", new BufferAttribute(new Float32Array(vertices), 2));
-  geometry.addAttribute("data", new InstancedBufferAttribute(new Float32Array(data), 3));
+  geometry.addAttribute("circlePosition", new InstancedBufferAttribute(new Float32Array(circlePositions), 2));
+  geometry.addAttribute("circleSize", new InstancedBufferAttribute(new Float32Array(circleSizes), 1));
+  geometry.addAttribute("circleRandom", new InstancedBufferAttribute(new Float32Array(circleRandoms), 1));
 
   geometry.setIndex(new BufferAttribute(new Uint16Array(indices), 1));
 

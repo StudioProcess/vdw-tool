@@ -45,10 +45,14 @@ export default class StatueHandler {
     this.mesh.frustumCulled = false;
     this.container.add(this.mesh);
 
-    this.mesh.geometry.attributes.data.dynamic = true;
+    this.mesh.geometry.attributes.circlePosition.dynamic = true;
   }
 
-  public getDataBuffer = (): BufferAttribute => {
-    return this.mesh.geometry.attributes.data;
+  public getPositionBuffer = (): BufferAttribute => {
+    return this.mesh.geometry.attributes.circlePosition;
+  }
+
+  public getSizesBuffer = (): BufferAttribute => {
+    return this.mesh.geometry.attributes.circleSize;
   }
 }
