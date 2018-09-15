@@ -68,8 +68,6 @@ export default class StatueViewer extends Component<any, any> {
   }
 
   public newText = (text) => {
-    console.log(text);
-
     for (let i = 0, l = this.svgs.length; i < l; i++) {
       this.containerRef.removeChild(this.svgs[i]);
     }
@@ -84,6 +82,7 @@ export default class StatueViewer extends Component<any, any> {
     );
 
     this.textPhysics.openTop();
+    this.textPhysics.closeBottom();
     this.textPhysics.clearBodies();
 
     for (let i = 0, l = this.svgs.length; i < l; i++) {
@@ -93,6 +92,10 @@ export default class StatueViewer extends Component<any, any> {
         0.5 - i * 0.1,
       );
     }
+  }
+
+  public dropText = () => {
+    this.textPhysics.openBottom();
   }
 
   private generateSVGs(
@@ -124,7 +127,8 @@ export default class StatueViewer extends Component<any, any> {
 
       svg.setAttribute(
         "boxsize",
-        `${0} ${0} ${pathBounds.x2 - pathBounds.x1} ${pathBounds.y2 - pathBounds.y1 + 12}`,
+        // `${0} ${0} ${pathBounds.x2 - pathBounds.x1} ${(pathBounds.y2 - pathBounds.y1) * 0.82}`,
+        `${0} ${0} ${pathBounds.x2 - pathBounds.x1} ${58}`,
       );
       svg.setAttribute("viewBox", `${
         physicsBounds.width * -0.5

@@ -66,6 +66,10 @@ export default class Index extends Component<any, any> {
         this.textViewer.newText(messagePackage.data);
         break;
 
+      case MessageTypes.dropText:
+        this.textViewer.dropText();
+        break;
+
       case MessageTypes.makeFullscreen:
         this.fullscreenButtonRef.style.display = "flex";
         break;
@@ -107,7 +111,7 @@ export default class Index extends Component<any, any> {
           dividerScale={3}
         />
 
-        <Logo />
+        {/* <Logo /> */}
 
         <div
           className="fullscreenButton"

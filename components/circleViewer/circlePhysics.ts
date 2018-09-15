@@ -8,8 +8,10 @@ import {
 } from "matter-js";
 
 import {
-  BufferAttribute,
+  BufferAttribute, FileLoader,
 } from "three";
+
+import {PhysicsLayers} from "../physicsLayers";
 
 import {ILayoutItem} from "../types";
 
@@ -235,35 +237,19 @@ export default class CirclePhysics {
   }
 
   public openTop = () => {
-    Body.set(
-      this.topBorder,
-      "isSensor",
-      true,
-    );
+    this.topBorder.collisionFilter.mask = PhysicsLayers.noCollision;
   }
 
   public closeTop = () => {
-    Body.set(
-      this.topBorder,
-      "isSensor",
-      false,
-    );
+    this.topBorder.collisionFilter.mask = PhysicsLayers.default;
   }
 
   public openBottom = () => {
-    Body.set(
-      this.bottomBorder,
-      "isSensor",
-      true,
-    );
+   this.bottomBorder.collisionFilter.mask = PhysicsLayers.noCollision;
   }
 
   public closeBottom = () => {
-    Body.set(
-      this.bottomBorder,
-      "isSensor",
-      false,
-    );
+    this.bottomBorder.collisionFilter.mask = PhysicsLayers.default;
   }
 
   public update(

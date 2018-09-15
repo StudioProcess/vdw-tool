@@ -1,4 +1,3 @@
-import decomp from "poly-decomp";
 import {
   Engine,
   Render,
@@ -6,20 +5,19 @@ import {
   Bodies,
   Common,
   Body,
-  Svg,
-  Vertices,
   Composites,
   Composite,
   Constraint,
-  Vector,
+  Sleeping,
 } from "matter-js";
 
-const getPathBounds = require("svg-path-bounds");
-
-let pathseg = null;
+import {PhysicsLayers, TextLayers} from "../physicsLayers";
 
 const borderWidth = 100;
 const heightBorderDistance = 500 + borderWidth * 0.5;
+
+const funnelEdgeAngle = Math.PI * 0.35;
+const funnelBottomNormOffsetY = 0.2;
 
 const worldBounds = {
   width: 100,
@@ -37,6 +35,12 @@ export default class CirclePhysics {
   private rightBorder: Body;
   private bottomBorder: Body;
 
+  private funnelLeft: Body;
+  private funnelBottom: Body;
+  private funnelRight: Body;
+
+  private bottomBodies: Body[];
+
   private composites: Composite[] = [];
   private textBodies: Body[];
   private ropeConstraints: Constraint[][] = [];
@@ -46,10 +50,6 @@ export default class CirclePhysics {
   public setup(
     aspectRatio: number,
   ) {
-    if (pathseg === null) {
-      pathseg = require("pathseg");
-      window.decomp = decomp;
-    }
 
     this.engine = Engine.create();
     this.world = this.engine.world;
@@ -91,6 +91,38 @@ export default class CirclePhysics {
       },
     );
 
+    this.funnelLeft = Bodies.rectangle(
+      -heightBorderDistance,
+      -heightBorderDistance,
+      10000,
+      borderWidth,
+      {
+        isStatic: true,
+      },
+    );
+    Body.setAngle(this.funnelLeft, funnelEdgeAngle);
+
+    this.funnelBottom = Bodies.rectangle(
+      0,
+      heightBorderDistance * funnelBottomNormOffsetY,
+      10000,
+      borderWidth,
+      {
+        isStatic: true,
+      },
+    );
+
+    this.funnelRight = Bodies.rectangle(
+      heightBorderDistance,
+      -heightBorderDistance,
+      10000,
+      borderWidth,
+      {
+        isStatic: true,
+      },
+    );
+    Body.setAngle(this.funnelRight, -funnelEdgeAngle);
+
     this.onResize(aspectRatio);
 
     World.add(
@@ -100,22 +132,33 @@ export default class CirclePhysics {
         this.leftBorder,
         this.rightBorder,
         this.bottomBorder,
+
+        this.funnelLeft,
+        this.funnelBottom,
+        this.funnelRight,
       ],
     );
+
+    this.bottomBodies = [
+      this.bottomBorder,
+      this.funnelLeft,
+      this.funnelBottom,
+      this.funnelRight,
+    ];
 
     this.textBodies = [];
 
     this.xOffsets = [];
     this.yOffsets = [];
 
-    if (false) {
+    if (true) {
       this.render = Render.create({
         element: document.body,
         engine: this.engine,
         options: {
           width: 2000,
           height: 1200,
-          // showAngleIndicator: true,
+          showAngleIndicator: true,
         },
       });
 
@@ -159,6 +202,22 @@ export default class CirclePhysics {
       {
         x: heightBorderDistance * aspectRatio,
         y: 0,
+      },
+    );
+
+    Body.setPosition(
+      this.funnelLeft,
+      {
+        x: heightBorderDistance * -aspectRatio,
+        y: -heightBorderDistance,
+      },
+    );
+
+    Body.setPosition(
+      this.funnelRight,
+      {
+        x: heightBorderDistance * aspectRatio,
+        y: -heightBorderDistance,
       },
     );
   }
@@ -219,92 +278,32 @@ export default class CirclePhysics {
       },
     );
 
-    const leftConstraint = Constraint.create({
-      pointA: { x: -heightBorderDistance, y: heightBorderDistance * -(Math.random() * 0.25 + 1.0) },
-      bodyB: body,
-      stiffness: 0.01,
-      damping: 0.01,
-    });
-    // leftConstraint.
-    // leftConstraint.length *= 2.0;
-
-    const rightConstraint = Constraint.create({
-      bodyA: body,
-      pointB: { x: heightBorderDistance, y: heightBorderDistance * -(Math.random() * 0.25 + 1.0) },
-      stiffness: 0.01,
-      damping: 0.01,
-    });
-    // rightConstraint.length *= 2.0;
-
-    // window.setTimeout(
-    //   () => {
-    // Composite.add(composite, leftConstraint);
-    // Composite.add(composite, rightConstraint);
-    //   },
-    //   2000,
-    // );
-
-    this.ropeConstraints.push(
-      [
-        leftConstraint,
-        rightConstraint,
-      ],
-    );
-
     World.add(
       this.world,
       composite,
     );
 
     this.composites.push(composite);
-
-    // window.setTimeout(
-    //   () => {
-    //     Composite.remove(composite, leftConstraint);
-    //   },
-    //   3000,
-    // );
-  }
-
-  public makeNonStatic() {
-    for (let i = 0, l = this.textBodies.length; i < l; i++) {
-      Body.setStatic(
-        this.textBodies[i],
-        false,
-      );
-    }
   }
 
   public openTop = () => {
-    Body.set(
-      this.topBorder,
-      "isSensor",
-      true,
-    );
+    this.topBorder.collisionFilter.mask = PhysicsLayers.noCollision;
   }
 
   public closeTop = () => {
-    Body.set(
-      this.topBorder,
-      "isSensor",
-      false,
-    );
+    this.topBorder.collisionFilter.mask = PhysicsLayers.default;
   }
 
   public openBottom = () => {
-    Body.set(
-      this.bottomBorder,
-      "isSensor",
-      true,
-    );
+    this.bottomBodies.forEach((body) => {
+      body.collisionFilter.mask = PhysicsLayers.noCollision;
+    });
   }
 
   public closeBottom = () => {
-    Body.set(
-      this.bottomBorder,
-      "isSensor",
-      false,
-    );
+    this.bottomBodies.forEach((body) => {
+      body.collisionFilter.mask = PhysicsLayers.default;
+    });
   }
 
   public update(svgs: SVGElement[]) {

@@ -7,6 +7,7 @@ export enum MessageTypes {
   makeNonStatic,
 
   newText,
+  dropText,
 
   makeFullscreen,
 

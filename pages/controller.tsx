@@ -101,6 +101,11 @@ export default class Controller extends Component<any, any> {
 
           <div
             className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.dropText); }}
+          >drop text</div>
+
+          <div
+            className="button"
             onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
           >fullscreen</div>
 
