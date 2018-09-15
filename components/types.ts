@@ -16,6 +16,8 @@ export enum MessageTypes {
   changeBGColor,
   changeFGColor,
 
+  changeGravity,
+
   updateLayoutConfig,
 }
 
@@ -35,4 +37,10 @@ export interface ILayoutGeneratorCongfig {
   cellDivide: number;
   cellFill: number;
   cellTwoDivisions: number;
+}
+
+export interface IGravityConfig {
+  x: number;
+  y: number;
+  scale: number;
 }

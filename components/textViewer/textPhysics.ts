@@ -9,6 +9,7 @@ import {
 } from "matter-js";
 
 import {PhysicsLayers, TextLayers} from "../physicsLayers";
+import {IGravityConfig} from "../types";
 
 import {randomRange} from "../../utilities/mathUtils";
 
@@ -56,6 +57,8 @@ export default class TextPhysics {
 
     this.engine = Engine.create();
     this.world = this.engine.world;
+
+    // console.log(this.world.gravity);
 
     this.topBorder = Bodies.rectangle(
       0,
@@ -180,6 +183,18 @@ export default class TextPhysics {
       this.render.canvas.style.transform = "scale(0.5)";
       document.body.appendChild(this.render.canvas);
     }
+  }
+
+  public updateGravity = (gravityConfig: IGravityConfig) => {
+    this.world.gravity.x = gravityConfig.x;
+    this.world.gravity.y = gravityConfig.y;
+    this.world.gravity.scale = gravityConfig.scale;
+  }
+
+  public resetGravity = () => {
+    this.world.gravity.x = 0.0;
+    this.world.gravity.y = 1.0;
+    this.world.gravity.scale = 0.001;
   }
 
   public getWorldBounds = () => {

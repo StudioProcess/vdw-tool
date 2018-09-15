@@ -9,6 +9,8 @@ import * as OpenType from "opentype.js";
 
 import TextPhysics from "./textPhysics";
 
+import {IGravityConfig} from "../types";
+
 export default class StatueViewer extends Component<any, any> {
     private clock: Clock;
     private textPhysics: TextPhysics;
@@ -81,6 +83,7 @@ export default class StatueViewer extends Component<any, any> {
       this.svgs,
     );
 
+    this.textPhysics.resetGravity();
     this.textPhysics.openTop();
     this.textPhysics.closeBottom();
     this.textPhysics.clearBodies();
@@ -95,12 +98,17 @@ export default class StatueViewer extends Component<any, any> {
     }
   }
 
+  public updateGravity = (config: IGravityConfig) => {
+    this.textPhysics.updateGravity(config);
+  }
+
   public closeWorldBounds = () => {
     this.textPhysics.closeTop();
     this.textPhysics.closeBottom();
   }
 
   public dropText = () => {
+    this.textPhysics.resetGravity();
     this.textPhysics.openBottom();
     this.textPhysics.closeTop();
   }

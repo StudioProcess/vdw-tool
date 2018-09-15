@@ -99,6 +99,10 @@ export default class Index extends Component<any, any> {
         this.circlesViewerRef.changeFrontColor(messagePackage.data);
         break;
 
+      case MessageTypes.changeGravity:
+        this.textViewer.updateGravity(messagePackage.data);
+        break;
+
       case MessageTypes.updateLayoutConfig:
         this.circlesViewerRef.updateLayoutConfig(messagePackage.data);
         break;

@@ -2,12 +2,12 @@ import {
   Component,
 } from "react";
 import Head from "next/head";
-import Global from "./global";
 
 import {
   MessageTypes,
   IMessagePackage,
   ILayoutGeneratorCongfig,
+  IGravityConfig,
 } from "../components/types";
 
 export default class Controller extends Component<any, any> {
@@ -31,6 +31,12 @@ export default class Controller extends Component<any, any> {
     cellDivide: 0.5,
     cellFill: 0.66,
     cellTwoDivisions: 0.5,
+  };
+
+  private gravityConfig: IGravityConfig = {
+    x: 0.0,
+    y: 0.0,
+    scale: 0.001,
   };
 
   public componentDidMount() {
@@ -86,7 +92,7 @@ export default class Controller extends Component<any, any> {
           <div
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
-          >circles fall out</div>
+          >drop circles</div>
 
           <textarea
             contentEditable
@@ -119,31 +125,6 @@ export default class Controller extends Component<any, any> {
             onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
           >fullscreen</div>
 
-          {/* <div className="buttonContainer">
-            <div
-              className="button"
-              onClick={() => {
-                this.onSendMessage(
-                  MessageTypes.resizeTo,
-                  {
-                    width: this.resizeWidthRef.value,
-                    height: this.resizeHeightRef.value,
-                  },
-                );
-              }}
-            >resize</div>
-            <input
-              type="number"
-              defaultValue="1920"
-              ref={(ref) => {this.resizeWidthRef = ref; }}
-            />
-            <input
-              type="number"
-              defaultValue="1080"
-              ref={(ref) => {this.resizeHeightRef = ref; }}
-            />
-          </div> */}
-
           <div className="buttonContainer">
             <div
               className="button"
@@ -166,6 +147,41 @@ export default class Controller extends Component<any, any> {
               defaultValue="#f5ac97"
               ref={(ref) => {this.fgColorInputRef = ref; }}
             />
+          </div>
+
+          <div className="labelContainer">
+            <div className="labelInput">
+                gravity direction
+                <input
+                type="range"
+                min={(Math.PI * -1.0).toString()}
+                max={(Math.PI).toString()}
+                defaultValue={(0.0).toString()}
+                step="0.01"
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  this.gravityConfig.x = Math.sin(parseFloat(value));
+                  this.gravityConfig.y = Math.cos(parseFloat(value));
+
+                  this.onSendMessage(MessageTypes.changeGravity, this.gravityConfig);
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                gravity scale
+                <input
+                type="range"
+                min="0.0"
+                max="0.003"
+                defaultValue={(0.001).toString()}
+                step="0.0001"
+                onChange={(e) => {
+                  this.gravityConfig.scale = parseFloat(e.target.value);
+                  this.onSendMessage(MessageTypes.changeGravity, this.gravityConfig);
+                }}
+              />
+            </div>
           </div>
 
            <div className="labelContainer">
