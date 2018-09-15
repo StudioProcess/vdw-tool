@@ -5,26 +5,30 @@ import {
   Bodies,
   Common,
   Body,
-  Composites,
   Composite,
-  Constraint,
-  Sleeping,
 } from "matter-js";
 
 import {PhysicsLayers, TextLayers} from "../physicsLayers";
+
+import {randomRange} from "../../utilities/mathUtils";
 
 const borderWidth = 100;
 const heightBorderDistance = 500 + borderWidth * 0.5;
 
 const funnelEdgeAngle = Math.PI * 0.35;
-const funnelBottomNormOffsetY = 0.2;
+const funnelBottomNormOffsetY = 0.3;
 
 const worldBounds = {
   width: 100,
   height: heightBorderDistance * 2 - borderWidth,
 };
 
-export default class CirclePhysics {
+const halfWorldBounds = {
+  width: worldBounds.width * 0.5,
+  height: worldBounds.height * 0.5,
+};
+
+export default class TextPhysics {
 
   private engine: Engine;
   private world: World;
@@ -39,13 +43,12 @@ export default class CirclePhysics {
   private funnelBottom: Body;
   private funnelRight: Body;
 
+  private textColliders: Body[] = [];
+
   private bottomBodies: Body[];
 
   private composites: Composite[] = [];
   private textBodies: Body[];
-  private ropeConstraints: Constraint[][] = [];
-  private xOffsets: number[];
-  private yOffsets: number[];
 
   public setup(
     aspectRatio: number,
@@ -148,9 +151,6 @@ export default class CirclePhysics {
 
     this.textBodies = [];
 
-    this.xOffsets = [];
-    this.yOffsets = [];
-
     if (true) {
       this.render = Render.create({
         element: document.body,
@@ -158,7 +158,7 @@ export default class CirclePhysics {
         options: {
           width: 2000,
           height: 1200,
-          showAngleIndicator: true,
+          // showAngleIndicator: true,
         },
       });
 
@@ -188,6 +188,7 @@ export default class CirclePhysics {
 
   public onResize(aspectRatio) {
     worldBounds.width = Math.round(heightBorderDistance * aspectRatio * 2 - borderWidth);
+    halfWorldBounds.width = worldBounds.width * 0.5;
 
     Body.setPosition(
       this.leftBorder,
@@ -230,15 +231,21 @@ export default class CirclePhysics {
       );
     }
 
+    this.textColliders.forEach((body) => {
+      World.remove(
+        this.world,
+        body,
+      );
+    });
+
     this.composites.length = 0;
     this.textBodies.length = 0;
-
-    this.xOffsets.length = 0;
-    this.yOffsets.length = 0;
+    this.textColliders.length = 0;
   }
 
   public setFromSVG(
     svg: SVGElement,
+    index: number,
     relX: number,
     relY: number,
   ) {
@@ -255,6 +262,40 @@ export default class CirclePhysics {
         // isStatic: true,
       },
     );
+    body.collisionFilter.mask = TextLayers[index];
+
+    // add per line blockers
+    const colliderArea = worldBounds.width * halfWorldBounds.height;
+    const numColliders = Math.ceil(colliderArea / 120000);
+
+    for (let i = 0, l = numColliders; i < l; i++) {
+      const collider = Bodies.circle(
+        randomRange(halfWorldBounds.width * -0.8, halfWorldBounds.width * 0.8),
+        randomRange(halfWorldBounds.height * -0.2, halfWorldBounds.height * -0.9),
+        10,
+        {
+          isStatic: true,
+        },
+      );
+      collider.collisionFilter.mask = TextLayers[index];
+
+      this.textColliders.push(collider);
+      World.add(
+        this.world,
+        collider,
+      );
+
+      window.setTimeout(() => {
+        this.textColliders.splice(
+          this.textColliders.findIndex((item) => item.label === collider.label),
+          1,
+        );
+        World.remove(
+          this.world,
+          collider,
+        );
+      }, 1000 + Math.random() * 2000);
+    }
 
     svg.childNodes[0].childNodes[0].setAttribute(
       "transform",
@@ -295,6 +336,8 @@ export default class CirclePhysics {
   }
 
   public openBottom = () => {
+    this.addBottomColliders();
+
     this.bottomBodies.forEach((body) => {
       body.collisionFilter.mask = PhysicsLayers.noCollision;
     });
@@ -306,25 +349,46 @@ export default class CirclePhysics {
     });
   }
 
+  private addBottomColliders = () => {
+    const colliderArea = worldBounds.width * halfWorldBounds.height;
+    const numColliders = Math.ceil(colliderArea / 120000);
+
+    this.textBodies.forEach((body, index) => {
+      for (let i = 0, l = numColliders; i < l; i++) {
+        const collider = Bodies.circle(
+          randomRange(halfWorldBounds.width * -0.8, halfWorldBounds.width * 0.8),
+          randomRange(heightBorderDistance * funnelBottomNormOffsetY, halfWorldBounds.height * 0.8),
+          10,
+          {
+            isStatic: true,
+          },
+        );
+        collider.collisionFilter.mask = TextLayers[index];
+
+        this.textColliders.push(collider);
+        World.add(
+          this.world,
+          collider,
+        );
+
+        window.setTimeout(() => {
+          console.log("check");
+          this.textColliders.splice(
+            this.textColliders.findIndex((item) => item.label === collider.label),
+            1,
+          );
+          World.remove(
+            this.world,
+            collider,
+          );
+        }, 1000 + Math.random() * 3000);
+      }
+    });
+  }
+
   public update(svgs: SVGElement[]) {
     Engine.update(this.engine);
-
-    // let baseIndex = 0;
-    // for (let i = 0, l = this.bodies.length; i < l; i++) {
-    //   baseIndex = i * 3;
-    //   circlesDataBuffer.array[baseIndex] = this.bodies[i].position.x * 0.001;
-    //   circlesDataBuffer.array[baseIndex + 1] = this.bodies[i].position.y * -0.001;
-    //   circlesDataBuffer.array[baseIndex + 2] = this.bodies[i].circleRadius * 0.001;
-    // }
-
     for (let i = 0, l = this.textBodies.length; i < l; i++) {
-      // (svgs[i].childNodes[0] as SVGPathElement).style.transform = `translateX(${
-      //   ((this.bodies[i].position.x + this.xOffsets[i]) / worldBounds.width + 0.5) * 100
-      // }vw) translateY(${
-      //   ((this.bodies[i].position.y + this.yOffsets[i]) / worldBounds.height + 0.5) * 100
-      // }vh) rotate(${
-      //   this.bodies[i].angle * 57.2958
-      // }deg)`;
       (svgs[i].childNodes[0] as SVGPathElement).setAttribute(
         "transform",
         `translate(${
@@ -336,7 +400,5 @@ export default class CirclePhysics {
         })`,
       );
     }
-
-    // circlesDataBuffer.needsUpdate = true;
   }
 }

@@ -26,3 +26,10 @@ export function clamp(min: number, max: number, value: number): number {
   }
   return value;
 }
+
+export function randomRange(
+  min: number,
+  max: number,
+) {
+  return min + ((max - min) * Math.random());
+}

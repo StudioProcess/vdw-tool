@@ -88,6 +88,7 @@ export default class StatueViewer extends Component<any, any> {
     for (let i = 0, l = this.svgs.length; i < l; i++) {
       this.textPhysics.setFromSVG(
         this.svgs[i],
+        i,
         0.6,
         0.5 - i * 0.1,
       );
