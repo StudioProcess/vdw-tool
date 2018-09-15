@@ -98,9 +98,10 @@ export default class Controller extends Component<any, any> {
             className="button"
             onClick={() => {
               if (this.textInputRef.value.length > 0) {
-                this.onSendMessage(MessageTypes.newText, this.textInputRef.value); }
+                this.onSendMessage(MessageTypes.newText, this.textInputRef.value);
+                this.textInputRef.value = "";
               }
-            }
+            }}
           >new text</div>
 
           <div
