@@ -95,8 +95,14 @@ export default class StatueViewer extends Component<any, any> {
     }
   }
 
+  public closeWorldBounds = () => {
+    this.textPhysics.closeTop();
+    this.textPhysics.closeBottom();
+  }
+
   public dropText = () => {
     this.textPhysics.openBottom();
+    this.textPhysics.closeTop();
   }
 
   private generateSVGs(

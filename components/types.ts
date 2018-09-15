@@ -9,6 +9,8 @@ export enum MessageTypes {
   newText,
   dropText,
 
+  closeBounds,
+
   makeFullscreen,
 
   changeBGColor,

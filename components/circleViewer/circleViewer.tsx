@@ -166,6 +166,11 @@ export default class StatueViewer extends Component<any, any> {
     this.uniforms.colorFront.value[2] = threeColor.b;
   }
 
+  public closeWorldBounds = () => {
+    this.circlePhysics.closeTop();
+    this.circlePhysics.closeBottom();
+  }
+
   private onResize = () => {
     this.rect = this.containerRef.getBoundingClientRect();
 

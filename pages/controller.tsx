@@ -111,6 +111,11 @@ export default class Controller extends Component<any, any> {
 
           <div
             className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.closeBounds); }}
+          >close worlds bounds</div>
+
+          <div
+            className="button"
             onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
           >fullscreen</div>
 

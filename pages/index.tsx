@@ -34,6 +34,17 @@ export default class Index extends Component<any, any> {
     );
 
     window.addEventListener("message", this.onReceiveMessage);
+
+    window.addEventListener("keydown", (e) => {
+      // h
+      if (e.keyCode === 72) {
+        this.controllerWindow = window.open(
+          "/controller",
+          "controller",
+          "titlebar=0,close=0,menubar=0,location=0,status=0,width=300,height=600,left=10,top=10,dependent=1,resizable=1,scrollbars=1",
+        );
+      }
+    });
   }
 
   public componentWillUnmount() {
@@ -68,6 +79,11 @@ export default class Index extends Component<any, any> {
 
       case MessageTypes.dropText:
         this.textViewer.dropText();
+        break;
+
+      case MessageTypes.closeBounds:
+        this.circlesViewerRef.closeWorldBounds();
+        this.textViewer.closeWorldBounds();
         break;
 
       case MessageTypes.makeFullscreen:
