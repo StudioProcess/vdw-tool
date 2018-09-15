@@ -268,6 +268,9 @@ export default class Controller extends Component<any, any> {
 
             input:last-child {
               margin-left: 10px;
+
+              padding: 3px 5px;
+              box-sizing: border-box;
             }
 
             input:focus, input:focus{
