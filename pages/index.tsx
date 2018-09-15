@@ -30,7 +30,7 @@ export default class Index extends Component<any, any> {
     this.controllerWindow = window.open(
       "/controller",
       "controller",
-      "titlebar=0,close=0,menubar=0,location=0,status=0,width=300,height=500,left=10,top=10,dependent=1,resizable=1,scrollbars=1",
+      "titlebar=0,close=0,menubar=0,location=0,status=0,width=300,height=600,left=10,top=10,dependent=1,resizable=1,scrollbars=1",
     );
 
     window.addEventListener("message", this.onReceiveMessage);
