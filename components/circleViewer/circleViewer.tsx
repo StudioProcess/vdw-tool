@@ -103,6 +103,8 @@ export default class StatueViewer extends Component<any, any> {
         0.59215686274,
       ]},
 
+      grainDesity: {type: "f", value: -0.8},
+
       fadeIn: {type: "f", value: 1.0},
     };
 
