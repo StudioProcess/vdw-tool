@@ -48,7 +48,7 @@ export default class StatueViewer extends Component<any, any> {
 
           this.svgs = [];
 
-          this.newText("TestxHije8\ntest");
+          this.newText("A City\nFull Of\nDesign");
         }
       },
     );
