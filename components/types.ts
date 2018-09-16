@@ -16,6 +16,10 @@ export enum MessageTypes {
   changeBGColor,
   changeFGColor,
 
+  changeGrainDensity,
+  changeGrainScale,
+  changeGrainAngle,
+
   changeGravity,
 
   updateLayoutConfig,

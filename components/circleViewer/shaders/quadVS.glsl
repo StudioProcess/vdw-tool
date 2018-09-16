@@ -5,14 +5,24 @@ uniform mat4 projectionMatrix;
 
 uniform float fadeIn;
 
+uniform float grainAngle;
+
 attribute vec2 extrude;
 attribute vec2 circlePosition;
 attribute float circleSize;
 attribute float circleRandom;
 
 varying vec2 vUV;
+varying float vGrainValue;
 
 @import ./include/random;
+
+vec2 rotate(vec2 v, float a) {
+	float s = sin(a);
+	float c = cos(a);
+	mat2 m = mat2(c, -s, s, c);
+	return m * v;
+}
 
 void main() {
   vec2 noisePos = vec2(
@@ -33,7 +43,9 @@ void main() {
     fadeIn
   );
 
-  vUV = 0.5 + extrude * 0.5 * scaleValue;
+  vUV = 0.5 + extrude * 0.5;
+
+  vGrainValue = 0.5 + rotate(extrude, grainAngle).y * 0.5 * scaleValue;
 
   vec3 transformed = vec3(extrude, 0.0);
   transformed.xy *= circleSize * scaleValue;

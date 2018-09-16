@@ -115,6 +115,48 @@ export default class Controller extends Component<any, any> {
             onClick={() => {this.onSendMessage(MessageTypes.dropText); }}
           >drop text</div>
 
+          <div className="labelContainer">
+            <div className="labelInput">
+                grain density
+                <input
+                type="range"
+                min="-8"
+                max="-0.01"
+                defaultValue="-0.8"
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeGrainDensity, parseFloat(e.target.value));
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                grain scale
+                <input
+                type="range"
+                min="0.01"
+                max="3.0"
+                defaultValue="1.0"
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeGrainScale, parseFloat(e.target.value));
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                grain angle
+                <input
+                type="range"
+                min={(-Math.PI).toString()}
+                max={(Math.PI).toString()}
+                defaultValue={(0.0).toString()}
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeGrainAngle, e.target.value);
+                }}
+              />
+            </div>
+          </div>
+
           <div
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.closeBounds); }}

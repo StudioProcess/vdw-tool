@@ -104,6 +104,8 @@ export default class StatueViewer extends Component<any, any> {
       ]},
 
       grainDesity: {type: "f", value: -0.8},
+      grainScale: {type: "f", value: 1.0},
+      grainAngle: {type: "f", value: 0.0},
 
       fadeIn: {type: "f", value: 1.0},
     };
@@ -166,6 +168,18 @@ export default class StatueViewer extends Component<any, any> {
     this.uniforms.colorFront.value[0] = threeColor.r;
     this.uniforms.colorFront.value[1] = threeColor.g;
     this.uniforms.colorFront.value[2] = threeColor.b;
+  }
+
+  public changeGrainDesity = (value) => {
+    this.uniforms.grainDesity.value = value;
+  }
+
+  public changeGrainScale = (value) => {
+    this.uniforms.grainScale.value = value;
+  }
+
+  public changeGrainAngle = (value) => {
+    this.uniforms.grainAngle.value = value;
   }
 
   public closeWorldBounds = () => {

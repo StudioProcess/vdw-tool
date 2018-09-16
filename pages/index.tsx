@@ -73,6 +73,18 @@ export default class Index extends Component<any, any> {
         this.circlesViewerRef.makeCirclesNonStatic();
         break;
 
+      case MessageTypes.changeGrainDensity:
+        this.circlesViewerRef.changeGrainDesity(messagePackage.data);
+        break;
+
+      case MessageTypes.changeGrainScale:
+        this.circlesViewerRef.changeGrainScale(messagePackage.data);
+        break;
+
+      case MessageTypes.changeGrainAngle:
+        this.circlesViewerRef.changeGrainAngle(messagePackage.data);
+        break;
+
       case MessageTypes.newText:
         this.textViewer.newText(messagePackage.data);
         break;

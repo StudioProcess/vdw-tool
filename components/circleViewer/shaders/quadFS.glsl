@@ -8,8 +8,10 @@ uniform float time;
 uniform vec4 screenParams;
 
 uniform float grainDesity;
+uniform float grainScale;
 
 varying vec2 vUV;
+varying float vGrainValue;
 
 @import ./include/noiseShared;
 @import ./include/noise2D;
@@ -17,13 +19,15 @@ varying vec2 vUV;
 @import ./include/random;
 
 void main() {
-  float value = vUV.y;
+  float value = vGrainValue;
 
   #ifdef GL_OES_standard_derivatives
     float aawidth = (1.0 / length(vec2(dFdx(value), dFdy(value)))) * 0.3;
   #else
     float aawidth = 90.0;
-  #endif 
+  #endif
+
+  aawidth *= grainScale;
 
   value = smoothstep(
     value,
