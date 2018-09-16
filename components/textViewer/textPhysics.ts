@@ -154,7 +154,7 @@ export default class TextPhysics {
 
     this.textBodies = [];
 
-    if (false) {
+    if (false) { // debug render window: true: visible, false: hidden
       this.render = Render.create({
         element: document.body,
         engine: this.engine,
