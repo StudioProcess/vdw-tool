@@ -154,7 +154,7 @@ export default class TextPhysics {
 
     this.textBodies = [];
 
-    if (true) {
+    if (false) {
       this.render = Render.create({
         element: document.body,
         engine: this.engine,
@@ -387,7 +387,6 @@ export default class TextPhysics {
         );
 
         window.setTimeout(() => {
-          console.log("check");
           this.textColliders.splice(
             this.textColliders.findIndex((item) => item.label === collider.label),
             1,
