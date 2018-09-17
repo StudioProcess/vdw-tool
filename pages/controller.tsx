@@ -186,7 +186,7 @@ export default class Controller extends Component<any, any> {
             >change fg color</div>
             <input
               type="color"
-              defaultValue="#f5ac97"
+              defaultValue="#ffffff"
               ref={(ref) => {this.fgColorInputRef = ref; }}
             />
           </div>
