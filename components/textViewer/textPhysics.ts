@@ -14,7 +14,7 @@ import {IGravityConfig} from "../types";
 import {randomRange} from "../../utilities/mathUtils";
 
 const borderWidth = 100;
-const heightBorderDistance = 500 + borderWidth * 0.5;
+const heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
 
 const funnelEdgeAngle = Math.PI * 0.35;
 const funnelBottomNormOffsetY = 0.3;
