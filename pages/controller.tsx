@@ -99,7 +99,7 @@ export default class Controller extends Component<any, any> {
             cols={120}
             rows={4}
             ref={(ref) => {this.textInputRef = ref; }}
-            value={'A City\nFull Of\nDesign'}
+            defaultValue={'A City\nFull Of\nDesign'}
           />
           <div
             className="button"
