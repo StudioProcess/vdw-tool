@@ -98,13 +98,16 @@ export default class StatueViewer extends Component<any, any> {
       ]},
 
       colorFront: {type: "3fv", value: [
-        0.96078431372,
-        0.67450980392,
-        0.59215686274,
+        // 0.96078431372,
+        // 0.67450980392,
+        // 0.59215686274,
+        1,
+        1,
+        1,
       ]},
 
-      grainDesity: {type: "f", value: -0.8},
-      grainScale: {type: "f", value: 1.0},
+      grainDesity: {type: "f", value: -0.9},
+      grainScale: {type: "f", value: 0.8},
       grainAngle: {type: "f", value: 0.0},
 
       fadeIn: {type: "f", value: 1.0},

@@ -329,8 +329,10 @@ export default class TextPhysics {
     Body.setPosition(
       body,
       {
-        x: ((Math.random() - 0.5) * 0.4) * worldBounds.width,
-        y: worldBounds.height * -0.6,
+        // x: ((Math.random() - 0.5) * 0.4) * worldBounds.width,
+        // y: worldBounds.height * -0.6,
+        x: 0,
+        y: 0,
       },
     );
 
