@@ -96,16 +96,17 @@ export default class Controller extends Component<any, any> {
 
           <textarea
             contentEditable
-            cols="120"
-            rows="4"
+            cols={120}
+            rows={4}
             ref={(ref) => {this.textInputRef = ref; }}
+            value={'A City\nFull Of\nDesign'}
           />
           <div
             className="button"
             onClick={() => {
               if (this.textInputRef.value.length > 0) {
                 this.onSendMessage(MessageTypes.newText, this.textInputRef.value);
-                this.textInputRef.value = "";
+                {/* this.textInputRef.value = ""; */}
               }
             }}
           >new text</div>
