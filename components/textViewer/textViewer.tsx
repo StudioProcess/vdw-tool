@@ -157,7 +157,7 @@ export default class StatueViewer extends Component<any, any> {
 
       svg.innerHTML = `<g><path
           fill="none"
-          stroke-width="1"
+          stroke-width="2"
           stroke="black"
           d="${charPath.toPathData(3)}"
         /></g>`;
