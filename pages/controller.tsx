@@ -296,7 +296,7 @@ export default class Controller extends Component<any, any> {
         <style global jsx>{`
           body {
             background: white;
-            font-family: monospace, sans-serif;
+            font: 11px system-ui, sans-serif;
           }
         `}</style>
 
@@ -323,7 +323,7 @@ export default class Controller extends Component<any, any> {
               margin: 0;
               padding: 0;
               width: 30px;
-              height: 26px;
+              height: 23px;
               background: 0;
               flex-shrink: 0;
 
@@ -332,9 +332,9 @@ export default class Controller extends Component<any, any> {
 
             input:last-child {
               margin-left: 10px;
-
-              padding: 3px 5px;
+              padding: 0px 10px;
               box-sizing: border-box;
+              &[type=color] { padding:0; }
             }
 
             input:focus, input:focus{
