@@ -281,7 +281,7 @@ export default class TextPhysics {
 
     // add per line blockers
     const colliderArea = worldBounds.width * halfWorldBounds.height;
-    const numColliders = Math.ceil(colliderArea / 120000);
+    const numColliders = 0;//Math.ceil(colliderArea / 120000);
 
     for (let i = 0, l = numColliders; i < l; i++) {
       const collider = Bodies.circle(
