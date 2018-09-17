@@ -4,8 +4,8 @@ const seedRandom = require("seed-random");
 import {ILayoutItem} from "../types";
 
 const divisionSteps = [2, 3, 4, 6, 8, 9, 12, 16, 18, 24, 27, 36, 48, 54, 64, 72, 81, 96, 108, 128, 144, 162, 192, 216, 243, 256];
-let divisionStep = 8;
-let divisionLimit = 18;
+// let divisionStep = 8;
+let divisionLimit = 18; // 18 is divisionSteps[8]
 
 function setDivisionStep(s) {
   if (s < 0) {
@@ -13,7 +13,7 @@ function setDivisionStep(s) {
   } else if (s > divisionSteps.length - 1) {
     s = divisionSteps.length - 1;
   }
-  divisionStep = s;
+  // divisionStep = s;
   divisionLimit = divisionSteps[s];
 }
 
@@ -25,7 +25,9 @@ let cellTwoDivisions = 0.5; // use two divisions? (vs. three)
 const skipPartial = true;
 
 let runCount = 0;
+// @ts-ignore
 let cellCount = 0;
+// @ts-ignore
 let fillCount = 0;
 
 let baseW = 100;
@@ -58,7 +60,7 @@ export function generateLayout(
 }
 
 export function updateConfig(config: ILayoutGeneratorCongfig) {
-  divisionStep = config.divisionStep;
+  setDivisionStep(config.divisionStep);
   cellDivide = config.cellDivide;
   cellFill = config.cellFill;
   cellTwoDivisions = config.cellTwoDivisions;
