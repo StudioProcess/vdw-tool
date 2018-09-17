@@ -239,7 +239,7 @@ export default class CirclePhysics {
     let baseDelay = 0.0;
     for (let i = 0, l = chunks.length; i < l; i++) {
       delays.push(baseDelay);
-      baseDelay += Math.ceil(200 + Math.random() * 800);
+      baseDelay += Math.ceil(20 + Math.random() * 100);
     }
 
     for (let i = 0, l = chunks.length; i < l; i++) {
