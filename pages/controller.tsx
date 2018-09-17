@@ -169,26 +169,26 @@ export default class Controller extends Component<any, any> {
           >fullscreen</div>
 
           <div className="buttonContainer">
-            <div
-              className="button"
-              onClick={() => {this.onSendMessage(MessageTypes.changeBGColor, this.bgColorInputRef.value); }}
-            >change bg color</div>
+            background color
             <input
               type="color"
               defaultValue="#eb582f"
               ref={(ref) => {this.bgColorInputRef = ref; }}
+              onChange={e => {
+                  this.onSendMessage(MessageTypes.changeBGColor, e.target.value);
+              }}
             />
           </div>
 
           <div className="buttonContainer">
-            <div
-              className="button"
-              onClick={() => {this.onSendMessage(MessageTypes.changeFGColor, this.fgColorInputRef.value); }}
-            >change fg color</div>
+            circle color
             <input
               type="color"
               defaultValue="#ffffff"
               ref={(ref) => {this.fgColorInputRef = ref; }}
+              onChange={e => {
+                  this.onSendMessage(MessageTypes.changeFGColor, e.target.value);
+              }}
             />
           </div>
 
