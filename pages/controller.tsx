@@ -23,8 +23,8 @@ export default class Controller extends Component<any, any> {
 
   private seedInputRef: HTMLInputElement;
 
-  private bgColorInputRef: HTMLInputElement;
-  private fgColorInputRef: HTMLInputElement;
+  // private bgColorInputRef: HTMLInputElement;
+  // private fgColorInputRef: HTMLInputElement;
 
   private layoutGeneratorConfig: ILayoutGeneratorCongfig = {
     divisionStep: 8,
@@ -69,6 +69,7 @@ export default class Controller extends Component<any, any> {
     //   console.log("data", messagePackage.data);
     // }
   }
+  
   public render() {
     return (
       <div>
@@ -173,7 +174,6 @@ export default class Controller extends Component<any, any> {
             <input
               type="color"
               defaultValue="#eb582f"
-              ref={(ref) => {this.bgColorInputRef = ref; }}
               onChange={e => {
                   this.onSendMessage(MessageTypes.changeBGColor, e.target.value);
               }}
@@ -185,7 +185,6 @@ export default class Controller extends Component<any, any> {
             <input
               type="color"
               defaultValue="#ffffff"
-              ref={(ref) => {this.fgColorInputRef = ref; }}
               onChange={e => {
                   this.onSendMessage(MessageTypes.changeFGColor, e.target.value);
               }}
