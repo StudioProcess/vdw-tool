@@ -54,8 +54,9 @@ export function generateLayout(
   fillCount = 0;
 
   runOnCell(result, 0, 0, baseW - 1, baseH - 1);
-
+  console.log(`LAYOUT ${seed} fillCount=${fillCount}`);
   seedRandom.resetGlobal();
+
   return result;
 }
 

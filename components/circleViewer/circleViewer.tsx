@@ -23,7 +23,7 @@ import CheckWebGLSupport from "../../utilities/checkWebGLSupport/CheckWebGLSuppo
 // import {lerp, clamp, inverseLerpUnclamped} from "../../utilities/mathUtils";
 
 const fixedFrameRate: number = 1.0 / 30.0;
-const maxNumCircles = 256;
+const maxNumCircles = 2048;
 
 export default class StatueViewer extends Component<any, any> {
   private sceneHandler: SceneHandler;

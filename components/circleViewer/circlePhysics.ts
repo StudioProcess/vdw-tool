@@ -163,6 +163,10 @@ export default class CirclePhysics {
     layout: ILayoutItem[],
     circlesSizesBuffer: BufferAttribute,
   ) {
+    
+    // limit number of bodies by max possible instances -> so we don't get invisible circles
+    layout = layout.slice(0, circlesSizesBuffer.count);
+    
     for (let i = 0, l = this.bodies.length; i < l; i++) {
       World.remove(
         this.world,
@@ -187,7 +191,7 @@ export default class CirclePhysics {
       circlesSizesBuffer.array[i] = layout[i].radius * 0.001;
     }
 
-    for (let i = layout.length, l = circlesSizesBuffer.length; i < l; i++) {
+    for (let i = layout.length, l = circlesSizesBuffer.count; i < l; i++) {
       circlesSizesBuffer.array[i] = 0.0;
     }
 
