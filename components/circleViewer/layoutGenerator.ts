@@ -22,7 +22,7 @@ let cellDivide = 0.5; // divide a cell further?
 let cellFill = 0.66; // fill a cell? (vs. leaving it empty)
 let cellTwoDivisions = 0.5; // use two divisions? (vs. three)
 
-const skipPartial = true;
+let skipPartial = true;
 
 let runCount = 0;
 // @ts-ignore
@@ -64,6 +64,7 @@ export function updateConfig(config: ILayoutGeneratorCongfig) {
   cellDivide = config.cellDivide;
   cellFill = config.cellFill;
   cellTwoDivisions = config.cellTwoDivisions;
+  skipPartial = !config.showPartial;
 }
 
 export function runOnCell(

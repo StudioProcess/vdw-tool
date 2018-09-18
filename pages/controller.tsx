@@ -31,6 +31,7 @@ export default class Controller extends Component<any, any> {
     cellDivide: 0.5,
     cellFill: 0.66,
     cellTwoDivisions: 0.5,
+    showPartial: false,
   };
 
   private gravityConfig: IGravityConfig = {
@@ -166,53 +167,8 @@ export default class Controller extends Component<any, any> {
           >new text</div>
           
           
-          <h3>Generator</h3>
-          <div className="buttonContainer">
-            <div
-              className="button"
-              onClick={() => {this.onSendMessage(MessageTypes.newLayout, this.seedInputRef.value); }}
-            >new Layout</div>
-            <input
-              type="number"
-              style={{width: "30%"}}
-              ref={(ref) => {this.seedInputRef = ref; }}
-            />
-          </div>
           
-          <div className="labelContainer">
-            <div className="labelInput">
-                gravity direction
-                <input
-                type="range"
-                min={(Math.PI * -1.0).toString()}
-                max={(Math.PI).toString()}
-                defaultValue={(0.0).toString()}
-                step="0.01"
-                onChange={(e) => {
-                  const value = e.target.value;
-
-                  this.gravityConfig.x = Math.sin(parseFloat(value));
-                  this.gravityConfig.y = Math.cos(parseFloat(value));
-
-                  this.onSendMessage(MessageTypes.changeGravity, this.gravityConfig);
-                }}
-              />
-            </div>
-            <div className="labelInput">
-                gravity scale
-                <input
-                type="range"
-                min="0.0"
-                max="0.003"
-                defaultValue={(0.001).toString()}
-                step="0.0001"
-                onChange={(e) => {
-                  this.gravityConfig.scale = parseFloat(e.target.value);
-                  this.onSendMessage(MessageTypes.changeGravity, this.gravityConfig);
-                }}
-              />
-            </div>
-          </div>
+          <h3>Generator</h3>
 
            <div className="labelContainer">
             <div className="labelInput">
@@ -274,10 +230,68 @@ export default class Controller extends Component<any, any> {
               }}
               />
             </div>
+            
+            <div className="labelInput">
+              showPartial
+              <input type="checkbox"
+              onChange={(e) => {
+                this.layoutGeneratorConfig.showPartial = e.target.checked;
+                this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
+              }}
+              />
+            </div>
+          </div>
+          
+          <div className="buttonContainer">
+            <div
+              className="button"
+              onClick={() => {this.onSendMessage(MessageTypes.newLayout, this.seedInputRef.value); }}
+            >new Layout</div>
+            <input
+              type="number"
+              style={{width: "30%"}}
+              ref={(ref) => {this.seedInputRef = ref; }}
+            />
           </div>
           
           
+          
           <h3>Physics</h3>
+          
+          <div className="labelContainer">
+            <div className="labelInput">
+                gravity direction
+                <input
+                type="range"
+                min={(Math.PI * -1.0).toString()}
+                max={(Math.PI).toString()}
+                defaultValue={(0.0).toString()}
+                step="0.01"
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  this.gravityConfig.x = Math.sin(parseFloat(value));
+                  this.gravityConfig.y = Math.cos(parseFloat(value));
+
+                  this.onSendMessage(MessageTypes.changeGravity, this.gravityConfig);
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                gravity scale
+                <input
+                type="range"
+                min="0.0"
+                max="0.003"
+                defaultValue={(0.001).toString()}
+                step="0.0001"
+                onChange={(e) => {
+                  this.gravityConfig.scale = parseFloat(e.target.value);
+                  this.onSendMessage(MessageTypes.changeGravity, this.gravityConfig);
+                }}
+              />
+            </div>
+          </div>
 
           <div
             className="button"
