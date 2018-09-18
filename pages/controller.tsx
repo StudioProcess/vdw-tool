@@ -144,8 +144,10 @@ export default class Controller extends Component<any, any> {
             </div>
           </div>
           
-          <div>text color</div>
+          {/* <div>text color</div>
           <div>text size</div>
+          <br/> */}
+          
           <textarea
             contentEditable
             cols={120}
@@ -165,8 +167,6 @@ export default class Controller extends Component<any, any> {
           
           
           <h3>Generator</h3>
-          <h3>Physics</h3>
-          
           <div className="buttonContainer">
             <div
               className="button"
@@ -178,30 +178,7 @@ export default class Controller extends Component<any, any> {
               ref={(ref) => {this.seedInputRef = ref; }}
             />
           </div>
-
-          <div
-            className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
-          >drop circles</div>
-
-
-
-          <div
-            className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.dropText); }}
-          >drop text</div>
-
-
-          <div
-            className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.closeBounds); }}
-          >close worlds bounds</div>
-
-          {/* <div
-            className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
-          >fullscreen</div> */}
-
+          
           <div className="labelContainer">
             <div className="labelInput">
                 gravity direction
@@ -250,7 +227,7 @@ export default class Controller extends Component<any, any> {
                 this.layoutGeneratorConfig.divisionStep = parseFloat(e.target.value);
                 this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
               }}
-            />
+              />
             </div>
 
             <div className="labelInput">
@@ -265,7 +242,7 @@ export default class Controller extends Component<any, any> {
                 this.layoutGeneratorConfig.cellDivide = parseFloat(e.target.value);
                 this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
               }}
-            />
+              />
             </div>
 
             <div className="labelInput">
@@ -280,7 +257,7 @@ export default class Controller extends Component<any, any> {
                 this.layoutGeneratorConfig.cellFill = parseFloat(e.target.value);
                 this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
               }}
-            />
+              />
             </div>
 
             <div className="labelInput">
@@ -295,10 +272,32 @@ export default class Controller extends Component<any, any> {
                 this.layoutGeneratorConfig.cellTwoDivisions = parseFloat(e.target.value);
                 this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
               }}
-            />
+              />
             </div>
-
           </div>
+          
+          
+          <h3>Physics</h3>
+
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
+          >drop circles</div>
+
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.dropText); }}
+          >drop text</div>
+
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.closeBounds); }}
+          >close worlds bounds</div>
+
+          {/* <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
+          >fullscreen</div> */}
 
           <div ref={(ref) => {this.debugContainerRef = ref; }}/>
         </div>
@@ -319,6 +318,8 @@ export default class Controller extends Component<any, any> {
             flex-direction: column;
 
             color: #333;
+            
+            h3:first-child { margin-top:0; }
           }
 
           .buttonContainer, .labelContainer {
