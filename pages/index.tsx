@@ -3,8 +3,6 @@ import {
 } from "react";
 import Head from "next/head";
 
-import * as screenfull from "screenfull";
-
 import Global from "./global";
 
 import {
@@ -32,9 +30,11 @@ export default class Index extends Component<any, any> {
     window.addEventListener("message", this.onReceiveMessage);
 
     window.addEventListener("keydown", (e) => {
-      // h
-      if (e.keyCode === 72) {
+      if (e.key == 'h') { // h
         this.openControllerWindow();
+      }
+      else if (e.key == 'f') { // f
+        this.toggleFullscreen();
       }
     });
   }
@@ -48,10 +48,33 @@ export default class Index extends Component<any, any> {
     this.controllerWindow = window.open(
       "/controller",
       "controller",
-      "titlebar=0,close=0,menubar=0,location=0,status=0,width=300,height=600,left=10,top=10,dependent=1,resizable=1,scrollbars=1",
+      "titlebar=0,close=0,menubar=0,location=0,status=0,width=300,height=825,left=0,top=0,dependent=1,resizable=1,scrollbars=1",
     );
   }
+  
+  private toggleFullscreen() {
+    if (document.webkitFullscreenEnabled) { // Chrome, Opera, Safari
+      if (!document.webkitFullscreenElement) {
+        document.querySelector('body').webkitRequestFullscreen();
+      } else { document.webkitExitFullscreen(); }
+    // @ts-ignore
+    } else if (document.mozFullScreenEnabled) { // Firefox
+    // @ts-ignore
+      if (!document.mozFullScreenElement) {
+      // @ts-ignore
+        document.querySelector('body').mozRequestFullScreen();
+      } else { 
+        // @ts-ignore
+        document.mozCancelFullScreen(); 
+      }
+    } else if (document.fullscreenEnabled) { // Standard, Edge
+      if (!document.fullscreenElement) {
+        document.querySelector('body').requestFullscreen();
+      } else { document.exitFullscreen(); }
+    }
+  }
 
+  // @ts-ignore
   private onSendMessage = (message: IMessagePackage) => {
     this.controllerWindow.postMessage(message, "*");
   }
@@ -147,12 +170,7 @@ export default class Index extends Component<any, any> {
 
         <div
           className="fullscreenButton"
-          onClick={() => {
-            if (screenfull.enabled) {
-              screenfull.request(document.body);
-              this.fullscreenButtonRef.style.display = "none";
-            }
-          }}
+          onClick={this.toggleFullscreen}
           ref={(ref) => {this.fullscreenButtonRef = ref; }}
         >click to fullscreen</div>
 

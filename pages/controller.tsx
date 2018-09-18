@@ -78,45 +78,30 @@ export default class Controller extends Component<any, any> {
         </Head>
 
         <div className="container">
+          
+          <h3>Layout</h3>
+          
           <div className="buttonContainer">
-            <div
-              className="button"
-              onClick={() => {this.onSendMessage(MessageTypes.newLayout, this.seedInputRef.value); }}
-            >new Layout</div>
+            background color
             <input
-              type="number"
-              style={{width: "30%"}}
-              ref={(ref) => {this.seedInputRef = ref; }}
+              type="color"
+              defaultValue="#eb582f"
+              onChange={e => {
+                  this.onSendMessage(MessageTypes.changeBGColor, e.target.value);
+              }}
             />
           </div>
-
-          <div
-            className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
-          >drop circles</div>
-
-          <textarea
-            contentEditable
-            cols={120}
-            rows={4}
-            ref={(ref) => {this.textInputRef = ref; }}
-            defaultValue={'A City\nFull Of\nDesign'}
-          />
-          <div
-            className="button"
-            onClick={() => {
-              if (this.textInputRef.value.length > 0) {
-                this.onSendMessage(MessageTypes.newText, this.textInputRef.value);
-                {/* this.textInputRef.value = ""; */}
-              }
-            }}
-          >new text</div>
-
-          <div
-            className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.dropText); }}
-          >drop text</div>
-
+          <div className="buttonContainer">
+            grain color
+            <input
+              type="color"
+              defaultValue="#ffffff"
+              onChange={e => {
+                  this.onSendMessage(MessageTypes.changeFGColor, e.target.value);
+              }}
+            />
+          </div>
+          
           <div className="labelContainer">
             <div className="labelInput">
                 grain density
@@ -158,38 +143,64 @@ export default class Controller extends Component<any, any> {
               />
             </div>
           </div>
+          
+          <div>text color</div>
+          <div>text size</div>
+          <textarea
+            contentEditable
+            cols={120}
+            rows={4}
+            ref={(ref) => {this.textInputRef = ref; }}
+            defaultValue={'A City\nFull Of\nDesign'}
+          />
+          <div
+            className="button"
+            onClick={() => {
+              if (this.textInputRef.value.length > 0) {
+                this.onSendMessage(MessageTypes.newText, this.textInputRef.value);
+                {/* this.textInputRef.value = ""; */}
+              }
+            }}
+          >new text</div>
+          
+          
+          <h3>Generator</h3>
+          <h3>Physics</h3>
+          
+          <div className="buttonContainer">
+            <div
+              className="button"
+              onClick={() => {this.onSendMessage(MessageTypes.newLayout, this.seedInputRef.value); }}
+            >new Layout</div>
+            <input
+              type="number"
+              style={{width: "30%"}}
+              ref={(ref) => {this.seedInputRef = ref; }}
+            />
+          </div>
+
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
+          >drop circles</div>
+
+
+
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.dropText); }}
+          >drop text</div>
+
 
           <div
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.closeBounds); }}
           >close worlds bounds</div>
 
-          <div
+          {/* <div
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.makeFullscreen); }}
-          >fullscreen</div>
-
-          <div className="buttonContainer">
-            background color
-            <input
-              type="color"
-              defaultValue="#eb582f"
-              onChange={e => {
-                  this.onSendMessage(MessageTypes.changeBGColor, e.target.value);
-              }}
-            />
-          </div>
-
-          <div className="buttonContainer">
-            circle color
-            <input
-              type="color"
-              defaultValue="#ffffff"
-              onChange={e => {
-                  this.onSendMessage(MessageTypes.changeFGColor, e.target.value);
-              }}
-            />
-          </div>
+          >fullscreen</div> */}
 
           <div className="labelContainer">
             <div className="labelInput">
