@@ -14,6 +14,7 @@ import {IGravityConfig} from "../types";
 import {randomRange} from "../../utilities/mathUtils";
 
 const borderWidth = 100;
+// const heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
 const heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
 
 const funnelEdgeAngle = Math.PI * 0.35;
@@ -331,8 +332,8 @@ export default class TextPhysics {
       {
         // x: ((Math.random() - 0.5) * 0.4) * worldBounds.width,
         // y: worldBounds.height * -0.6,
-        x: 0,
-        y: 0,
+        x: ((Math.random() - 0.5) * 0.4),
+        y: -600 - ((Math.random() - 0.5) * 0.4),
       },
     );
 
