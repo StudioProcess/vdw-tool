@@ -151,7 +151,7 @@ export default class Controller extends Component<any, any> {
             cols={120}
             rows={4}
             ref={(ref) => {this.textInputRef = ref; }}
-            defaultValue={'A City\nFull Of\nDesign'}
+            defaultValue={'A City\nFull of\nDesign'}
           />
           <div
             className="button"
