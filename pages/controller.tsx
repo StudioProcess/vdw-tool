@@ -80,8 +80,9 @@ export default class Controller extends Component<any, any> {
 
         <div className="container">
           
-          <h3>Layout</h3>
           
+          <h3>General</h3>
+
           <div className="buttonContainer">
             background color
             <input
@@ -92,8 +93,9 @@ export default class Controller extends Component<any, any> {
               }}
             />
           </div>
+          
           <div className="buttonContainer">
-            grain color
+            circles color
             <input
               type="color"
               defaultValue="#ffffff"
@@ -103,68 +105,6 @@ export default class Controller extends Component<any, any> {
             />
           </div>
           
-          <div className="labelContainer">
-            <div className="labelInput">
-                grain density
-                <input
-                type="range"
-                min="-8"
-                max="-0.01"
-                defaultValue="-0.8"
-                step="0.01"
-                onChange={(e) => {
-                  this.onSendMessage(MessageTypes.changeGrainDensity, parseFloat(e.target.value));
-                }}
-              />
-            </div>
-            <div className="labelInput">
-                grain scale
-                <input
-                type="range"
-                min="0.01"
-                max="3.0"
-                defaultValue="1.0"
-                step="0.01"
-                onChange={(e) => {
-                  this.onSendMessage(MessageTypes.changeGrainScale, parseFloat(e.target.value));
-                }}
-              />
-            </div>
-            <div className="labelInput">
-                grain angle
-                <input
-                type="range"
-                min={(-Math.PI).toString()}
-                max={(Math.PI).toString()}
-                defaultValue={(0.0).toString()}
-                step="0.01"
-                onChange={(e) => {
-                  this.onSendMessage(MessageTypes.changeGrainAngle, e.target.value);
-                }}
-              />
-            </div>
-          </div>
-          
-          {/* <div>text color</div>
-          <div>text size</div>
-          <br/> */}
-          
-          <textarea
-            contentEditable
-            cols={120}
-            rows={4}
-            ref={(ref) => {this.textInputRef = ref; }}
-            defaultValue={"A City\nFull of\nDesign"}
-          />
-          <div
-            className="button"
-            onClick={() => {
-              if (this.textInputRef.value.length > 0) {
-                this.onSendMessage(MessageTypes.newText, this.textInputRef.value);
-                {/* this.textInputRef.value = ""; */}
-              }
-            }}
-          >new text</div>
           
           <h3>Generator</h3>
 
@@ -244,7 +184,7 @@ export default class Controller extends Component<any, any> {
             <div
               className="button"
               onClick={() => {this.onSendMessage(MessageTypes.newLayout, this.seedInputRef.value); }}
-            >new Layout</div>
+            >new circles</div>
             <input
               type="number"
               style={{width: "30%"}}
@@ -252,7 +192,89 @@ export default class Controller extends Component<any, any> {
             />
           </div>
           
-          <h3>Physics</h3>
+          
+          <h3>Circles</h3>
+          
+          <div className="labelContainer">
+            <div className="labelInput">
+                grain density
+                <input
+                type="range"
+                min="-8"
+                max="-0.01"
+                defaultValue="-0.8"
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeGrainDensity, parseFloat(e.target.value));
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                grain scale
+                <input
+                type="range"
+                min="0.01"
+                max="3.0"
+                defaultValue="1.0"
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeGrainScale, parseFloat(e.target.value));
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                grain angle
+                <input
+                type="range"
+                min={(-Math.PI).toString()}
+                max={(Math.PI).toString()}
+                defaultValue={(0.0).toString()}
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeGrainAngle, e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          
+
+          <h3>Circle Physics</h3>
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
+          >drop circles</div>
+
+          <div
+            className="button"
+            onClick={() => {this.onSendMessage(MessageTypes.closeBounds); }}
+          >close worlds bounds</div>
+          
+          
+          <h3>Text</h3>
+          
+          {/* <div>text color</div>
+          <div>text size</div>
+          <br/> */}
+          
+          <textarea
+            contentEditable
+            cols={120}
+            rows={4}
+            ref={(ref) => {this.textInputRef = ref; }}
+            defaultValue={"A City\nFull of\nDesign"}
+          />
+          <div
+            className="button"
+            onClick={() => {
+              if (this.textInputRef.value.length > 0) {
+                this.onSendMessage(MessageTypes.newText, this.textInputRef.value);
+                {/* this.textInputRef.value = ""; */}
+              }
+            }}
+          >new text</div>
+          
+          
+          <h3>Text Physics</h3>
           
           <div className="labelContainer">
             <div className="labelInput">
@@ -291,18 +313,8 @@ export default class Controller extends Component<any, any> {
 
           <div
             className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
-          >drop circles</div>
-
-          <div
-            className="button"
             onClick={() => {this.onSendMessage(MessageTypes.dropText); }}
           >drop text</div>
-
-          <div
-            className="button"
-            onClick={() => {this.onSendMessage(MessageTypes.closeBounds); }}
-          >close worlds bounds</div>
 
           {/* <div
             className="button"
