@@ -87,7 +87,7 @@ export default class Controller extends Component<any, any> {
             <input
               type="color"
               defaultValue="#eb582f"
-              onChange={e => {
+              onChange={(e) => {
                   this.onSendMessage(MessageTypes.changeBGColor, e.target.value);
               }}
             />
@@ -97,7 +97,7 @@ export default class Controller extends Component<any, any> {
             <input
               type="color"
               defaultValue="#ffffff"
-              onChange={e => {
+              onChange={(e) => {
                   this.onSendMessage(MessageTypes.changeFGColor, e.target.value);
               }}
             />
@@ -154,7 +154,7 @@ export default class Controller extends Component<any, any> {
             cols={120}
             rows={4}
             ref={(ref) => {this.textInputRef = ref; }}
-            defaultValue={'A City\nFull of\nDesign'}
+            defaultValue={"A City\nFull of\nDesign"}
           />
           <div
             className="button"
@@ -165,8 +165,6 @@ export default class Controller extends Component<any, any> {
               }
             }}
           >new text</div>
-          
-          
           
           <h3>Generator</h3>
 
@@ -253,8 +251,6 @@ export default class Controller extends Component<any, any> {
               ref={(ref) => {this.seedInputRef = ref; }}
             />
           </div>
-          
-          
           
           <h3>Physics</h3>
           
