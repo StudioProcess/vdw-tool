@@ -32,6 +32,8 @@ export default class DividerLines extends Component<any, any> {
 
             display: flex;
             align-items: stretch;
+
+            pointer-events: none;
           }
 
           .container div {

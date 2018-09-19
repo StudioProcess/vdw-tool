@@ -22,9 +22,7 @@ import CheckWebGLSupport from "../../utilities/checkWebGLSupport/CheckWebGLSuppo
 
 // import {lerp, clamp, inverseLerpUnclamped} from "../../utilities/mathUtils";
 
-// set values to -1 to run at window resolution
-const overrideWith = 800;
-const overrideHeight = 400;
+import {overrideWidth, overrideHeight} from "../../overrideSize";
 
 
 const fixedFrameRate: number = 1.0 / 30.0;
@@ -139,9 +137,15 @@ export default class StatueViewer extends Component<any, any> {
     this.circlesSizesBuffer = this.sceneHandler.getSizesBuffer();
 
     this.circlePhysics = new CirclePhysics();
+
+    let aspectRatio = window.innerWidth / window.innerHeight;
+
+    if (overrideWidth > 0 && overrideHeight > 0) {
+      aspectRatio = aspectRatio = overrideWidth / overrideHeight;
+    }
     this.circlePhysics.setup(
       10,
-      window.innerWidth / window.innerHeight,
+      aspectRatio,
     );
 
     this.circlePhysics.setFromLayout(
@@ -205,17 +209,11 @@ export default class StatueViewer extends Component<any, any> {
     this.windowWidth = this.rect.width;
     this.windowHeight = this.rect.height;
 
-    if (
-      overrideWith !== undefined &&
-      overrideWith > 0
-    ) {
-      this.windowWidth = overrideWith;
+    if (overrideWidth > 0) {
+      this.windowWidth = overrideWidth;
     }
 
-    if (
-      overrideHeight !== undefined &&
-      overrideHeight > 0
-    ) {
+    if (overrideHeight > 0) {
       this.windowHeight = overrideHeight;
     }
 

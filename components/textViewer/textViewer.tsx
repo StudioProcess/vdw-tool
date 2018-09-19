@@ -11,6 +11,8 @@ import TextPhysics from "./textPhysics";
 
 import {IGravityConfig} from "../types";
 
+import {overrideWidth, overrideHeight} from "../../overrideSize";
+
 export default class StatueViewer extends Component<any, any> {
     private clock: Clock;
     private textPhysics: TextPhysics;
@@ -83,6 +85,8 @@ export default class StatueViewer extends Component<any, any> {
       this.svgs,
     );
 
+    this.onResize();
+
     this.textPhysics.resetGravity();
     this.textPhysics.openTop();
     this.textPhysics.closeBottom();
@@ -134,6 +138,19 @@ export default class StatueViewer extends Component<any, any> {
       svg.style.width = "100vw";
       svg.style.height = "100vh";
 
+      svg.style.transform = "";
+
+      if (overrideWidth > 0) {
+        svg.style.width = `${overrideWidth}px`;
+        svg.style.left = "50vw";
+        svg.style.transform += "translateX(-50%)";
+      }
+      if (overrideHeight > 0) {
+        svg.style.width = `${overrideHeight}px`;
+        svg.style.top = "50vh";
+        svg.style.transform += "translateY(-50%)";
+      }
+
       const charPath = font.getPath(lines[i], 0, 60);
       const pathBounds = charPath.getBoundingBox();
 
@@ -168,12 +185,32 @@ export default class StatueViewer extends Component<any, any> {
   }
 
   private onResize = () => {
-    this.textPhysics.onResize(
-      window.innerWidth / window.innerHeight,
-    );
-    // this.circlePhysics.onResize(
-    //   window.innerWidth / window.innerHeight,
-    // );
+    if (overrideWidth > 0 && overrideHeight > 0) {
+      this.textPhysics.onResize(
+        overrideWidth / overrideHeight,
+      );
+
+      const svgs = this.containerRef.querySelectorAll("svg");
+
+      const windowAspectRatio = window.innerWidth / window.innerHeight;
+      const aspectRatio = overrideWidth / overrideHeight;
+
+      svgs.forEach((svg) => {
+        if (aspectRatio < windowAspectRatio) {
+          // window is wider
+          svg.style.width = "auto";
+          svg.style.height = "100%";
+        } else {
+          // window is higher
+          svg.style.width = "100%";
+          svg.style.height = "auto";
+        }
+      });
+    } else {
+      this.textPhysics.onResize(
+        window.innerWidth / window.innerHeight,
+      );
+    }
   }
 
   private animate = () => {
