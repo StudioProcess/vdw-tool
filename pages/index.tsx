@@ -134,7 +134,11 @@ export default class Index extends Component<any, any> {
         this.circlesViewerRef.changeFrontColor(messagePackage.data);
         break;
 
-      case MessageTypes.changeGravity:
+      case MessageTypes.changeGravityCircles:
+        this.circlesViewerRef.updateGravity(messagePackage.data);
+        break;
+
+      case MessageTypes.changeGravityText:
         this.textViewer.updateGravity(messagePackage.data);
         break;
 

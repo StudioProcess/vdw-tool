@@ -13,7 +13,7 @@ import {
 
 import {PhysicsLayers} from "../physicsLayers";
 
-import {ILayoutItem} from "../types";
+import {ILayoutItem, IGravityConfig} from "../types";
 
 const shuffle = require("array-shuffle");
 
@@ -133,6 +133,18 @@ export default class CirclePhysics {
       this.render.canvas.style.transform = "scale(0.5)";
       document.body.appendChild(this.render.canvas);
     }
+  }
+
+  public updateGravity = (gravityConfig: IGravityConfig) => {
+    this.world.gravity.x = gravityConfig.x;
+    this.world.gravity.y = gravityConfig.y;
+    this.world.gravity.scale = gravityConfig.scale;
+  }
+
+  public resetGravity = () => {
+    this.world.gravity.x = 0.0;
+    this.world.gravity.y = 1.0;
+    this.world.gravity.scale = 0.001;
   }
 
   public getWorldBounds = () => {

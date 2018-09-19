@@ -34,7 +34,12 @@ export default class Controller extends Component<any, any> {
     showPartial: false,
   };
 
-  private gravityConfig: IGravityConfig = {
+  private gravityConfigCircles: IGravityConfig = {
+    x: 0.0,
+    y: 0.0,
+    scale: 0.001,
+  };
+  private gravityConfigText: IGravityConfig = {
     x: 0.0,
     y: 0.0,
     scale: 0.001,
@@ -239,6 +244,42 @@ export default class Controller extends Component<any, any> {
           
 
           <h3>Circle Physics</h3>
+
+          <div className="labelContainer">
+            <div className="labelInput">
+                gravity direction
+                <input
+                type="range"
+                min={(Math.PI * -1.0).toString()}
+                max={(Math.PI).toString()}
+                defaultValue={(0.0).toString()}
+                step="0.01"
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  this.gravityConfigCircles.x = Math.sin(parseFloat(value));
+                  this.gravityConfigCircles.y = Math.cos(parseFloat(value));
+
+                  this.onSendMessage(MessageTypes.changeGravityCircles, this.gravityConfigCircles);
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                gravity scale
+                <input
+                type="range"
+                min="0.0"
+                max="0.003"
+                defaultValue={(0.001).toString()}
+                step="0.0001"
+                onChange={(e) => {
+                  this.gravityConfigCircles.scale = parseFloat(e.target.value);
+                  this.onSendMessage(MessageTypes.changeGravityCircles, this.gravityConfigCircles);
+                }}
+              />
+            </div>
+          </div>
+
           <div
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
@@ -288,10 +329,10 @@ export default class Controller extends Component<any, any> {
                 onChange={(e) => {
                   const value = e.target.value;
 
-                  this.gravityConfig.x = Math.sin(parseFloat(value));
-                  this.gravityConfig.y = Math.cos(parseFloat(value));
+                  this.gravityConfigText.x = Math.sin(parseFloat(value));
+                  this.gravityConfigText.y = Math.cos(parseFloat(value));
 
-                  this.onSendMessage(MessageTypes.changeGravity, this.gravityConfig);
+                  this.onSendMessage(MessageTypes.changeGravityText, this.gravityConfigText);
                 }}
               />
             </div>
@@ -304,8 +345,8 @@ export default class Controller extends Component<any, any> {
                 defaultValue={(0.001).toString()}
                 step="0.0001"
                 onChange={(e) => {
-                  this.gravityConfig.scale = parseFloat(e.target.value);
-                  this.onSendMessage(MessageTypes.changeGravity, this.gravityConfig);
+                  this.gravityConfigText.scale = parseFloat(e.target.value);
+                  this.onSendMessage(MessageTypes.changeGravityText, this.gravityConfigText);
                 }}
               />
             </div>

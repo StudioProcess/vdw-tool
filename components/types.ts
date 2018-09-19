@@ -20,7 +20,8 @@ export enum MessageTypes {
   changeGrainScale,
   changeGrainAngle,
 
-  changeGravity,
+  changeGravityCircles,
+  changeGravityText,
 
   updateLayoutConfig,
 }

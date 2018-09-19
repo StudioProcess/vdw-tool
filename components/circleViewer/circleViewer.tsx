@@ -12,7 +12,7 @@ import {
 
 import {TweenLite} from "gsap";
 
-import {ILayoutGeneratorCongfig} from "../types";
+import {ILayoutGeneratorCongfig, IGravityConfig} from "../types";
 
 import SceneHandler from "./sceneHandler";
 import CirclePhysics from "./circlePhysics";
@@ -188,6 +188,10 @@ export default class StatueViewer extends Component<any, any> {
 
   public changeGrainAngle = (value) => {
     this.uniforms.grainAngle.value = value;
+  }
+
+  public updateGravity = (config: IGravityConfig) => {
+    this.circlePhysics.updateGravity(config);
   }
 
   public closeWorldBounds = () => {
