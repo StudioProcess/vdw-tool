@@ -247,6 +247,35 @@ export default class Controller extends Component<any, any> {
 
           <div className="labelContainer">
             <div className="labelInput">
+                friction
+                <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                defaultValue="0.1"
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeFrictionCircles, e.target.value);
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                restitution
+                <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                defaultValue="0.0"
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeRestitutionCircles, e.target.value);
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="labelContainer">
+            <div className="labelInput">
                 gravity direction
                 <input
                 type="range"
@@ -316,6 +345,35 @@ export default class Controller extends Component<any, any> {
           
           
           <h3>Text Physics</h3>
+
+          <div className="labelContainer">
+            <div className="labelInput">
+                friction
+                <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                defaultValue="0.1"
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeFrictionText, e.target.value);
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                restitution
+                <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                defaultValue="0.0"
+                step="0.01"
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.changeRestitutionText, e.target.value);
+                }}
+              />
+            </div>
+          </div>
           
           <div className="labelContainer">
             <div className="labelInput">

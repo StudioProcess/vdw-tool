@@ -20,7 +20,7 @@ export default class Index extends Component<any, any> {
 
   private controllerWindow: Window;
   private circlesViewerRef: CirclesViewer;
-  private textViewer: TextViewer;
+  private textViewerRef: TextViewer;
 
   private fullscreenButtonRef: HTMLDivElement;
 
@@ -109,16 +109,16 @@ export default class Index extends Component<any, any> {
         break;
 
       case MessageTypes.newText:
-        this.textViewer.newText(messagePackage.data);
+        this.textViewerRef.newText(messagePackage.data);
         break;
 
       case MessageTypes.dropText:
-        this.textViewer.dropText();
+        this.textViewerRef.dropText();
         break;
 
       case MessageTypes.closeBounds:
         this.circlesViewerRef.closeWorldBounds();
-        this.textViewer.closeWorldBounds();
+        this.textViewerRef.closeWorldBounds();
         break;
 
       case MessageTypes.makeFullscreen:
@@ -139,7 +139,21 @@ export default class Index extends Component<any, any> {
         break;
 
       case MessageTypes.changeGravityText:
-        this.textViewer.updateGravity(messagePackage.data);
+        this.textViewerRef.updateGravity(messagePackage.data);
+        break;
+
+      case MessageTypes.changeFrictionCircles:
+        this.circlesViewerRef.updateFriction(messagePackage.data);
+        break;
+      case MessageTypes.changeFrictionText:
+        this.textViewerRef.updateFriction(messagePackage.data);
+        break;
+
+      case MessageTypes.changeRestitutionCircles:
+        this.circlesViewerRef.updateRestitution(messagePackage.data);
+        break;
+      case MessageTypes.changeRestitutionText:
+        this.textViewerRef.updateRestitution(messagePackage.data);
         break;
 
       case MessageTypes.updateLayoutConfig:
@@ -163,7 +177,7 @@ export default class Index extends Component<any, any> {
         </div>
 
         <TextViewer
-          ref={(ref) => {this.textViewer = ref; }}
+          ref={(ref) => {this.textViewerRef = ref; }}
         />
 
         <DividerLines

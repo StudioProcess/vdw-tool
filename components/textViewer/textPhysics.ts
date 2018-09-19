@@ -199,6 +199,18 @@ export default class TextPhysics {
     this.world.gravity.scale = 0.001;
   }
 
+  public updateFriction = (value: number) => {
+    this.textBodies.forEach((body) => {
+      body.friction = value;
+    });
+  }
+
+  public updateRestitution = (value: number) => {
+    this.textBodies.forEach((body) => {
+      body.restitution = value;
+    });
+  }
+
   public getWorldBounds = () => {
     return worldBounds;
   }

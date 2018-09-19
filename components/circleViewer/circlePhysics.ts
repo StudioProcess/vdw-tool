@@ -147,6 +147,18 @@ export default class CirclePhysics {
     this.world.gravity.scale = 0.001;
   }
 
+  public updateFriction = (value: number) => {
+    this.bodies.forEach((body) => {
+      body.friction = value;
+    });
+  }
+
+  public updateRestitution = (value: number) => {
+    this.bodies.forEach((body) => {
+      body.restitution = value;
+    });
+  }
+
   public getWorldBounds = () => {
     return worldBounds;
   }

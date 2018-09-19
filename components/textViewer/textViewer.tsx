@@ -106,6 +106,14 @@ export default class StatueViewer extends Component<any, any> {
     this.textPhysics.updateGravity(config);
   }
 
+  public updateFriction = (value: number) => {
+    this.textPhysics.updateFriction(value);
+  }
+  
+  public updateRestitution = (value: number) => {
+    this.textPhysics.updateRestitution(value);
+  }
+
   public closeWorldBounds = () => {
     this.textPhysics.closeTop();
     this.textPhysics.closeBottom();

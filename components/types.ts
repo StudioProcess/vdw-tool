@@ -23,6 +23,12 @@ export enum MessageTypes {
   changeGravityCircles,
   changeGravityText,
 
+  changeFrictionCircles,
+  changeFrictionText,
+  
+  changeRestitutionCircles,
+  changeRestitutionText,
+
   updateLayoutConfig,
 }
 
