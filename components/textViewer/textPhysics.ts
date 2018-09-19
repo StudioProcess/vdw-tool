@@ -19,6 +19,7 @@ const heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDi
 
 const funnelEdgeAngle = Math.PI * 0.35;
 const funnelBottomNormOffsetY = 0.3;
+const funnelSizesMinApectRatio = 1.5;
 
 const worldBounds = {
   width: 100,
@@ -203,6 +204,15 @@ export default class TextPhysics {
   }
 
   public onResize(aspectRatio) {
+    if (aspectRatio < funnelSizesMinApectRatio) {
+      // disable funnel sides, since the widow is too
+      this.funnelLeft.collisionFilter.mask = PhysicsLayers.noCollision;
+      this.funnelRight.collisionFilter.mask = PhysicsLayers.noCollision;
+    } else {
+      this.funnelLeft.collisionFilter.mask = PhysicsLayers.default;
+      this.funnelRight.collisionFilter.mask = PhysicsLayers.default;
+    }
+
     worldBounds.width = Math.round(heightBorderDistance * aspectRatio * 2 - borderWidth);
     halfWorldBounds.width = worldBounds.width * 0.5;
 
