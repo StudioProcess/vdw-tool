@@ -352,6 +352,19 @@ export default class Controller extends Component<any, any> {
               }
             }}
           >new text</div>
+
+          <div className="labelInput">
+                size
+                <input
+                type="number"
+                defaultValue="80"
+                onChange={(e) => {
+                  if (Number.isInteger(parseInt(e.target.value, 10))) {
+                    this.onSendMessage(MessageTypes.updateTextSize, e.target.value);
+                  }
+                }}
+              />
+            </div>
           
           
           <h3>Text Physics</h3>

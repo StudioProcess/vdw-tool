@@ -175,6 +175,10 @@ export default class Index extends Component<any, any> {
           this.textViewerRef.openBottom();
         }
         break;
+
+      case MessageTypes.updateTextSize:
+        this.textViewerRef.updateTextSize(parseInt(messagePackage.data, 10));
+        break;
     }
   }
 

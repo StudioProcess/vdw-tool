@@ -65,6 +65,26 @@ export default class StatueViewer extends Component<any, any> {
     this.animate();
   }
 
+  public updateTextSize = (size) => {
+    this.textPhysics.updateTextSize(size);
+    this.onResize();
+    const physicsBounds = this.textPhysics.getWorldBounds();
+
+    const svgs = this.containerRef.querySelectorAll("svg");
+
+    svgs.forEach((svg) => {
+      svg.setAttribute("viewBox", `${
+        physicsBounds.width * -0.5
+      } ${
+        physicsBounds.height * -0.5
+      } ${
+        physicsBounds.width
+      } ${
+        physicsBounds.height
+      }`);
+    });
+  }
+
   public componentWillUnmount() {
     cancelAnimationFrame(this.frameId);
 

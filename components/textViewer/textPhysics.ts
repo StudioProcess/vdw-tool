@@ -15,7 +15,7 @@ import {randomRange} from "../../utilities/mathUtils";
 
 const borderWidth = 100;
 // const heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
-const heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
+let heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
 
 const funnelEdgeAngle = Math.PI * 0.35;
 const funnelBottomNormOffsetY = 0.3;
@@ -215,7 +215,17 @@ export default class TextPhysics {
     return worldBounds;
   }
 
+  public updateTextSize = (size: number) => {
+    // size / window.innerHeight === 72 / (heightBorderDistance * 2.0);
+    heightBorderDistance = (size / window.innerHeight) / 72;
+    heightBorderDistance = 1.0 / heightBorderDistance;
+    heightBorderDistance /= 2;
+    heightBorderDistance += borderWidth * 0.5;
+  } 
+
   public onResize(aspectRatio) {
+    worldBounds.height = heightBorderDistance * 2 - borderWidth;
+
     if (aspectRatio < funnelSizesMinApectRatio) {
       // disable funnel sides, since the widow is too
       this.funnelLeft.collisionFilter.mask = PhysicsLayers.noCollision;
@@ -227,6 +237,14 @@ export default class TextPhysics {
 
     worldBounds.width = Math.round(heightBorderDistance * aspectRatio * 2 - borderWidth);
     halfWorldBounds.width = worldBounds.width * 0.5;
+
+    Body.setPosition(
+      this.topBorder,
+      {
+        x: 0,
+        y: -heightBorderDistance,
+      },
+    );
 
     Body.setPosition(
       this.leftBorder,
@@ -241,6 +259,14 @@ export default class TextPhysics {
       {
         x: heightBorderDistance * aspectRatio,
         y: 0,
+      },
+    );
+
+    Body.setPosition(
+      this.bottomBorder,
+      {
+        x: 0,
+        y: heightBorderDistance,
       },
     );
 

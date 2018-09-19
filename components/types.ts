@@ -33,6 +33,8 @@ export enum MessageTypes {
 
   setBottomCircles,
   setBottomText,
+
+  updateTextSize,
 }
 
 export interface IMessagePackage {

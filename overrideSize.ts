@@ -1,2 +1,2 @@
-export const overrideWidth = 800;
-export const overrideHeight = 400;
+export const overrideWidth = -1; // 800;
+export const overrideHeight = -1; // 400;
