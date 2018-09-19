@@ -22,6 +22,11 @@ import CheckWebGLSupport from "../../utilities/checkWebGLSupport/CheckWebGLSuppo
 
 // import {lerp, clamp, inverseLerpUnclamped} from "../../utilities/mathUtils";
 
+// set values to -1 to run at window resolution
+const overrideWith = 800;
+const overrideHeight = 400;
+
+
 const fixedFrameRate: number = 1.0 / 30.0;
 const maxNumCircles = 2048;
 
@@ -196,6 +201,20 @@ export default class StatueViewer extends Component<any, any> {
     this.windowWidth = this.rect.width;
     this.windowHeight = this.rect.height;
 
+    if (
+      overrideWith !== undefined &&
+      overrideWith > 0
+    ) {
+      this.windowWidth = overrideWith;
+    }
+
+    if (
+      overrideHeight !== undefined &&
+      overrideHeight > 0
+    ) {
+      this.windowHeight = overrideHeight;
+    }
+
     this.renderer.setSize(this.windowWidth, this.windowHeight);
 
     const aspectRatio = this.windowWidth / this.windowHeight;
@@ -210,8 +229,20 @@ export default class StatueViewer extends Component<any, any> {
     this.uniforms.screenParams.value[3] = 1.0 / this.windowHeight;
 
     this.circlePhysics.onResize(
-      window.innerWidth / window.innerHeight,
+      this.windowWidth / this.windowHeight,
     );
+
+    const windowAspectRatio = this.rect.width / this.rect.height;
+
+    if (aspectRatio < windowAspectRatio) {
+      // window is wider
+      this.canvasRef.style.width = "auto";
+      this.canvasRef.style.height = "100%";
+    } else {
+      // window is higher
+      this.canvasRef.style.width = "100%";
+      this.canvasRef.style.height = "auto";
+    }
   }
 
   public updateLayoutConfig = (config: ILayoutGeneratorCongfig) => {
@@ -288,6 +319,13 @@ export default class StatueViewer extends Component<any, any> {
           div {
             width: 100%;
             height: 100%;
+          }
+
+          canvas {
+            margin-left: 50vw;
+            margin-top: 50vh;
+
+            transform: translateX(-50%) translateY(-50%);
           }
         `}</style>
       </div>
