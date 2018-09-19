@@ -119,9 +119,17 @@ export default class StatueViewer extends Component<any, any> {
     this.textPhysics.closeBottom();
   }
 
+  public openBottom = () => {
+    this.textPhysics.openBottom();
+  }
+
+  public closeBottom = () => {
+    this.textPhysics.closeBottom();
+  }
+
   public dropText = () => {
     // this.textPhysics.resetGravity();
-    this.textPhysics.openBottom();
+    // this.textPhysics.openBottom();
     this.textPhysics.closeTop();
   }
 

@@ -211,6 +211,13 @@ export default class StatueViewer extends Component<any, any> {
     this.circlePhysics.closeBottom();
   }
 
+  public openBottom = () => {
+    this.circlePhysics.openBottom();
+  }
+  public closeBottom = () => {
+    this.circlePhysics.closeBottom();
+  }
+
   private onResize = () => {
     this.rect = this.containerRef.getBoundingClientRect();
 
@@ -282,7 +289,7 @@ export default class StatueViewer extends Component<any, any> {
   }
 
   public makeCirclesNonStatic = () => {
-    this.circlePhysics.openBottom();
+    // this.circlePhysics.openBottom();
     this.circlePhysics.makeNonStatic();
   }
 

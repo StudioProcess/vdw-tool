@@ -30,6 +30,9 @@ export enum MessageTypes {
   changeRestitutionText,
 
   updateLayoutConfig,
+
+  setBottomCircles,
+  setBottomText,
 }
 
 export interface IMessagePackage {

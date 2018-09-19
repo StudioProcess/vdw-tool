@@ -272,6 +272,16 @@ export default class Controller extends Component<any, any> {
                 }}
               />
             </div>
+            <div className="labelInput">
+                bottom
+                <input
+                type="checkbox"
+                defaultChecked
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.setBottomCircles, e.target.checked);
+                }}
+              />
+            </div>
           </div>
 
           <div className="labelContainer">
@@ -370,6 +380,16 @@ export default class Controller extends Component<any, any> {
                 step="0.01"
                 onChange={(e) => {
                   this.onSendMessage(MessageTypes.changeRestitutionText, e.target.value);
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                bottom
+                <input
+                type="checkbox"
+                defaultChecked
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.setBottomText, e.target.checked);
                 }}
               />
             </div>

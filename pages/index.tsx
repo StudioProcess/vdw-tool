@@ -159,6 +159,22 @@ export default class Index extends Component<any, any> {
       case MessageTypes.updateLayoutConfig:
         this.circlesViewerRef.updateLayoutConfig(messagePackage.data);
         break;
+
+      case MessageTypes.setBottomCircles:
+        if (messagePackage.data === true) {
+          this.circlesViewerRef.closeBottom();
+        } else {
+          this.circlesViewerRef.openBottom();
+        }
+        break;
+
+      case MessageTypes.setBottomText:
+        if (messagePackage.data === true) {
+          this.textViewerRef.closeBottom();
+        } else {
+          this.textViewerRef.openBottom();
+        }
+        break;
     }
   }
 
