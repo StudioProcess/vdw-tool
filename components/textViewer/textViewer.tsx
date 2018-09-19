@@ -87,7 +87,7 @@ export default class StatueViewer extends Component<any, any> {
 
     this.onResize();
 
-    this.textPhysics.resetGravity();
+    // this.textPhysics.resetGravity();
     this.textPhysics.openTop();
     this.textPhysics.closeBottom();
     this.textPhysics.clearBodies();
@@ -120,7 +120,7 @@ export default class StatueViewer extends Component<any, any> {
   }
 
   public dropText = () => {
-    this.textPhysics.resetGravity();
+    // this.textPhysics.resetGravity();
     this.textPhysics.openBottom();
     this.textPhysics.closeTop();
   }
