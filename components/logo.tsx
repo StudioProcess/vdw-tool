@@ -4,9 +4,21 @@ import {
 
 export default class Logo extends Component<any, any> {
 
+  private containerRef: HTMLDivElement;
+
+  public show = () => {
+    this.containerRef.style.display = "inline";
+  }
+
+  public hide = () => {
+    this.containerRef.style.display = "none";
+  }
+
   public render() {
     return (
-      <div>
+      <div
+        ref={(ref) => {this.containerRef = ref; }}
+      >
         <img src="/static/vdw_logo.svg" />
 
         <style jsx>{`

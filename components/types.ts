@@ -36,6 +36,9 @@ export enum MessageTypes {
   setBottomText,
 
   updateTextSize,
+
+  toggleLogoVisibility,
+  toggleLinesVisibility,
 }
 
 export interface IMessagePackage {

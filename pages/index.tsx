@@ -22,6 +22,9 @@ export default class Index extends Component<any, any> {
   private circlesViewerRef: CirclesViewer;
   private textViewerRef: TextViewer;
 
+  private logoRef: Logo;
+  private linesRef: DividerLines;
+
   private fullscreenButtonRef: HTMLDivElement;
 
   public componentDidMount() {
@@ -183,6 +186,22 @@ export default class Index extends Component<any, any> {
       case MessageTypes.updateTextSize:
         this.textViewerRef.updateTextSize(parseInt(messagePackage.data, 10));
         break;
+
+      case MessageTypes.toggleLogoVisibility:
+        if (messagePackage.data === true) {
+          this.logoRef.show();
+        } else {
+          this.logoRef.hide();
+        }
+        break;
+
+      case MessageTypes.toggleLinesVisibility:
+        if (messagePackage.data === true) {
+          this.linesRef.show();
+        } else {
+          this.linesRef.hide();
+        }
+        break;
     }
   }
 
@@ -215,9 +234,12 @@ export default class Index extends Component<any, any> {
 
           <DividerLines
             dividerScale={3}
+            ref={(ref) => {this.linesRef = ref; }}
           />
 
-          <Logo />
+          <Logo
+            ref={(ref) => {this.logoRef = ref; }}
+          />
 
           <div
             className="fullscreenButton"

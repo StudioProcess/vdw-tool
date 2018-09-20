@@ -4,9 +4,22 @@ import {
 
 export default class DividerLines extends Component<any, any> {
 
+  private containerRef: HTMLDivElement;
+
+  public show = () => {
+    this.containerRef.style.display = "flex";
+  }
+
+  public hide = () => {
+    this.containerRef.style.display = "none";
+  }
+
   public render() {
     return (
-      <div className="container">
+      <div
+        className="container"
+        ref={(ref) => {this.containerRef = ref; }}
+      >
 
         <div
           style={{

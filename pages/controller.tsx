@@ -111,6 +111,29 @@ export default class Controller extends Component<any, any> {
               }}
             />
           </div>
+
+          <div className="labelContainer">
+            <div className="labelInput">
+                logo
+                <input
+                type="checkbox"
+                defaultChecked
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.toggleLogoVisibility, e.target.checked);
+                }}
+              />
+            </div>
+            <div className="labelInput">
+                lines
+                <input
+                type="checkbox"
+                defaultChecked
+                onChange={(e) => {
+                  this.onSendMessage(MessageTypes.toggleLinesVisibility, e.target.checked);
+                }}
+              />
+            </div>
+          </div>
           
           
           <h3>Generator</h3>
@@ -433,7 +456,6 @@ export default class Controller extends Component<any, any> {
                 bottom
                 <input
                 type="checkbox"
-                defaultUnChecked
                 onChange={(e) => {
                   this.onSendMessage(MessageTypes.setBottomText, e.target.checked);
                 }}
