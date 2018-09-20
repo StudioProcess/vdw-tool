@@ -89,7 +89,11 @@ export default class Index extends Component<any, any> {
 
     switch (messagePackage.type) {
       case MessageTypes.newLayout:
-        this.circlesViewerRef.newRandomLayout(messagePackage.data);
+        this.circlesViewerRef.newRandomLayout(messagePackage.data.seed, messagePackage.data.growTime);
+        break;
+        
+      case MessageTypes.removeCircles:
+        this.circlesViewerRef.removeCircles(messagePackage.data);
         break;
 
       case MessageTypes.makeNonStatic:

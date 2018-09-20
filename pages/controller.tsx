@@ -22,6 +22,8 @@ export default class Controller extends Component<any, any> {
   // private resizeHeightRef: HTMLInputElement;
 
   private seedInputRef: HTMLInputElement;
+  private growTimeRef: HTMLInputElement;
+  private shrinkTimeRef: HTMLInputElement;
 
   // private bgColorInputRef: HTMLInputElement;
   // private fgColorInputRef: HTMLInputElement;
@@ -185,16 +187,47 @@ export default class Controller extends Component<any, any> {
             </div>
           </div>
           
+          <div className="labelContainer">
+            <div className="labelInput">
+              growTime
+              <input
+              type="number"
+              min="0.0"
+              step="0.5"
+              defaultValue="2.0"
+              ref={(ref) => {this.growTimeRef = ref; }}
+              />
+            </div>
+            <div className="labelInput">
+              shrinkTime
+              <input
+              type="number"
+              min="0.0"
+              step="0.5"
+              defaultValue="2.0"
+              ref={(ref) => {this.shrinkTimeRef = ref; }}
+              />
+            </div>
+          </div>
+          
           <div className="buttonContainer">
             <div
               className="button"
-              onClick={() => {this.onSendMessage(MessageTypes.newLayout, this.seedInputRef.value); }}
+              onClick={() => {this.onSendMessage(MessageTypes.newLayout, 
+                {seed: this.seedInputRef.value, growTime: this.growTimeRef.value}); 
+              }}
             >new circles</div>
             <input
               type="number"
               style={{width: "30%"}}
               ref={(ref) => {this.seedInputRef = ref; }}
             />
+          </div>
+          <div className="buttonContainer">
+            <div
+              className="button"
+              onClick={() => {this.onSendMessage(MessageTypes.removeCircles, this.shrinkTimeRef.value); }}
+            >shrink circles</div>
           </div>
           
           

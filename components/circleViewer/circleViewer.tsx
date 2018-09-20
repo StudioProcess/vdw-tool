@@ -266,7 +266,7 @@ export default class StatueViewer extends Component<any, any> {
     updateConfig(config);
   }
 
-  public newRandomLayout = (seed?: string) => {
+  public newRandomLayout = (seed: string, growTime = 2.0) => {
     this.circlePhysics.closeBottom();
     this.circlePhysics.setFromLayout(
       generateLayout(
@@ -278,12 +278,27 @@ export default class StatueViewer extends Component<any, any> {
 
     TweenLite.fromTo(
       this.uniforms.fadeIn,
-      2.0,
+      growTime,
       {
         value: 0.0,
       },
       {
         value: 1.2,
+        ease: "Quad.easeOut",
+      },
+    );
+  }
+  
+  public removeCircles(shrinkTime = 2.0) {
+    TweenLite.fromTo(
+      this.uniforms.fadeIn, // target
+      shrinkTime, // duration
+      {
+        value: 1.2,
+      },
+      {
+        value: 0.0,
+        ease: "Quad.easeOut",
       },
     );
   }

@@ -4,6 +4,7 @@ export enum MessageTypes {
   data,
 
   newLayout,
+  removeCircles,
   makeNonStatic,
 
   newText,
