@@ -15,6 +15,9 @@ import {overrideWidth, overrideHeight} from "../../overrideSize";
 
 let textStrokeColor = "#000000";
 
+let textFillColor = "#000000";
+let textShowFill = false;
+
 export default class StatueViewer extends Component<any, any> {
     private clock: Clock;
     private textPhysics: TextPhysics;
@@ -148,15 +151,30 @@ export default class StatueViewer extends Component<any, any> {
     this.textPhysics.closeBottom();
   }
 
-  public updateStrokeColor = (color) => {
+  public updateStrokeColor = (color: string) => {
     textStrokeColor = color;
 
+    this.updateExistingTextStyles();
+  }
+  public updateFillColor = (color: string) => {
+    textFillColor = color;
+
+    this.updateExistingTextStyles();
+  }
+  public updateTextShowFill = (value: boolean) => {
+    textShowFill = value;
+
+    this.updateExistingTextStyles();
+  }
+
+  private updateExistingTextStyles = () => {
     const svgs = this.containerRef.querySelectorAll("svg");
 
     svgs.forEach((svg) => {
         const paths = svg.querySelectorAll("path");
         paths.forEach((path) => {
           path.setAttribute("stroke", textStrokeColor);
+          path.setAttribute("fill", textShowFill ? textFillColor : "none");
       });
     });
   }
@@ -233,7 +251,7 @@ export default class StatueViewer extends Component<any, any> {
       }`);
 
       svg.innerHTML = `<g><path
-          fill="none"
+          fill="${textShowFill ? textFillColor : "none"}"
           stroke-width="2"
           stroke="${textStrokeColor}"
           d="${charPath.toPathData(3)}"

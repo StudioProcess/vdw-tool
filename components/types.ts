@@ -37,6 +37,8 @@ export enum MessageTypes {
 
   updateTextSize,
   updateTextStrokeColor,
+  updateTextFillColor,
+  updateTextShowFill,
 
   toggleLogoVisibility,
   toggleLinesVisibility,

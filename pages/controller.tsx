@@ -122,6 +122,25 @@ export default class Controller extends Component<any, any> {
               }}
             />
           </div>
+          <div className="buttonContainer">
+            text fill color
+            <input
+              type="color"
+              defaultValue="#000000"
+              onChange={(e) => {
+                  this.onSendMessage(MessageTypes.updateTextFillColor, e.target.value);
+              }}
+            />
+          </div>
+          <div className="buttonContainer">
+            text fill color
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                  this.onSendMessage(MessageTypes.updateTextShowFill, e.target.checked);
+              }}
+            />
+          </div>
 
           <div className="labelContainer">
             <div className="labelInput">
@@ -137,14 +156,14 @@ export default class Controller extends Component<any, any> {
             <div className="labelInput">
                 lines
                 <input
-                type="checkbox"
-                defaultChecked
-                onChange={(e) => {
-                  this.onSendMessage(MessageTypes.toggleLinesVisibility, e.target.checked);
-                }}
-              />
+                  type="checkbox"
+                  defaultChecked
+                  onChange={(e) => {
+                    this.onSendMessage(MessageTypes.toggleLinesVisibility, e.target.checked);
+                  }}
+                />
+              </div>
             </div>
-          </div>
           
           
           <h3>Generator</h3>
