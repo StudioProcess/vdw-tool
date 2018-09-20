@@ -52,6 +52,9 @@ export default class TextPhysics {
 
   private composites: Composite[] = [];
   private textBodies: Body[];
+  
+  private friction = 0.1;
+  private restitution = 0.0;
 
   public setup(
     aspectRatio: number,
@@ -200,12 +203,14 @@ export default class TextPhysics {
   }
 
   public updateFriction = (value: number) => {
+    this.friction = value;
     this.textBodies.forEach((body) => {
       body.friction = value;
     });
   }
 
   public updateRestitution = (value: number) => {
+    this.restitution = value;
     this.textBodies.forEach((body) => {
       body.restitution = value;
     });
@@ -370,7 +375,9 @@ export default class TextPhysics {
       body,
       Math.random() - 0.5,
     );
-
+    
+    body.friction = this.friction;
+    body.restitution = this.restitution;
     this.textBodies.push(body);
 
     Composite.add(composite, body);
