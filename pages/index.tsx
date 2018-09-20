@@ -130,7 +130,7 @@ export default class Index extends Component<any, any> {
         break;
 
       case MessageTypes.changeBGColor:
-        document.body.style.backgroundColor = messagePackage.data;
+        // document.body.style.backgroundColor = messagePackage.data;
         this.circlesViewerRef.changeBgColor(messagePackage.data);
         break;
 
