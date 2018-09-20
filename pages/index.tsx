@@ -194,32 +194,42 @@ export default class Index extends Component<any, any> {
           <meta name="viewport" content="width=device-width,initial-scale=1" />
         </Head>
 
-        <div className="webGLContainer">
-          <CirclesViewer
-            ref={(ref) => {this.circlesViewerRef = ref; }}
-          />
-        </div>
-
-        <TextViewer
-          ref={(ref) => {this.textViewerRef = ref; }}
-        />
-
-        <DividerLines
-          dividerScale={3}
-        />
-
-        <Logo />
-
         <div
-          className="fullscreenButton"
-          onClick={this.toggleFullscreen}
-          ref={(ref) => {this.fullscreenButtonRef = ref; }}
-        >click to fullscreen</div>
+          style={{
+            // width: "100vw",
+            // height: "100vh",
+            width: "400px",
+            height: "300px",
+            position: "relative",
+          }}
+        >
+          <div className="webGLContainer">
+            <CirclesViewer
+              ref={(ref) => {this.circlesViewerRef = ref; }}
+            />
+          </div>
+
+          <TextViewer
+            ref={(ref) => {this.textViewerRef = ref; }}
+          />
+
+          <DividerLines
+            dividerScale={3}
+          />
+
+          <Logo />
+
+          <div
+            className="fullscreenButton"
+            onClick={this.toggleFullscreen}
+            ref={(ref) => {this.fullscreenButtonRef = ref; }}
+          >click to fullscreen</div>
+        </div>
 
         <style jsx>{`
           .webGLContainer {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
           }
 
           .fullscreenButton {
