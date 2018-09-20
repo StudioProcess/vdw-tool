@@ -180,8 +180,8 @@ export default class StatueViewer extends Component<any, any> {
       svg.style.position = "absolute";
       svg.style.top = "0";
       svg.style.left = "0";
-      svg.style.width = "100vw";
-      svg.style.height = "100vh";
+      svg.style.width = "100%";
+      svg.style.height = "100%";
 
       svg.style.transform = "";
 

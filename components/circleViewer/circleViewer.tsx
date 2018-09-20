@@ -352,13 +352,6 @@ export default class StatueViewer extends Component<any, any> {
             width: 100%;
             height: 100%;
           }
-
-          canvas {
-            margin-left: 50vw;
-            margin-top: 50vh;
-
-            transform: translateX(-50%) translateY(-50%);
-          }
         `}</style>
       </div>
     );

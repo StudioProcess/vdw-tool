@@ -12,10 +12,10 @@ export default class Logo extends Component<any, any> {
         <style jsx>{`
           div {
             position: absolute;
-            left: 3vmin;
-            bottom: 3vmin;
+            left: 3%;
+            bottom: 3%;
 
-            width: 30vmin;
+            width: 20%;
           }
 
           img {
