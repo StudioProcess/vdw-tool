@@ -151,7 +151,7 @@ export default class TextPhysics {
     );
 
     this.bottomBodies = [
-      this.bottomBorder,
+      // this.bottomBorder,
       this.funnelLeft,
       this.funnelBottom,
       this.funnelRight,
@@ -408,13 +408,13 @@ export default class TextPhysics {
     this.topBorder.collisionFilter.mask = PhysicsLayers.default;
   }
   
-  // public openBottomBorder = () => {
-  //   this.bottomBorder.collisionFilter.mask = PhysicsLayers.noCollision;
-  // }
-  // 
-  // public closeBottomBorder = () => {
-  //   this.bottomBorder.collisionFilter.mask = PhysicsLayers.default;
-  // }
+  public openBottomBorder = () => {
+    this.bottomBorder.collisionFilter.mask = PhysicsLayers.noCollision;
+  }
+  
+  public closeBottomBorder = () => {
+    this.bottomBorder.collisionFilter.mask = PhysicsLayers.default;
+  }
 
   public openBottom = () => {
     this.addBottomColliders();

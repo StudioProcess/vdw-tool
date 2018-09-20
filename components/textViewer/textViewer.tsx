@@ -113,7 +113,7 @@ export default class StatueViewer extends Component<any, any> {
     this.textPhysics.openTop();
     this.textPhysics.closeBottom();
     this.textPhysics.clearBodies();
-    // if (this.bottom) { this.textPhysics.closeBottomBorder(); }
+    if (this.bottom) { this.textPhysics.closeBottomBorder(); }
 
     for (let i = 0, l = this.svgs.length; i < l; i++) {
       this.textPhysics.setFromSVG(
@@ -144,12 +144,12 @@ export default class StatueViewer extends Component<any, any> {
 
   public openBottom = () => {
     this.bottom = false;
-    // this.textPhysics.openBottomBorder();
+    this.textPhysics.openBottomBorder();
   }
 
   public closeBottom = () => {
     this.bottom = true;
-    // this.textPhysics.closeBottomBorder();
+    this.textPhysics.closeBottomBorder();
   }
 
   public dropText = () => {
