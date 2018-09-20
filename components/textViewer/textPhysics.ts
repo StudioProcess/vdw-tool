@@ -407,6 +407,14 @@ export default class TextPhysics {
   public closeTop = () => {
     this.topBorder.collisionFilter.mask = PhysicsLayers.default;
   }
+  
+  // public openBottomBorder = () => {
+  //   this.bottomBorder.collisionFilter.mask = PhysicsLayers.noCollision;
+  // }
+  // 
+  // public closeBottomBorder = () => {
+  //   this.bottomBorder.collisionFilter.mask = PhysicsLayers.default;
+  // }
 
   public openBottom = () => {
     this.addBottomColliders();

@@ -24,6 +24,8 @@ export default class StatueViewer extends Component<any, any> {
     private containerRef: HTMLDivElement;
 
     private svgs: SVGElement[];
+    
+    private bottom = false;
 
   constructor(props: any) {
     super(props);
@@ -111,6 +113,7 @@ export default class StatueViewer extends Component<any, any> {
     this.textPhysics.openTop();
     this.textPhysics.closeBottom();
     this.textPhysics.clearBodies();
+    // if (this.bottom) { this.textPhysics.closeBottomBorder(); }
 
     for (let i = 0, l = this.svgs.length; i < l; i++) {
       this.textPhysics.setFromSVG(
@@ -140,16 +143,18 @@ export default class StatueViewer extends Component<any, any> {
   }
 
   public openBottom = () => {
-    this.textPhysics.openBottom();
+    this.bottom = false;
+    // this.textPhysics.openBottomBorder();
   }
 
   public closeBottom = () => {
-    this.textPhysics.closeBottom();
+    this.bottom = true;
+    // this.textPhysics.closeBottomBorder();
   }
 
   public dropText = () => {
     // this.textPhysics.resetGravity();
-    // this.textPhysics.openBottom();
+    this.textPhysics.openBottom();
     this.textPhysics.closeTop();
   }
 
