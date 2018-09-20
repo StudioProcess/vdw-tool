@@ -113,7 +113,11 @@ export default class StatueViewer extends Component<any, any> {
     this.textPhysics.openTop();
     this.textPhysics.closeBottom();
     this.textPhysics.clearBodies();
-    if (this.bottom) { this.textPhysics.closeBottomBorder(); }
+    if (this.bottom) {
+      this.textPhysics.closeBottomBorder();
+    } else {
+      this.textPhysics.openBottomBorder();
+    }
 
     for (let i = 0, l = this.svgs.length; i < l; i++) {
       this.textPhysics.setFromSVG(
