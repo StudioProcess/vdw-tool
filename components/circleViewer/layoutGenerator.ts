@@ -43,8 +43,8 @@ export function generateLayout(
   const result = [];
   seedRandom(seed, {global: true});
 
-  baseW = Math.round(bounds.width);
-  baseH = Math.round(bounds.height);
+  baseW = Math.floor(bounds.width);
+  baseH = Math.floor(bounds.height);
 
   halfBaseW = baseW * 0.5;
   halfBaseH = baseH * 0.5;

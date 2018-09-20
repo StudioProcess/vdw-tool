@@ -212,7 +212,7 @@ export default class CirclePhysics {
         ),
       );
 
-      circlesSizesBuffer.array[i] = layout[i].radius * 0.001;
+      circlesSizesBuffer.array[i] = layout[i].radius;
     }
 
     for (let i = layout.length, l = circlesSizesBuffer.count; i < l; i++) {
@@ -299,8 +299,8 @@ export default class CirclePhysics {
     let baseIndex = 0;
     for (let i = 0, l = this.bodies.length; i < l; i++) {
       baseIndex = i * 2;
-      circlesPositionsBuffer.array[baseIndex] = this.bodies[i].position.x * 0.001;
-      circlesPositionsBuffer.array[baseIndex + 1] = this.bodies[i].position.y * -0.001;
+      circlesPositionsBuffer.array[baseIndex] = this.bodies[i].position.x;
+      circlesPositionsBuffer.array[baseIndex + 1] = this.bodies[i].position.y;
     }
 
     circlesPositionsBuffer.needsUpdate = true;

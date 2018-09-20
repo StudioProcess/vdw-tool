@@ -198,8 +198,8 @@ export default class Index extends Component<any, any> {
           style={{
             // width: "100vw",
             // height: "100vh",
-            width: "400px",
-            height: "300px",
+            width: "1024px",
+            height: "700px",
             position: "relative",
           }}
         >

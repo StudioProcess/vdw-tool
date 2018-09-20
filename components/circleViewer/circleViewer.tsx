@@ -148,13 +148,13 @@ export default class StatueViewer extends Component<any, any> {
       aspectRatio,
     );
 
-    this.circlePhysics.setFromLayout(
-      generateLayout(this.circlePhysics.getWorldBounds(), 20),
-      this.circlesSizesBuffer,
-    );
-
     window.addEventListener("resize", this.onResize);
     this.onResize();
+
+    this.circlePhysics.setFromLayout(
+      generateLayout(this.circlePhysics.getWorldBounds(), 200),
+      this.circlesSizesBuffer,
+    );
 
     this.animate();
   }
@@ -236,18 +236,24 @@ export default class StatueViewer extends Component<any, any> {
 
     const aspectRatio = this.windowWidth / this.windowHeight;
 
-    this.camera.left = -aspectRatio;
-    this.camera.right = aspectRatio;
+    this.circlePhysics.onResize(
+      this.windowWidth / this.windowHeight,
+    );
+
+    const worldBounds = this.circlePhysics.getWorldBounds();
+    const halfWorldBoundsWidth = worldBounds.width / 2;
+    const halfWorldBoundsHeight = worldBounds.height / 2;
+
+    this.camera.top = -halfWorldBoundsHeight;
+    this.camera.left = halfWorldBoundsWidth;
+    this.camera.right = -halfWorldBoundsWidth;
+    this.camera.bottom = halfWorldBoundsHeight;
     this.camera.updateProjectionMatrix();
 
     this.uniforms.screenParams.value[0] = this.windowWidth;
     this.uniforms.screenParams.value[1] = this.windowHeight;
     this.uniforms.screenParams.value[2] = 1.0 / this.windowWidth;
     this.uniforms.screenParams.value[3] = 1.0 / this.windowHeight;
-
-    this.circlePhysics.onResize(
-      this.windowWidth / this.windowHeight,
-    );
 
     const windowAspectRatio = this.rect.width / this.rect.height;
 

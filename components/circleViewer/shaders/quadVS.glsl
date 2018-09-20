@@ -1,5 +1,7 @@
 precision highp float;
 
+const float PI = 3.1415926535897932384626433832795;
+
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 
@@ -45,7 +47,7 @@ void main() {
 
   vUV = 0.5 + extrude * 0.5;
 
-  vGrainValue = 0.5 + rotate(extrude, grainAngle).y * 0.5 * scaleValue;
+  vGrainValue = 0.5 + rotate(extrude, grainAngle + PI).y * 0.5 * scaleValue;
 
   vec3 transformed = vec3(extrude, 0.0);
   transformed.xy *= circleSize * scaleValue;
