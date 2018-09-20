@@ -13,6 +13,8 @@ import {IGravityConfig} from "../types";
 
 import {overrideWidth, overrideHeight} from "../../overrideSize";
 
+let textStrokeColor = "#000000";
+
 export default class StatueViewer extends Component<any, any> {
     private clock: Clock;
     private textPhysics: TextPhysics;
@@ -146,6 +148,19 @@ export default class StatueViewer extends Component<any, any> {
     this.textPhysics.closeBottom();
   }
 
+  public updateStrokeColor = (color) => {
+    textStrokeColor = color;
+
+    const svgs = this.containerRef.querySelectorAll("svg");
+
+    svgs.forEach((svg) => {
+        const paths = svg.querySelectorAll("path");
+        paths.forEach((path) => {
+          path.setAttribute("stroke", textStrokeColor);
+      });
+    });
+  }
+
   public openBottom = () => {
     this.bottom = false;
     this.textPhysics.openBottomBorder();
@@ -220,7 +235,7 @@ export default class StatueViewer extends Component<any, any> {
       svg.innerHTML = `<g><path
           fill="none"
           stroke-width="2"
-          stroke="black"
+          stroke="${textStrokeColor}"
           d="${charPath.toPathData(3)}"
         /></g>`;
       svgs.push(svg);

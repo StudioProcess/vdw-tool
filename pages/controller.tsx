@@ -112,6 +112,17 @@ export default class Controller extends Component<any, any> {
             />
           </div>
 
+          <div className="buttonContainer">
+            text stroke color
+            <input
+              type="color"
+              defaultValue="#000000"
+              onChange={(e) => {
+                  this.onSendMessage(MessageTypes.updateTextStrokeColor, e.target.value);
+              }}
+            />
+          </div>
+
           <div className="labelContainer">
             <div className="labelInput">
                 logo

@@ -26,7 +26,7 @@ export enum MessageTypes {
 
   changeFrictionCircles,
   changeFrictionText,
-  
+
   changeRestitutionCircles,
   changeRestitutionText,
 
@@ -36,6 +36,7 @@ export enum MessageTypes {
   setBottomText,
 
   updateTextSize,
+  updateTextStrokeColor,
 
   toggleLogoVisibility,
   toggleLinesVisibility,

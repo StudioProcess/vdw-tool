@@ -186,6 +186,9 @@ export default class Index extends Component<any, any> {
       case MessageTypes.updateTextSize:
         this.textViewerRef.updateTextSize(parseInt(messagePackage.data, 10));
         break;
+      case MessageTypes.updateTextStrokeColor:
+        this.textViewerRef.updateStrokeColor(messagePackage.data);
+        break;
 
       case MessageTypes.toggleLogoVisibility:
         if (messagePackage.data === true) {
