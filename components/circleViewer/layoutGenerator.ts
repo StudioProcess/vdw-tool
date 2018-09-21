@@ -4,7 +4,7 @@ const seedRandom = require("seed-random");
 import {ILayoutItem} from "../types";
 
 const divisionSteps = [2, 3, 4, 6, 8, 9, 12, 16, 18, 24, 27, 36, 48, 54, 64, 72, 81, 96, 108, 128, 144, 162, 192, 216, 243, 256];
-
+const minFilled = 1; // minimum number of filled elements
 
 let divisionStep = 6;
 // chances
@@ -42,7 +42,7 @@ export function generateLayout(
   bounds: {width: number, height: number},
   seed = 0,
 ): ILayoutItem[] {
-  const result = [];
+  let result = [];
   seedRandom(seed, {global: true});
 
   baseW = Math.floor(bounds.width);
@@ -50,12 +50,15 @@ export function generateLayout(
 
   halfBaseW = baseW * 0.5;
   halfBaseH = baseH * 0.5;
-
-  runCount = 0;
-  cellCount = 0;
+  
   fillCount = 0;
-
-  runOnCell(result, 0, 0, baseW - 1, baseH - 1);
+  while (fillCount < minFilled) {
+    result = [];
+    runCount = 0;
+    cellCount = 0;
+    fillCount = 0;
+    runOnCell(result, 0, 0, baseW - 1, baseH - 1);
+  }
   console.log(`LAYOUT ${seed} fillCount=${fillCount}`);
   seedRandom.resetGlobal();
 
