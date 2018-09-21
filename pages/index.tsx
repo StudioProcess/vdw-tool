@@ -33,10 +33,9 @@ export default class Index extends Component<any, any> {
     window.addEventListener("message", this.onReceiveMessage);
 
     window.addEventListener("keydown", (e) => {
-      if (e.key == 'h') { // h
+      if (e.key === "h") { // h
         this.openControllerWindow();
-      }
-      else if (e.key == 'f') { // f
+      } else if (e.key === "f") { // f
         this.toggleFullscreen();
       }
     });
@@ -58,21 +57,21 @@ export default class Index extends Component<any, any> {
   private toggleFullscreen() {
     if (document.webkitFullscreenEnabled) { // Chrome, Opera, Safari
       if (!document.webkitFullscreenElement) {
-        document.querySelector('body').webkitRequestFullscreen();
+        document.querySelector("body").webkitRequestFullscreen();
       } else { document.webkitExitFullscreen(); }
     // @ts-ignore
     } else if (document.mozFullScreenEnabled) { // Firefox
     // @ts-ignore
       if (!document.mozFullScreenElement) {
       // @ts-ignore
-        document.querySelector('body').mozRequestFullScreen();
+        document.querySelector("body").mozRequestFullScreen();
       } else { 
         // @ts-ignore
         document.mozCancelFullScreen(); 
       }
     } else if (document.fullscreenEnabled) { // Standard, Edge
       if (!document.fullscreenElement) {
-        document.querySelector('body').requestFullscreen();
+        document.querySelector("body").requestFullscreen();
       } else { document.exitFullscreen(); }
     }
   }
