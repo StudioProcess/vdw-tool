@@ -4,23 +4,25 @@ const seedRandom = require("seed-random");
 import {ILayoutItem} from "../types";
 
 const divisionSteps = [2, 3, 4, 6, 8, 9, 12, 16, 18, 24, 27, 36, 48, 54, 64, 72, 81, 96, 108, 128, 144, 162, 192, 216, 243, 256];
-// let divisionStep = 8;
-let divisionLimit = 18; // 18 is divisionSteps[8]
 
+
+let divisionStep = 6;
+// chances
+let cellDivide = 0.4; // divide a cell further?
+let cellFill = 0.7; // fill a cell? (vs. leaving it empty)
+let cellTwoDivisions = 0.5; // use two divisions? (vs. three)
+
+
+let divisionLimit = divisionSteps[divisionStep]; // init divisionLimit from step
 function setDivisionStep(s) {
   if (s < 0) {
     s = 0;
   } else if (s > divisionSteps.length - 1) {
     s = divisionSteps.length - 1;
   }
-  // divisionStep = s;
+  divisionStep = s;
   divisionLimit = divisionSteps[s];
 }
-
-// chances
-let cellDivide = 0.5; // divide a cell further?
-let cellFill = 0.66; // fill a cell? (vs. leaving it empty)
-let cellTwoDivisions = 0.5; // use two divisions? (vs. three)
 
 let skipPartial = true;
 

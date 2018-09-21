@@ -29,9 +29,9 @@ export default class Controller extends Component<any, any> {
   // private fgColorInputRef: HTMLInputElement;
 
   private layoutGeneratorConfig: ILayoutGeneratorCongfig = {
-    divisionStep: 8,
-    cellDivide: 0.5,
-    cellFill: 0.66,
+    divisionStep: 6,
+    cellDivide: 0.4,
+    cellFill: 0.7,
     cellTwoDivisions: 0.5,
     showPartial: false,
   };
@@ -176,7 +176,7 @@ export default class Controller extends Component<any, any> {
               min="0"
               max="26"
               step="1"
-              defaultValue={this.layoutGeneratorConfig.divisionStep.toFixed(3)}
+              defaultValue={this.layoutGeneratorConfig.divisionStep.toFixed(0)}
               onChange={(e) => {
                 this.layoutGeneratorConfig.divisionStep = parseFloat(e.target.value);
                 this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
@@ -191,7 +191,7 @@ export default class Controller extends Component<any, any> {
               min="0.0"
               max="1.0"
               step="0.01"
-              defaultValue={this.layoutGeneratorConfig.cellDivide.toFixed(3)}
+              defaultValue={this.layoutGeneratorConfig.cellDivide.toFixed(2)}
               onChange={(e) => {
                 this.layoutGeneratorConfig.cellDivide = parseFloat(e.target.value);
                 this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
@@ -206,7 +206,7 @@ export default class Controller extends Component<any, any> {
               min="0.0"
               max="1.0"
               step="0.01"
-              defaultValue={this.layoutGeneratorConfig.cellFill.toFixed(3)}
+              defaultValue={this.layoutGeneratorConfig.cellFill.toFixed(2)}
               onChange={(e) => {
                 this.layoutGeneratorConfig.cellFill = parseFloat(e.target.value);
                 this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
@@ -221,7 +221,7 @@ export default class Controller extends Component<any, any> {
               min="0.0"
               max="1.0"
               step="0.01"
-              defaultValue={this.layoutGeneratorConfig.cellTwoDivisions.toFixed(3)}
+              defaultValue={this.layoutGeneratorConfig.cellTwoDivisions.toFixed(2)}
               onChange={(e) => {
                 this.layoutGeneratorConfig.cellTwoDivisions = parseFloat(e.target.value);
                 this.onSendMessage(MessageTypes.updateLayoutConfig, this.layoutGeneratorConfig);
@@ -247,7 +247,7 @@ export default class Controller extends Component<any, any> {
               type="number"
               min="0.0"
               step="0.5"
-              defaultValue="2.0"
+              defaultValue="1.0"
               ref={(ref) => {this.growTimeRef = ref; }}
               />
             </div>
@@ -257,7 +257,7 @@ export default class Controller extends Component<any, any> {
               type="number"
               min="0.0"
               step="0.5"
-              defaultValue="2.0"
+              defaultValue="1.0"
               ref={(ref) => {this.shrinkTimeRef = ref; }}
               />
             </div>
@@ -410,17 +410,14 @@ export default class Controller extends Component<any, any> {
             onClick={() => {this.onSendMessage(MessageTypes.makeNonStatic); }}
           >drop circles</div>
 
-          <div
+          {/* <div
             className="button"
             onClick={() => {this.onSendMessage(MessageTypes.closeBounds); }}
-          >close worlds bounds</div>
+          >close worlds bounds</div> */}
           
           
           <h3>Text</h3>
           
-          {/* <div>text color</div>
-          <div>text size</div>
-          <br/> */}
           
           <textarea
             contentEditable

@@ -122,10 +122,10 @@ export default class Index extends Component<any, any> {
         this.textViewerRef.dropText();
         break;
 
-      case MessageTypes.closeBounds:
-        this.circlesViewerRef.closeWorldBounds();
-        this.textViewerRef.closeWorldBounds();
-        break;
+      // case MessageTypes.closeBounds:
+      //   this.circlesViewerRef.closeWorldBounds();
+      //   this.textViewerRef.closeWorldBounds();
+      //   break;
 
       case MessageTypes.makeFullscreen:
         this.fullscreenButtonRef.style.display = "flex";
@@ -225,8 +225,8 @@ export default class Index extends Component<any, any> {
           style={{
             // width: "100vw",
             // height: "100vh",
-            width: "700px",
-            height: "700px",
+            width: "820px",
+            height: "312px",
             position: "relative",
           }}
         >
