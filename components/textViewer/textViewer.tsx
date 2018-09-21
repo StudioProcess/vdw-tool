@@ -30,7 +30,7 @@ export default class StatueViewer extends Component<any, any> {
 
     private svgs: SVGElement[];
     
-    private bottom = false;
+    private bottom = true;
 
   constructor(props: any) {
     super(props);

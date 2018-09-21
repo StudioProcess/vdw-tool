@@ -486,6 +486,7 @@ export default class Controller extends Component<any, any> {
                 bottom
                 <input
                 type="checkbox"
+                defaultChecked
                 onChange={(e) => {
                   this.onSendMessage(MessageTypes.setBottomText, e.target.checked);
                 }}
