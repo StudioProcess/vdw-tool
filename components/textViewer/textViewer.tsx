@@ -63,7 +63,8 @@ export default class StatueViewer extends Component<any, any> {
     );
 
     this.textPhysics = new TextPhysics();
-    this.textPhysics.setup(window.innerWidth / window.innerHeight);
+    const rect = this.containerRef.getBoundingClientRect();
+    this.textPhysics.setup(rect.width / rect.height);
     this.textPhysics.clearBodies();
 
     window.addEventListener("resize", this.onResize);
@@ -268,6 +269,8 @@ export default class StatueViewer extends Component<any, any> {
   }
 
   private onResize = () => {
+    const rect = this.containerRef.getBoundingClientRect();
+
     if (overrideWidth > 0 && overrideHeight > 0) {
       this.textPhysics.onResize(
         overrideWidth / overrideHeight,
@@ -275,7 +278,7 @@ export default class StatueViewer extends Component<any, any> {
 
       const svgs = this.containerRef.querySelectorAll("svg");
 
-      const windowAspectRatio = window.innerWidth / window.innerHeight;
+      const windowAspectRatio = rect.width / rect.height;
       const aspectRatio = overrideWidth / overrideHeight;
 
       svgs.forEach((svg) => {
@@ -291,7 +294,7 @@ export default class StatueViewer extends Component<any, any> {
       });
     } else {
       this.textPhysics.onResize(
-        window.innerWidth / window.innerHeight,
+        rect.width / rect.height,
       );
     }
   }
