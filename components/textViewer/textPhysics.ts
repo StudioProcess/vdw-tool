@@ -13,9 +13,10 @@ import {IGravityConfig} from "../types";
 
 import {randomRange} from "../../utilities/mathUtils";
 
-const borderWidth = 100;
+const borderWidth = 200;
+const borderPositionOffset = borderWidth / 2 - 10; // ten is there to shift the border sligthly inward
 // const heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
-let heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
+let heightBorderDistance = 350; // decrease heightBorderDistance for bigger text
 
 const funnelEdgeAngle = Math.PI * 0.35;
 const funnelBottomNormOffsetY = 0.3;
@@ -23,7 +24,7 @@ const funnelSizesMinApectRatio = 1.5;
 
 const worldBounds = {
   width: 100,
-  height: heightBorderDistance * 2 - borderWidth,
+  height: heightBorderDistance,
 };
 
 const halfWorldBounds = {
@@ -67,7 +68,7 @@ export default class TextPhysics {
 
     this.topBorder = Bodies.rectangle(
       0,
-      -heightBorderDistance,
+      -heightBorderDistance - borderPositionOffset,
       10000,
       borderWidth,
       {
@@ -75,7 +76,7 @@ export default class TextPhysics {
       },
     );
     this.leftBorder = Bodies.rectangle(
-      -heightBorderDistance,
+      -heightBorderDistance - borderPositionOffset,
       0,
       borderWidth,
       10000,
@@ -84,7 +85,7 @@ export default class TextPhysics {
       },
     );
     this.rightBorder = Bodies.rectangle(
-      heightBorderDistance,
+      heightBorderDistance + borderPositionOffset,
       0,
       borderWidth,
       10000,
@@ -94,7 +95,7 @@ export default class TextPhysics {
     );
     this.bottomBorder = Bodies.rectangle(
       0,
-      heightBorderDistance,
+      heightBorderDistance + borderPositionOffset,
       10000,
       borderWidth,
       {
@@ -225,11 +226,11 @@ export default class TextPhysics {
     heightBorderDistance = (size / window.innerHeight) / 72;
     heightBorderDistance = 1.0 / heightBorderDistance;
     heightBorderDistance /= 2;
-    heightBorderDistance += borderWidth * 0.5;
+    heightBorderDistance = heightBorderDistance;
   }
 
   public onResize(aspectRatio) {
-    worldBounds.height = heightBorderDistance * 2 - borderWidth;
+    worldBounds.height = heightBorderDistance * 2;
 
     if (aspectRatio < funnelSizesMinApectRatio) {
       // disable funnel sides, since the widow is too
@@ -240,21 +241,21 @@ export default class TextPhysics {
       this.funnelRight.collisionFilter.mask = PhysicsLayers.default;
     }
 
-    worldBounds.width = Math.round(heightBorderDistance * aspectRatio * 2 - borderWidth);
+    worldBounds.width = Math.round(heightBorderDistance * aspectRatio * 2);
     halfWorldBounds.width = worldBounds.width * 0.5;
 
     Body.setPosition(
       this.topBorder,
       {
         x: 0,
-        y: -heightBorderDistance,
+        y: -heightBorderDistance - borderPositionOffset,
       },
     );
 
     Body.setPosition(
       this.leftBorder,
       {
-        x: heightBorderDistance * -aspectRatio,
+        x: heightBorderDistance * -aspectRatio - borderPositionOffset,
         y: 0,
       },
     );
@@ -262,7 +263,7 @@ export default class TextPhysics {
     Body.setPosition(
       this.rightBorder,
       {
-        x: heightBorderDistance * aspectRatio,
+        x: heightBorderDistance * aspectRatio + borderPositionOffset,
         y: 0,
       },
     );
@@ -271,7 +272,7 @@ export default class TextPhysics {
       this.bottomBorder,
       {
         x: 0,
-        y: heightBorderDistance,
+        y: heightBorderDistance + borderPositionOffset,
       },
     );
 

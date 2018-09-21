@@ -239,7 +239,6 @@ export default class StatueViewer extends Component<any, any> {
       const pathBounds = charPath.getBoundingBox();
 
       // console.log(pathBounds);
-      // console.log(pathBounds.x2 - pathBounds.x1, pathBounds.y2 - pathBounds.y1);
 
       svg.setAttribute(
         "boxsize",
@@ -261,6 +260,7 @@ export default class StatueViewer extends Component<any, any> {
           stroke-width="2"
           stroke="${textStrokeColor}"
           d="${charPath.toPathData(3)}"
+          transform="translate(${-pathBounds.x1} ${pathBounds.y1})"
         /></g>`;
       svgs.push(svg);
 
@@ -296,6 +296,20 @@ export default class StatueViewer extends Component<any, any> {
       this.textPhysics.onResize(
         rect.width / rect.height,
       );
+
+      const physicsBounds = this.textPhysics.getWorldBounds();
+      const svgs = this.containerRef.querySelectorAll("svg");
+      svgs.forEach((svg) => {
+        svg.setAttribute("viewBox", `${
+          physicsBounds.width * -0.5
+        } ${
+          physicsBounds.height * -0.5
+        } ${
+          physicsBounds.width
+        } ${
+          physicsBounds.height
+        }`);
+      });
     }
   }
 
