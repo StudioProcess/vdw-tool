@@ -14,7 +14,9 @@ import {IGravityConfig} from "../types";
 import {randomRange} from "../../utilities/mathUtils";
 
 const borderWidth = 200;
-const borderPositionOffset = borderWidth / 2 - 10; // ten is there to shift the border sligthly inward
+const borderPositionOffset = borderWidth / 2 - 15; // the subtraction is there to shift the border sligthly inward
+const borderPositionOffsetLR = borderWidth / 2 - 5; // for left and right edges
+
 // const heightBorderDistance = 350 + borderWidth * 0.5; // decrease heightBorderDistance for bigger text
 let heightBorderDistance = 350; // decrease heightBorderDistance for bigger text
 
@@ -76,7 +78,7 @@ export default class TextPhysics {
       },
     );
     this.leftBorder = Bodies.rectangle(
-      -heightBorderDistance - borderPositionOffset,
+      -heightBorderDistance - borderPositionOffsetLR,
       0,
       borderWidth,
       10000,
@@ -85,7 +87,7 @@ export default class TextPhysics {
       },
     );
     this.rightBorder = Bodies.rectangle(
-      heightBorderDistance + borderPositionOffset,
+      heightBorderDistance + borderPositionOffsetLR,
       0,
       borderWidth,
       10000,
@@ -255,7 +257,7 @@ export default class TextPhysics {
     Body.setPosition(
       this.leftBorder,
       {
-        x: heightBorderDistance * -aspectRatio - borderPositionOffset,
+        x: heightBorderDistance * -aspectRatio - borderPositionOffsetLR,
         y: 0,
       },
     );
@@ -263,7 +265,7 @@ export default class TextPhysics {
     Body.setPosition(
       this.rightBorder,
       {
-        x: heightBorderDistance * aspectRatio + borderPositionOffset,
+        x: heightBorderDistance * aspectRatio + borderPositionOffsetLR,
         y: 0,
       },
     );

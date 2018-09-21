@@ -242,8 +242,8 @@ export default class StatueViewer extends Component<any, any> {
 
       svg.setAttribute(
         "boxsize",
-        // `${0} ${0} ${pathBounds.x2 - pathBounds.x1} ${(pathBounds.y2 - pathBounds.y1) * 0.82}`,
-        `${0} ${0} ${pathBounds.x2 - pathBounds.x1} ${(pathBounds.y2 - pathBounds.y1)}`,
+        `0 0 ${pathBounds.x2 - pathBounds.x1} 60`, // descenders stick out
+        // `${0} ${0} ${pathBounds.x2 - pathBounds.x1} ${(pathBounds.y2 - pathBounds.y1)}`, // bounding box includes descenders
       );
       svg.setAttribute("viewBox", `${
         physicsBounds.width * -0.5
