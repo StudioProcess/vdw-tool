@@ -277,7 +277,7 @@ export default class StatueViewer extends Component<any, any> {
     this.circlePhysics.setFromLayout(
       generateLayout(
         this.circlePhysics.getWorldBounds(),
-        seed !== undefined && seed.length > 0 ? parseInt(seed, 10) : Math.random() * 9999.9,
+        seed !== undefined && seed.length > 0 ? parseInt(seed, 10) : Date.now(),
       ),
       this.circlesSizesBuffer,
     );
