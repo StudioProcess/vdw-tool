@@ -29,7 +29,7 @@ export default class StatueViewer extends Component<any, any> {
     private containerRef: HTMLDivElement;
 
     private svgs: SVGElement[];
-    
+
     private bottom = true;
 
   constructor(props: any) {
@@ -133,7 +133,7 @@ export default class StatueViewer extends Component<any, any> {
         0.5 - i * 0.1,
       );
     }
-    
+
     // FIXME: disabled bodies
     // this.textPhysics.enableFunnel(false);
     // this.enableColliders(false);
@@ -147,7 +147,7 @@ export default class StatueViewer extends Component<any, any> {
   public updateFriction = (value: number) => {
     this.textPhysics.updateFriction(value);
   }
-  
+
   public updateRestitution = (value: number) => {
     this.textPhysics.updateRestitution(value);
   }
@@ -257,7 +257,7 @@ export default class StatueViewer extends Component<any, any> {
 
       svg.innerHTML = `<g><path
           fill="${textShowFill ? textFillColor : "none"}"
-          stroke-width="2"
+          stroke-width="1.5"
           stroke="${textStrokeColor}"
           d="${charPath.toPathData(3)}"
           transform="translate(${-pathBounds.x1} ${pathBounds.y1})"
