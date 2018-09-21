@@ -132,6 +132,11 @@ export default class StatueViewer extends Component<any, any> {
         0.5 - i * 0.1,
       );
     }
+    
+    // FIXME: disabled bodies
+    // this.textPhysics.enableFunnel(false);
+    // this.enableColliders(false);
+    this.textPhysics.openBottomBodies();
   }
 
   public updateGravity = (config: IGravityConfig) => {

@@ -226,7 +226,7 @@ export default class TextPhysics {
     heightBorderDistance = 1.0 / heightBorderDistance;
     heightBorderDistance /= 2;
     heightBorderDistance += borderWidth * 0.5;
-  } 
+  }
 
   public onResize(aspectRatio) {
     worldBounds.height = heightBorderDistance * 2 - borderWidth;
@@ -398,6 +398,8 @@ export default class TextPhysics {
     );
 
     this.composites.push(composite);
+    
+    this.enableColliders(false);
   }
 
   public openTop = () => {
@@ -427,6 +429,34 @@ export default class TextPhysics {
   public closeBottom = () => {
     this.bottomBodies.forEach((body) => {
       body.collisionFilter.mask = PhysicsLayers.default;
+    });
+  }
+  
+  public openBottomBodies() {
+    this.bottomBodies.forEach((body) => {
+      body.collisionFilter.mask = PhysicsLayers.noCollision;
+    });
+  }
+  
+  public enableFunnel(on = true) {
+    if (on) {
+      this.funnelLeft.collisionFilter.mask = PhysicsLayers.default;
+      this.funnelRight.collisionFilter.mask = PhysicsLayers.default;
+      this.funnelBottom.collisionFilter.mask = PhysicsLayers.default;
+    } else {
+      this.funnelLeft.collisionFilter.mask = PhysicsLayers.noCollision;
+      this.funnelRight.collisionFilter.mask = PhysicsLayers.noCollision;
+      this.funnelBottom.collisionFilter.mask = PhysicsLayers.noCollision;
+    }
+  }
+  
+  public enableColliders(on = true) {
+    this.textColliders.forEach((body) => {
+      if (on) {
+        body.collisionFilter.mask = PhysicsLayers.default;
+      } else {
+        body.collisionFilter.mask = PhysicsLayers.noCollision;
+      }
     });
   }
 
